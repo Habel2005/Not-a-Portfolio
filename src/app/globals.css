@@ -1,64 +1,78 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 240 10% 3%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 4%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 71 100% 50%;
-    --primary-foreground: 240 10% 3%;
-    --secondary: 240 5% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 5% 10%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 71 100% 50%;
-    --accent-foreground: 240 10% 3%;
+    --background: 30 20% 98%;
+    --foreground: 240 10% 4%;
+    --card: 30 10% 96%;
+    --card-foreground: 240 10% 4%;
+    --popover: 30 20% 98%;
+    --popover-foreground: 240 10% 4%;
+    --primary: 71 100% 45%;
+    --primary-foreground: 30 20% 98%;
+    --secondary: 240 5% 90%;
+    --secondary-foreground: 240 10% 4%;
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 5% 40%;
+    --accent: 71 100% 45%;
+    --accent-foreground: 240 10% 4%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5% 15%;
-    --input: 240 5% 15%;
-    --ring: 71 100% 50%;
+    --border: 240 5% 85%;
+    --input: 240 5% 85%;
+    --ring: 240 10% 4%;
     --radius: 0rem;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 30 20% 98%;
+    /* ... rest of dark mode if needed, but we focus on light brutalist luxury */
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    cursor: none !important;
   }
   body {
-    @apply bg-background text-foreground overflow-hidden selection:bg-primary selection:text-primary-foreground;
+    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 }
 
-.kinetic-text {
-  font-variation-settings: 'wght' 800, 'wdth' 100;
-  line-height: 0.8;
+.text-huge {
+  font-size: clamp(4rem, 15vw, 20rem);
+  line-height: 0.85;
   letter-spacing: -0.05em;
 }
 
-.glitch-hover:hover {
-  text-shadow: 2px 0 #D2FF00, -2px 0 #ff00ea;
-  animation: glitch-anim 0.2s infinite;
+.text-metadata {
+  @apply font-code text-[10px] uppercase tracking-[0.3em] opacity-50;
 }
 
-@keyframes glitch-anim {
-  0% { transform: translate(0) }
-  20% { transform: translate(-2px, 2px) }
-  40% { transform: translate(-2px, -2px) }
-  60% { transform: translate(2px, 2px) }
-  80% { transform: translate(2px, -2px) }
-  100% { transform: translate(0) }
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  opacity: 0.04;
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
 }
 
-canvas {
-  touch-action: none;
+.asymmetric-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+}
+
+.magnetic-area {
+  display: inline-block;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
 }

@@ -1,29 +1,28 @@
-
 {
   "placeholderImages": [
     {
-      "id": "proj-1",
-      "description": "Abstract liquid metal structure",
-      "imageUrl": "https://picsum.photos/seed/void1/1200/800",
-      "imageHint": "liquid chrome"
+      "id": "luxury-1",
+      "description": "Minimalist concrete architecture with sharp shadows",
+      "imageUrl": "https://picsum.photos/seed/luxury1/1200/1600",
+      "imageHint": "brutalist concrete"
     },
     {
-      "id": "proj-2",
-      "description": "Brutalist architectural fragment",
-      "imageUrl": "https://picsum.photos/seed/void2/1200/800",
-      "imageHint": "brutalist architecture"
+      "id": "luxury-2",
+      "description": "High fashion monochrome editorial photography",
+      "imageUrl": "https://picsum.photos/seed/luxury2/1200/1600",
+      "imageHint": "fashion monochrome"
     },
     {
-      "id": "proj-3",
-      "description": "High fashion editorial lighting",
-      "imageUrl": "https://picsum.photos/seed/void3/1200/800",
-      "imageHint": "high fashion"
+      "id": "luxury-3",
+      "description": "Abstract liquid metal textures and reflections",
+      "imageUrl": "https://picsum.photos/seed/luxury3/1200/1600",
+      "imageHint": "liquid silver"
     },
     {
-      "id": "proj-4",
-      "description": "Dark technological grid",
-      "imageUrl": "https://picsum.photos/seed/void4/1200/800",
-      "imageHint": "cyber technology"
+      "id": "luxury-4",
+      "description": "Modernist interior with harsh direct sunlight",
+      "imageUrl": "https://picsum.photos/seed/luxury4/1200/1600",
+      "imageHint": "minimalist interior"
     }
   ]
 }
