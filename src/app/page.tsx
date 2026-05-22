@@ -9,6 +9,7 @@ import { ProjectMatrix } from "@/components/portfolio/project-matrix";
 import { StudioNarrative } from "@/components/portfolio/studio-narrative";
 import { ServicesHover } from "@/components/portfolio/services-hover";
 import { CustomCursor } from "@/components/portfolio/custom-cursor";
+import { SectionHUD } from "@/components/portfolio/section-hud";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -28,12 +29,12 @@ export default function Home() {
         trigger: mainRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.5,
+        scrub: 0.5, // Faster, tighter morph
       }
     });
 
     // Phase 1: Hero (Light) -> Archive (Peak Black)
-    // We start this at 0.05 (5% into the page) so it completes before the Hero is even gone
+    // Starts early for a proactive transition
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
@@ -45,27 +46,26 @@ export default function Home() {
     }, 0.05);
 
     // Phase 2: Archive (Black) -> Narrative (Light Editorial)
-    // Transition back as the Narrative section approaches
     tl.to("body", { 
       backgroundColor: "#f9f8f5", 
       color: "#050505", 
       duration: 0.1 
-    }, 0.35)
+    }, 0.25)
     .to(".morph-target", { 
       color: "#050505", 
       duration: 0.1 
-    }, 0.35);
+    }, 0.25);
 
     // Phase 3: Narrative (Light) -> Services (Dark Contrast)
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
       duration: 0.1 
-    }, 0.7)
+    }, 0.85)
     .to(".morph-target", { 
       color: "#D2FF00", 
       duration: 0.1 
-    }, 0.7);
+    }, 0.85);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -75,13 +75,14 @@ export default function Home() {
   return (
     <main ref={mainRef} className="relative">
       <CustomCursor />
+      <SectionHUD />
       
-      <section className="min-h-screen">
+      <section id="hero" className="min-h-screen">
         <Hero />
       </section>
       
       {/* Archive Section - Peak Void-Black */}
-      <section className="relative h-screen overflow-hidden bg-transparent">
+      <section id="archive" className="relative h-screen overflow-hidden bg-transparent">
         <div className="absolute top-12 left-12 z-20 pointer-events-none">
           <div className="text-metadata morph-target">01 / The Archive</div>
           <h2 className="text-4xl font-headline font-bold text-white uppercase tracking-tighter">
@@ -91,15 +92,15 @@ export default function Home() {
         <ProjectMatrix />
       </section>
       
-      <section className="min-h-screen">
+      <section id="narrative" className="min-h-screen">
         <StudioNarrative />
       </section>
       
-      <section className="min-h-screen">
+      <section id="services" className="min-h-screen">
         <ServicesHover />
       </section>
       
-      <footer className="py-48 px-8 text-center overflow-hidden">
+      <footer id="footer" className="py-48 px-8 text-center overflow-hidden">
         <div className="text-metadata mb-12 morph-target">Habel Studio / 2025</div>
         <h2 className="text-huge font-headline font-bold tracking-tighter opacity-10 uppercase select-none italic">
           Perspective
