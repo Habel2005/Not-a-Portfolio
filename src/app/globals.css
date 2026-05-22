@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -52,7 +51,11 @@
 }
 
 .text-metadata {
-  @apply font-code text-[9px] uppercase tracking-[0.5em] opacity-40;
+  @apply font-code text-[9px] uppercase tracking-[0.4em] opacity-40;
+}
+
+.text-nav {
+  @apply font-code text-[10px] uppercase tracking-[0.2em] transition-all duration-300;
 }
 
 .grain-overlay {
