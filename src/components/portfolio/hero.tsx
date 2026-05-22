@@ -8,34 +8,23 @@ export function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Overlapping letter reveal
+      // Letter reveal
       gsap.from(".hero-line span", {
-        y: "100%",
+        y: "110%",
         opacity: 0,
-        rotateX: -90,
-        duration: 2,
-        stagger: 0.1,
+        rotateX: -45,
+        duration: 1.8,
+        stagger: 0.15,
         ease: "expo.out",
       });
 
-      // Kinetic metadata reveal
+      // Metadata fade
       gsap.from(".hero-meta", {
-        x: -20,
+        y: 20,
         opacity: 0,
         duration: 1.5,
-        delay: 1,
+        delay: 0.8,
         ease: "power3.out",
-      });
-
-      // Background image parallax
-      gsap.to(".hero-bg", {
-        y: -100,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        }
       });
     }, containerRef);
 
@@ -43,16 +32,16 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative h-screen flex flex-col justify-end p-8 md:p-12 bg-background overflow-hidden">
+    <section ref={containerRef} className="relative h-screen flex flex-col justify-end p-8 md:p-12 overflow-hidden">
       <nav className="fixed top-12 left-12 right-12 flex justify-between items-start z-[100] mix-blend-difference text-white">
         <div className="space-y-1">
-          <div className="text-metadata hero-meta">Habel / Archive</div>
+          <div className="text-metadata hero-meta">Habel / Portfolio</div>
           <div className="text-[10px] font-code uppercase opacity-40">Creative Engineer</div>
         </div>
         <div className="flex flex-col items-end gap-2 text-metadata hero-meta">
-          <button className="hover:text-primary transition-colors">Project_Matrix</button>
-          <button className="hover:text-primary transition-colors">Narrative_01</button>
-          <button className="hover:text-primary transition-colors">Contact_Sync</button>
+          <button className="hover:text-primary transition-colors">Archive</button>
+          <button className="hover:text-primary transition-colors">Narrative</button>
+          <button className="hover:text-primary transition-colors">Connect</button>
         </div>
       </nav>
 
@@ -70,14 +59,13 @@ export function Hero() {
         </h1>
       </div>
 
-      <div className="absolute bottom-12 right-12 text-metadata hero-meta flex gap-12">
-        <span>EST. 2024</span>
+      <div className="absolute bottom-12 right-12 text-metadata hero-meta flex gap-12 mix-blend-difference text-white">
+        <span>EST. 2025</span>
         <span className="opacity-20">—</span>
-        <span>BRUTALIST_UX</span>
+        <span>BRUTALIST_PRECISION</span>
       </div>
 
-      {/* Giant Faded Letter Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-bold opacity-[0.02] select-none pointer-events-none hero-bg">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-bold opacity-[0.03] select-none pointer-events-none">
         H
       </div>
     </section>

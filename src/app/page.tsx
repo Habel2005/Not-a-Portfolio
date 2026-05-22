@@ -1,36 +1,83 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Hero } from "@/components/portfolio/hero";
 import { ProjectMatrix } from "@/components/portfolio/project-matrix";
 import { StudioNarrative } from "@/components/portfolio/studio-narrative";
 import { ServicesHover } from "@/components/portfolio/services-hover";
 import { CustomCursor } from "@/components/portfolio/custom-cursor";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function Home() {
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const sections = gsap.utils.toArray<HTMLElement>("section");
+    
+    // Global Theme Morphing
+    // Section 1 (Hero): Light
+    // Section 2 (Matrix): Dark
+    // Section 3 (Narrative): Light
+    
+    sections.forEach((section, i) => {
+      const isDark = i === 1; // ProjectMatrix section is the dark one
+      
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 50%",
+        end: "bottom 50%",
+        onToggle: self => {
+          if (self.isActive) {
+            gsap.to("body", {
+              backgroundColor: isDark ? "#050505" : "#f9f8f5",
+              color: isDark ? "#fff" : "#050505",
+              duration: 1.2,
+              ease: "expo.out",
+            });
+            // Specific UI element morphing
+            gsap.to(".morph-target", {
+              color: isDark ? "#D2FF00" : "#050505",
+              duration: 1.2,
+            });
+          }
+        }
+      });
+    });
+  }, []);
+
   return (
-    <main className="relative bg-background text-foreground min-h-screen">
+    <main ref={mainRef} className="relative">
       <CustomCursor />
       
-      {/* 01: Massive Brutalist Hero */}
-      <Hero />
+      <section className="min-h-screen">
+        <Hero />
+      </section>
       
-      {/* 02: Spatial Shard Matrix (Project Navigation) */}
-      <section className="relative h-screen bg-void-black overflow-hidden">
+      <section className="relative h-screen overflow-hidden">
         <div className="absolute top-12 left-12 z-20 mix-blend-difference">
-          <div className="text-metadata text-primary">01 / Project Matrix</div>
+          <div className="text-metadata morph-target">01 / The Archive</div>
           <h2 className="text-4xl font-headline font-bold text-white uppercase tracking-tighter">
-            Spatial Selection
+            Spatial Matrix
           </h2>
         </div>
         <ProjectMatrix />
       </section>
       
-      {/* 03: Editorial Personal Narrative */}
-      <StudioNarrative />
+      <section className="min-h-screen">
+        <StudioNarrative />
+      </section>
       
-      {/* 04: Interactive Expertise List */}
-      <ServicesHover />
+      <section className="min-h-screen">
+        <ServicesHover />
+      </section>
       
-      <footer className="py-48 px-8 bg-foreground text-background text-center overflow-hidden">
-        <div className="text-metadata mb-12 text-primary">Let's connect / Available 2025</div>
+      <footer className="py-48 px-8 text-center overflow-hidden mix-blend-difference">
+        <div className="text-metadata mb-12">Let's connect / Available 2025</div>
         <h2 className="text-huge font-headline font-bold tracking-tighter opacity-10 uppercase select-none italic">
           Habel.Archive
         </h2>

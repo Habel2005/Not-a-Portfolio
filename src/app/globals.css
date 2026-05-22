@@ -39,6 +39,7 @@
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    transition: background-color 1.2s cubic-bezier(0.16, 1, 0.3, 1), color 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -70,18 +71,16 @@
   transform: skewX(-10deg) scale(1.05);
 }
 
-.mask-reveal {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-}
-
 ::-webkit-scrollbar {
   width: 0px;
 }
 
-.magnetic-area {
-  @apply relative inline-block;
+.theme-morph-dark {
+  background-color: #050505 !important;
+  color: #fff !important;
 }
 
-.blend-difference {
-  mix-blend-mode: difference;
+.theme-morph-light {
+  background-color: #f9f8f5 !important;
+  color: #050505 !important;
 }
