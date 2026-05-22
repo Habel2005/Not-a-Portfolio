@@ -1,28 +1,28 @@
 {
   "placeholderImages": [
     {
-      "id": "luxury-1",
-      "description": "Minimalist concrete architecture with sharp shadows",
-      "imageUrl": "https://picsum.photos/seed/luxury1/1200/1600",
+      "id": "project-1",
+      "description": "Spatial Architecture Visualization",
+      "imageUrl": "https://picsum.photos/seed/habel1/1200/1600",
       "imageHint": "brutalist concrete"
     },
     {
-      "id": "luxury-2",
-      "description": "High fashion monochrome editorial photography",
-      "imageUrl": "https://picsum.photos/seed/luxury2/1200/1600",
-      "imageHint": "fashion monochrome"
+      "id": "project-2",
+      "description": "Kinetic Typography Interface",
+      "imageUrl": "https://picsum.photos/seed/habel2/1200/1600",
+      "imageHint": "minimalist abstract"
     },
     {
-      "id": "luxury-3",
-      "description": "Abstract liquid metal textures and reflections",
-      "imageUrl": "https://picsum.photos/seed/luxury3/1200/1600",
+      "id": "project-3",
+      "description": "Liquid Metal Interactive Form",
+      "imageUrl": "https://picsum.photos/seed/habel3/1200/1600",
       "imageHint": "liquid silver"
     },
     {
-      "id": "luxury-4",
-      "description": "Modernist interior with harsh direct sunlight",
-      "imageUrl": "https://picsum.photos/seed/luxury4/1200/1600",
-      "imageHint": "minimalist interior"
+      "id": "project-4",
+      "description": "Monochrome Editorial Campaign",
+      "imageUrl": "https://picsum.photos/seed/habel4/1200/1600",
+      "imageHint": "fashion photography"
     }
   ]
 }

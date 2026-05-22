@@ -29,7 +29,6 @@
   .dark {
     --background: 240 10% 4%;
     --foreground: 30 20% 98%;
-    /* ... rest of dark mode if needed, but we focus on light brutalist luxury */
   }
 }
 
@@ -44,13 +43,13 @@
 }
 
 .text-huge {
-  font-size: clamp(4rem, 15vw, 20rem);
-  line-height: 0.85;
-  letter-spacing: -0.05em;
+  font-size: clamp(4rem, 15vw, 18rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
 }
 
 .text-metadata {
-  @apply font-code text-[10px] uppercase tracking-[0.3em] opacity-50;
+  @apply font-code text-[10px] uppercase tracking-[0.4em] opacity-40;
 }
 
 .grain-overlay {
@@ -58,7 +57,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 99;
-  opacity: 0.04;
+  opacity: 0.05;
   background-image: url('https://grainy-gradients.vercel.app/noise.svg');
 }
 
@@ -68,11 +67,11 @@
   gap: 2rem;
 }
 
-.magnetic-area {
-  display: inline-block;
-  cursor: pointer;
-}
-
 ::-webkit-scrollbar {
   width: 0px;
+}
+
+.magnetic-item {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
