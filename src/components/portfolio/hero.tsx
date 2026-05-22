@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -33,15 +34,20 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className="relative h-screen flex flex-col justify-end p-8 md:p-12 overflow-hidden">
-      <nav className="fixed top-12 left-12 right-12 flex justify-between items-start z-[100] mix-blend-difference text-white">
-        <div className="space-y-1">
-          <div className="text-metadata hero-meta">Habel / Portfolio</div>
-          <div className="text-[10px] font-code uppercase opacity-40">Creative Engineer</div>
-        </div>
-        <div className="flex flex-col items-end gap-2 text-metadata hero-meta">
-          <button className="hover:text-primary transition-colors">Archive</button>
-          <button className="hover:text-primary transition-colors">Narrative</button>
-          <button className="hover:text-primary transition-colors">Connect</button>
+      <nav className="fixed top-12 left-12 right-12 flex justify-end items-start z-[100] mix-blend-difference text-white">
+        <div className="flex flex-col items-end gap-12 text-right">
+          {/* Identity Metadata moved to right */}
+          <div className="space-y-1 hero-meta">
+            <div className="text-metadata">Habel / Portfolio</div>
+            <div className="text-[10px] font-code uppercase opacity-40">Creative Engineer</div>
+          </div>
+          
+          {/* Navigation links */}
+          <div className="flex flex-col items-end gap-2 text-metadata hero-meta">
+            <button className="hover:text-primary transition-colors">Archive</button>
+            <button className="hover:text-primary transition-colors">Narrative</button>
+            <button className="hover:text-primary transition-colors">Connect</button>
+          </div>
         </div>
       </nav>
 
@@ -50,7 +56,7 @@ export function Hero() {
           <div className="hero-line overflow-hidden">
             <span>HABEL</span>
           </div>
-          <div className="hero-line overflow-hidden self-end text-primary kinetic-hover">
+          <div className="hero-line overflow-hidden self-end text-primary kinetic-hover pr-[15vw]">
             <span>ARCHIVE</span>
           </div>
           <div className="hero-line overflow-hidden">

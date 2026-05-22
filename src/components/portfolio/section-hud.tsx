@@ -46,7 +46,7 @@ export function SectionHUD() {
   }, []);
 
   return (
-    <div className="fixed left-8 md:left-12 top-1/2 -translate-y-1/2 z-[100] flex gap-6 items-center pointer-events-none mix-blend-difference">
+    <div className="fixed right-8 md:right-12 top-1/2 -translate-y-1/2 z-[100] flex gap-6 items-center pointer-events-none mix-blend-difference flex-row-reverse">
       {/* The Meter Scale */}
       <div className="relative h-64 w-[2px] bg-white/10 overflow-hidden">
         <div 
@@ -62,7 +62,7 @@ export function SectionHUD() {
       </div>
 
       {/* Active Section Label */}
-      <div className="flex flex-col gap-1 overflow-hidden">
+      <div className="flex flex-col gap-1 overflow-hidden items-end text-right">
         <div className="text-metadata text-primary transition-colors duration-500">
           {activeSection.id} / {activeSection.label}
         </div>
@@ -70,7 +70,7 @@ export function SectionHUD() {
       </div>
       
       {/* Decorative Index */}
-      <div className="absolute -left-4 top-0 h-full flex flex-col justify-between text-[8px] font-code opacity-20 uppercase tracking-tighter vertical-text py-2">
+      <div className="absolute -right-4 top-0 h-full flex flex-col justify-between text-[8px] font-code opacity-20 uppercase tracking-tighter vertical-text py-2">
         <span>LVL_0</span>
         <span>LVL_MAX</span>
       </div>

@@ -39,33 +39,33 @@ export default function Home() {
       backgroundColor: "#050505", 
       color: "#ffffff", 
       duration: 0.1 
-    }, 0.05)
+    }, 0.1)
     .to(".morph-target", { 
       color: "#D2FF00", 
       duration: 0.1 
-    }, 0.05);
+    }, 0.1);
 
     // Phase 2: Archive (Black) -> Narrative (Light Editorial)
     tl.to("body", { 
       backgroundColor: "#f9f8f5", 
       color: "#050505", 
       duration: 0.1 
-    }, 0.25)
+    }, 0.4)
     .to(".morph-target", { 
       color: "#050505", 
       duration: 0.1 
-    }, 0.25);
+    }, 0.4);
 
     // Phase 3: Narrative (Light) -> Services (Dark Contrast)
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
       duration: 0.1 
-    }, 0.85)
+    }, 1.85)
     .to(".morph-target", { 
       color: "#D2FF00", 
       duration: 0.1 
-    }, 0.85);
+    }, 1.85);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
