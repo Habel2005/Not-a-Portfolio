@@ -17,12 +17,6 @@ export function ProjectMatrix() {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Cleanup logic for hard reset
-    if (sceneRef.current) {
-      sceneRef.current.renderer.dispose();
-      containerRef.current.innerHTML = "";
-    }
-
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
@@ -47,7 +41,7 @@ export function ProjectMatrix() {
     const textureLoader = new THREE.TextureLoader();
     const shards: THREE.Mesh[] = [];
 
-    // Curved Gallery Wall (Front-Facing Arc)
+    // Curved Gallery Wall - Front-facing Arc
     const shardGeom = new THREE.PlaneGeometry(380, 540);
 
     PlaceHolderImages.forEach((img, i) => {
@@ -61,18 +55,16 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      // Arc Distribution - Spread across a shallow curve in front of the camera
-      const spread = Math.PI * 0.5; // 90 degree arc
+      const spread = Math.PI * 0.45; 
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 1000;
+      const radius = 900;
       
       mesh.position.set(
         Math.sin(angle) * radius,
-        (Math.random() - 0.5) * 100, // Minimal vertical stagger for architectural rhythm
-        Math.cos(angle) * radius - 1100 // Depth adjustment to keep it in view
+        (Math.random() - 0.5) * 60,
+        Math.cos(angle) * radius - 1000
       );
       
-      // Face the camera directly
       mesh.rotation.y = -angle;
       mesh.userData = { id: img.id };
       
@@ -82,7 +74,7 @@ export function ProjectMatrix() {
       gsap.to(material, {
         opacity: 1,
         duration: 2.5,
-        delay: i * 0.15,
+        delay: i * 0.1,
         ease: "power2.out"
       });
     });
@@ -97,8 +89,8 @@ export function ProjectMatrix() {
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
       // Heavy inertia weighted rotation
-      targetRotation.x = mouse.y * 0.12;
-      targetRotation.y = mouse.x * 0.12;
+      targetRotation.x = mouse.y * 0.15;
+      targetRotation.y = mouse.x * 0.2;
     };
 
     const onClick = () => {
@@ -131,33 +123,22 @@ export function ProjectMatrix() {
       }
     };
 
-    const onMouseDown = () => {
-      gsap.to(group.scale, { x: 0.97, y: 0.97, z: 0.97, duration: 0.6, ease: "power3.out" });
-    };
-
-    const onMouseUp = () => {
-      gsap.to(group.scale, { x: 1, y: 1, z: 1, duration: 0.8, ease: "elastic.out(1, 0.75)" });
-    };
-
     window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mouseup", onMouseUp);
     window.addEventListener("click", onClick);
 
     let frameId: number;
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       
-      // Liquid physical damping
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.035;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.035;
+      // Heavy physical damping
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.04;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.04;
       
       group.rotation.x = currentRotation.x;
       group.rotation.y = currentRotation.y;
 
       shards.forEach((shard, i) => {
-        // Architectural floating pulse
-        shard.position.y += Math.sin(Date.now() * 0.0008 + i) * 0.15;
+        shard.position.y += Math.sin(Date.now() * 0.001 + i) * 0.12;
       });
 
       renderer.render(scene, camera);
@@ -175,8 +156,6 @@ export function ProjectMatrix() {
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mousedown", onMouseDown);
-      window.removeEventListener("mouseup", onMouseUp);
       window.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(frameId);
