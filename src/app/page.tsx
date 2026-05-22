@@ -23,51 +23,49 @@ export default function Home() {
     gsap.set(".morph-target", { color: "#050505" });
 
     // Create a master timeline for the theme morphing
-    // We use short durations relative to the timeline to create 'snappy' color shifts
-    // that hit high contrast quickly and then 'hold' it for the section.
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.5, // Faster scrub for more immediate response
+        scrub: 0.5,
       }
     });
 
     // Phase 1: Hero (Light) -> Archive (Peak Black)
-    // Hit absolute black early so the 3D gallery is fully cinematic
+    // We start this at 0.05 (5% into the page) so it completes before the Hero is even gone
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
-      duration: 0.15 
-    }, 0.1)
+      duration: 0.1 
+    }, 0.05)
     .to(".morph-target", { 
       color: "#D2FF00", 
-      duration: 0.15 
-    }, 0.1);
+      duration: 0.1 
+    }, 0.05);
 
     // Phase 2: Archive (Black) -> Narrative (Light Editorial)
-    // Transition back to light just before Narrative content enters view
+    // Transition back as the Narrative section approaches
     tl.to("body", { 
       backgroundColor: "#f9f8f5", 
       color: "#050505", 
-      duration: 0.15 
+      duration: 0.1 
     }, 0.35)
     .to(".morph-target", { 
       color: "#050505", 
-      duration: 0.15 
+      duration: 0.1 
     }, 0.35);
 
     // Phase 3: Narrative (Light) -> Services (Dark Contrast)
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
-      duration: 0.15 
-    }, 0.75)
+      duration: 0.1 
+    }, 0.7)
     .to(".morph-target", { 
       color: "#D2FF00", 
-      duration: 0.15 
-    }, 0.75);
+      duration: 0.1 
+    }, 0.7);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
