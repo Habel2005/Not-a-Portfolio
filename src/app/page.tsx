@@ -17,30 +17,28 @@ export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const sections = gsap.utils.toArray<HTMLElement>("section");
-    
-    // Smooth Scrubbed Morphing
-    // We create a master timeline that controls the global "Atmosphere"
+    // Faster, snappier morphing timeline
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.5,
+        scrub: 1.2, // Slightly tighter scrub for responsiveness
       }
     });
 
-    // Segment 1: Transition into Matrix (Dark)
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff" }, 0.1)
-      .to(".morph-target", { color: "#D2FF00" }, 0.1);
+    // Sequence: Light -> Dark -> Light -> Dark
+    // 1. Transition into Archive (Dark)
+    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 1 }, 0.1)
+      .to(".morph-target", { color: "#D2FF00", duration: 1 }, 0.1);
 
-    // Segment 2: Transition into Narrative (Light)
-    tl.to("body", { backgroundColor: "#f9f8f5", color: "#050505" }, 0.4)
-      .to(".morph-target", { color: "#050505" }, 0.4);
+    // 2. Transition back to Narrative (Light)
+    tl.to("body", { backgroundColor: "#f9f8f5", color: "#050505", duration: 1 }, 0.4)
+      .to(".morph-target", { color: "#050505", duration: 1 }, 0.4);
 
-    // Segment 3: Transition into Services (Dark)
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff" }, 0.7)
-      .to(".morph-target", { color: "#D2FF00" }, 0.7);
+    // 3. Transition into Services (Dark)
+    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 1 }, 0.7)
+      .to(".morph-target", { color: "#D2FF00", duration: 1 }, 0.7);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -79,9 +77,9 @@ export default function Home() {
           Perspective
         </h2>
         <div className="mt-24 flex justify-center gap-12 text-metadata hover:text-primary transition-colors cursor-pointer">
-          <span>LinkedIn</span>
-          <span>Twitter</span>
-          <span>Github</span>
+          <span className="cursor-pointer">LinkedIn</span>
+          <span className="cursor-pointer">Twitter</span>
+          <span className="cursor-pointer">Github</span>
         </div>
       </footer>
     </main>
