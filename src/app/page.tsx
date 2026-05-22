@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -17,53 +18,56 @@ export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Immediate reset for return-to-home scenarios
+    // Initial State reset
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
     gsap.set(".morph-target", { color: "#050505" });
-    gsap.set(".mix-target", { mixBlendMode: "difference" });
 
+    // Create a master timeline for the theme morphing
+    // We use short durations relative to the timeline to create 'snappy' color shifts
+    // that hit high contrast quickly and then 'hold' it for the section.
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.2, // Tighter scrub for better responsiveness
+        scrub: 0.5, // Faster scrub for more immediate response
       }
     });
 
-    // Phase 1: Hero (Light) -> Archive (Deep Void)
-    // We start the transition early so it's fully black by the time shards are center-screen
+    // Phase 1: Hero (Light) -> Archive (Peak Black)
+    // Hit absolute black early so the 3D gallery is fully cinematic
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
-      duration: 1 
+      duration: 0.15 
     }, 0.1)
     .to(".morph-target", { 
       color: "#D2FF00", 
-      duration: 1 
+      duration: 0.15 
     }, 0.1);
 
-    // Phase 2: Archive (Dark) -> Narrative (Light Editorial)
+    // Phase 2: Archive (Black) -> Narrative (Light Editorial)
+    // Transition back to light just before Narrative content enters view
     tl.to("body", { 
       backgroundColor: "#f9f8f5", 
       color: "#050505", 
-      duration: 1 
-    }, 0.45)
+      duration: 0.15 
+    }, 0.35)
     .to(".morph-target", { 
       color: "#050505", 
-      duration: 1 
-    }, 0.45);
+      duration: 0.15 
+    }, 0.35);
 
     // Phase 3: Narrative (Light) -> Services (Dark Contrast)
     tl.to("body", { 
       backgroundColor: "#050505", 
       color: "#ffffff", 
-      duration: 1 
-    }, 0.8)
+      duration: 0.15 
+    }, 0.75)
     .to(".morph-target", { 
       color: "#D2FF00", 
-      duration: 1 
-    }, 0.8);
+      duration: 0.15 
+    }, 0.75);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -78,8 +82,8 @@ export default function Home() {
         <Hero />
       </section>
       
-      {/* Archive Section - Needs to be Peak Black */}
-      <section className="relative h-screen overflow-hidden">
+      {/* Archive Section - Peak Void-Black */}
+      <section className="relative h-screen overflow-hidden bg-transparent">
         <div className="absolute top-12 left-12 z-20 pointer-events-none">
           <div className="text-metadata morph-target">01 / The Archive</div>
           <h2 className="text-4xl font-headline font-bold text-white uppercase tracking-tighter">

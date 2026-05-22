@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -12,6 +13,8 @@ export function ProjectMatrix() {
   const sceneRef = useRef<{
     renderer: THREE.WebGLRenderer;
     scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera;
+    group: THREE.Group;
   } | null>(null);
 
   useEffect(() => {
@@ -33,15 +36,15 @@ export function ProjectMatrix() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    sceneRef.current = { renderer, scene };
-
     const group = new THREE.Group();
     scene.add(group);
+
+    sceneRef.current = { renderer, scene, camera, group };
 
     const textureLoader = new THREE.TextureLoader();
     const shards: THREE.Mesh[] = [];
 
-    // Curved Gallery Wall - Front-facing Arc
+    // Curved Gallery Wall - Shard Geometry
     const shardGeom = new THREE.PlaneGeometry(380, 540);
 
     PlaceHolderImages.forEach((img, i) => {
@@ -55,16 +58,18 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      const spread = Math.PI * 0.45; 
+      // Arc distribution logic - more centered for better reachability
+      const spread = Math.PI * 0.4; 
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 900;
+      const radius = 950;
       
       mesh.position.set(
         Math.sin(angle) * radius,
-        (Math.random() - 0.5) * 60,
+        (Math.random() - 0.5) * 40,
         Math.cos(angle) * radius - 1000
       );
       
+      // Face the camera directly
       mesh.rotation.y = -angle;
       mesh.userData = { id: img.id };
       
@@ -73,8 +78,8 @@ export function ProjectMatrix() {
 
       gsap.to(material, {
         opacity: 1,
-        duration: 2.5,
-        delay: i * 0.1,
+        duration: 2,
+        delay: i * 0.05,
         ease: "power2.out"
       });
     });
@@ -88,9 +93,9 @@ export function ProjectMatrix() {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-      // Heavy inertia weighted rotation
-      targetRotation.x = mouse.y * 0.15;
-      targetRotation.y = mouse.x * 0.2;
+      // Subtle, weighted tilt
+      targetRotation.x = mouse.y * 0.12;
+      targetRotation.y = mouse.x * 0.15;
     };
 
     const onClick = () => {
@@ -101,6 +106,7 @@ export function ProjectMatrix() {
         const clickedShard = intersects[0].object as THREE.Mesh;
         const id = clickedShard.userData.id;
 
+        // Cinematic zoom into project
         const tl = gsap.timeline({
           onComplete: () => {
             router.push(`/projects/${id}`);
@@ -110,14 +116,14 @@ export function ProjectMatrix() {
         tl.to(camera.position, {
           x: clickedShard.position.x,
           y: clickedShard.position.y,
-          z: clickedShard.position.z + 400,
-          duration: 1.2,
+          z: clickedShard.position.z + 300,
+          duration: 1,
           ease: "expo.inOut"
         });
 
         shards.forEach(s => {
           if (s !== clickedShard) {
-            gsap.to((s.material as THREE.MeshBasicMaterial), { opacity: 0, duration: 0.5 });
+            gsap.to((s.material as THREE.MeshBasicMaterial), { opacity: 0, duration: 0.4 });
           }
         });
       }
@@ -130,15 +136,16 @@ export function ProjectMatrix() {
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       
-      // Heavy physical damping
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.04;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.04;
+      // Weighted inertia logic
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.05;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.05;
       
       group.rotation.x = currentRotation.x;
       group.rotation.y = currentRotation.y;
 
+      // Subtle float effect
       shards.forEach((shard, i) => {
-        shard.position.y += Math.sin(Date.now() * 0.001 + i) * 0.12;
+        shard.position.y += Math.sin(Date.now() * 0.0008 + i) * 0.1;
       });
 
       renderer.render(scene, camera);
@@ -146,8 +153,9 @@ export function ProjectMatrix() {
     animate();
 
     const onResize = () => {
-      const w = containerRef.current?.clientWidth || window.innerWidth;
-      const h = containerRef.current?.clientHeight || window.innerHeight;
+      if (!containerRef.current) return;
+      const w = containerRef.current.clientWidth;
+      const h = containerRef.current.clientHeight;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
