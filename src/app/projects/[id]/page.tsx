@@ -16,9 +16,8 @@ export default function ProjectPage() {
   useEffect(() => {
     if (!project) return;
     
-    // Reset body state for high-contrast reading
-    document.body.style.backgroundColor = "#050505";
-    document.body.style.color = "#ffffff";
+    // Explicitly set high-contrast dark mode for the detail view
+    gsap.set("body", { backgroundColor: "#050505", color: "#ffffff" });
 
     gsap.from(".project-reveal", {
       y: 100,
@@ -37,8 +36,8 @@ export default function ProjectPage() {
   }, [project]);
 
   const handleBack = () => {
-    // Navigate back and force scroll top to ensure the Home re-initializes correctly
-    router.push("/");
+    // Force a hard navigation to ensure the Home page re-initializes all GSAP triggers and ThreeJS scene from a fresh state
+    window.location.href = "/";
   };
 
   if (!project) return <div className="p-24 text-center">Project not found.</div>;

@@ -17,28 +17,51 @@ export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Faster, snappier morphing timeline
+    // Force immediate light state on mount to ensure clean reset from Project pages
+    gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
+    gsap.set(".morph-target", { color: "#050505" });
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.2, // Slightly tighter scrub for responsiveness
+        scrub: 1.5, // Smooth but responsive
       }
     });
 
-    // Sequence: Light -> Dark -> Light -> Dark
-    // 1. Transition into Archive (Dark)
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 1 }, 0.1)
-      .to(".morph-target", { color: "#D2FF00", duration: 1 }, 0.1);
+    // Phase 1: Hero (Light) -> Archive (Absolute Void Black)
+    tl.to("body", { 
+      backgroundColor: "#050505", 
+      color: "#ffffff", 
+      duration: 1 
+    }, 0.1)
+    .to(".morph-target", { 
+      color: "#D2FF00", 
+      duration: 1 
+    }, 0.1);
 
-    // 2. Transition back to Narrative (Light)
-    tl.to("body", { backgroundColor: "#f9f8f5", color: "#050505", duration: 1 }, 0.4)
-      .to(".morph-target", { color: "#050505", duration: 1 }, 0.4);
+    // Phase 2: Archive (Dark) -> Narrative (Light Editorial)
+    tl.to("body", { 
+      backgroundColor: "#f9f8f5", 
+      color: "#050505", 
+      duration: 1 
+    }, 0.45)
+    .to(".morph-target", { 
+      color: "#050505", 
+      duration: 1 
+    }, 0.45);
 
-    // 3. Transition into Services (Dark)
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 1 }, 0.7)
-      .to(".morph-target", { color: "#D2FF00", duration: 1 }, 0.7);
+    // Phase 3: Narrative (Light) -> Services (Absolute Void Black)
+    tl.to("body", { 
+      backgroundColor: "#050505", 
+      color: "#ffffff", 
+      duration: 1 
+    }, 0.8)
+    .to(".morph-target", { 
+      color: "#D2FF00", 
+      duration: 1 
+    }, 0.8);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());

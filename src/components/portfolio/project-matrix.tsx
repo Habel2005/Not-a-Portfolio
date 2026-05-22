@@ -47,9 +47,8 @@ export function ProjectMatrix() {
     const textureLoader = new THREE.TextureLoader();
     const shards: THREE.Mesh[] = [];
 
-    // Redesigned: Gallery Arc instead of a full circle
-    // This makes all tiles accessible and visible from the front
-    const shardGeom = new THREE.PlaneGeometry(350, 500);
+    // Curved Gallery Wall (Front-Facing Arc)
+    const shardGeom = new THREE.PlaneGeometry(380, 540);
 
     PlaceHolderImages.forEach((img, i) => {
       const texture = textureLoader.load(img.imageUrl);
@@ -62,20 +61,19 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      // Arc Distribution (Gallery Wall Layout)
-      // spread across 120 degrees in front of camera
-      const spread = Math.PI * 0.6;
+      // Arc Distribution - Spread across a shallow curve in front of the camera
+      const spread = Math.PI * 0.5; // 90 degree arc
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 900;
+      const radius = 1000;
       
       mesh.position.set(
         Math.sin(angle) * radius,
-        (Math.random() - 0.5) * 200, // Slight vertical stagger
-        Math.cos(angle) * radius - 1000
+        (Math.random() - 0.5) * 100, // Minimal vertical stagger for architectural rhythm
+        Math.cos(angle) * radius - 1100 // Depth adjustment to keep it in view
       );
       
-      // Shards fan out to face the user
-      mesh.rotation.y = -angle * 0.8;
+      // Face the camera directly
+      mesh.rotation.y = -angle;
       mesh.userData = { id: img.id };
       
       group.add(mesh);
@@ -83,9 +81,9 @@ export function ProjectMatrix() {
 
       gsap.to(material, {
         opacity: 1,
-        duration: 2,
-        delay: i * 0.1,
-        ease: "expo.out"
+        duration: 2.5,
+        delay: i * 0.15,
+        ease: "power2.out"
       });
     });
 
@@ -98,9 +96,9 @@ export function ProjectMatrix() {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-      // Heavy inertia rotation
-      targetRotation.x = mouse.y * 0.15;
-      targetRotation.y = mouse.x * 0.15;
+      // Heavy inertia weighted rotation
+      targetRotation.x = mouse.y * 0.12;
+      targetRotation.y = mouse.x * 0.12;
     };
 
     const onClick = () => {
@@ -113,7 +111,6 @@ export function ProjectMatrix() {
 
         const tl = gsap.timeline({
           onComplete: () => {
-            // Force clean state before navigation
             router.push(`/projects/${id}`);
           }
         });
@@ -121,25 +118,25 @@ export function ProjectMatrix() {
         tl.to(camera.position, {
           x: clickedShard.position.x,
           y: clickedShard.position.y,
-          z: clickedShard.position.z + 300,
-          duration: 1,
+          z: clickedShard.position.z + 400,
+          duration: 1.2,
           ease: "expo.inOut"
         });
 
         shards.forEach(s => {
           if (s !== clickedShard) {
-            gsap.to((s.material as THREE.MeshBasicMaterial), { opacity: 0, duration: 0.4 });
+            gsap.to((s.material as THREE.MeshBasicMaterial), { opacity: 0, duration: 0.5 });
           }
         });
       }
     };
 
     const onMouseDown = () => {
-      gsap.to(group.scale, { x: 0.98, y: 0.98, z: 0.98, duration: 0.4, ease: "power2.out" });
+      gsap.to(group.scale, { x: 0.97, y: 0.97, z: 0.97, duration: 0.6, ease: "power3.out" });
     };
 
     const onMouseUp = () => {
-      gsap.to(group.scale, { x: 1, y: 1, z: 1, duration: 0.5, ease: "back.out(2)" });
+      gsap.to(group.scale, { x: 1, y: 1, z: 1, duration: 0.8, ease: "elastic.out(1, 0.75)" });
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -151,15 +148,16 @@ export function ProjectMatrix() {
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       
-      // Fluid physics simulation
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.04;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.04;
+      // Liquid physical damping
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.035;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.035;
       
       group.rotation.x = currentRotation.x;
       group.rotation.y = currentRotation.y;
 
       shards.forEach((shard, i) => {
-        shard.position.y += Math.sin(Date.now() * 0.001 + i) * 0.1;
+        // Architectural floating pulse
+        shard.position.y += Math.sin(Date.now() * 0.0008 + i) * 0.15;
       });
 
       renderer.render(scene, camera);
