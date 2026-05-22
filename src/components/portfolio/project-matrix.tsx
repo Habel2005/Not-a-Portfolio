@@ -13,14 +13,20 @@ export function ProjectMatrix() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Initialize dimensions
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
+    // Core Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 5000);
-    camera.position.z = 1200;
+    camera.position.z = 1000;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true,
+      powerPreference: "high-performance" 
+    });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
@@ -31,8 +37,8 @@ export function ProjectMatrix() {
     const textureLoader = new THREE.TextureLoader();
     const shards: THREE.Mesh[] = [];
 
-    // Use a vertical portrait shard geometry
-    const shardGeom = new THREE.PlaneGeometry(350, 500);
+    // Cinematic Fragment Geometry (Portrait Layout)
+    const shardGeom = new THREE.PlaneGeometry(320, 480);
 
     PlaceHolderImages.forEach((img, i) => {
       const texture = textureLoader.load(img.imageUrl);
@@ -45,78 +51,81 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      // Spatial distribution in a "hanging" cluster
-      const angle = (i / PlaceHolderImages.length) * Math.PI * 2;
-      const radius = 600 + Math.random() * 300;
+      // Arc Distribution (Gallery Wall)
+      const angle = (i / PlaceHolderImages.length) * Math.PI - Math.PI/2;
+      const radius = 800;
+      
       mesh.position.set(
-        Math.cos(angle) * radius,
-        (Math.random() - 0.5) * 600,
-        (Math.random() - 0.5) * 1000
+        Math.sin(angle) * radius,
+        (Math.random() - 0.5) * 400,
+        Math.cos(angle) * radius - 400
       );
       
-      mesh.lookAt(0, 0, 0);
+      // Face the camera's original plane (not necessarily looking at center to avoid 90-degree slant)
+      mesh.rotation.y = angle * 0.5;
       mesh.userData = { id: img.id };
       
       group.add(mesh);
       shards.push(mesh);
 
-      // Entrance reveal
+      // Entrance Reveal
       gsap.to(material, {
-        opacity: 0.8,
+        opacity: 1,
         duration: 2,
-        delay: i * 0.2,
-        ease: "power2.out"
+        delay: i * 0.15,
+        ease: "expo.out"
       });
     });
 
-    // Inertia & Physics Variables
+    // Physics & Interaction
     const mouse = new THREE.Vector2();
     const targetRotation = new THREE.Vector2();
     const currentRotation = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
-    let isMouseDown = false;
-
+    
     const onMouseMove = (e: MouseEvent) => {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-      // Update targeted heavy rotation
-      targetRotation.x = mouse.y * 0.3;
-      targetRotation.y = mouse.x * 0.3;
-    };
-
-    const onMouseDown = () => {
-      isMouseDown = true;
-      gsap.to(group.scale, { x: 0.9, y: 0.9, z: 0.9, duration: 0.8, ease: "expo.out" });
-    };
-
-    const onMouseUp = () => {
-      isMouseDown = false;
-      gsap.to(group.scale, { x: 1, y: 1, z: 1, duration: 1.2, ease: "elastic.out(1, 0.3)" });
+      targetRotation.x = mouse.y * 0.2;
+      targetRotation.y = mouse.x * 0.2;
     };
 
     const onClick = () => {
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(shards);
+      
       if (intersects.length > 0) {
-        const id = intersects[0].object.userData.id;
-        // Cinematic zoom transition
-        gsap.to(camera.position, {
-          z: intersects[0].object.position.z + 200,
-          x: intersects[0].object.position.x,
-          y: intersects[0].object.position.y,
-          duration: 1.5,
-          ease: "expo.inOut",
-          onComplete: () => router.push(`/projects/${id}`),
+        const clickedShard = intersects[0].object as THREE.Mesh;
+        const id = clickedShard.userData.id;
+
+        // Sequence: Zoom -> Fade -> Navigate
+        const tl = gsap.timeline({
+          onComplete: () => router.push(`/projects/${id}`)
         });
-        
-        // Blur others
+
+        tl.to(camera.position, {
+          x: clickedShard.position.x,
+          y: clickedShard.position.y,
+          z: clickedShard.position.z + 200,
+          duration: 1.2,
+          ease: "expo.inOut"
+        });
+
         shards.forEach(s => {
-          if (s !== intersects[0].object) {
+          if (s !== clickedShard) {
             gsap.to((s.material as THREE.MeshBasicMaterial), { opacity: 0, duration: 0.5 });
           }
         });
       }
+    };
+
+    const onMouseDown = () => {
+      gsap.to(group.scale, { x: 0.95, y: 0.95, z: 0.95, duration: 0.6, ease: "power2.out" });
+    };
+
+    const onMouseUp = () => {
+      gsap.to(group.scale, { x: 1, y: 1, z: 1, duration: 0.6, ease: "elastic.out(1, 0.3)" });
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -125,20 +134,19 @@ export function ProjectMatrix() {
     window.addEventListener("click", onClick);
 
     const animate = () => {
-      requestAnimationFrame(animate);
+      const frameId = requestAnimationFrame(animate);
       
-      // Dampened "weighted" movement
+      // Smooth Weighted Momentum
       currentRotation.x += (targetRotation.x - currentRotation.x) * 0.05;
       currentRotation.y += (targetRotation.y - currentRotation.y) * 0.05;
       
       group.rotation.x = currentRotation.x;
       group.rotation.y = currentRotation.y;
 
-      // Hanging floating motion
+      // Subtle Hover/Float
       shards.forEach((shard, i) => {
         const time = Date.now() * 0.001;
-        shard.position.y += Math.sin(time + i) * 0.2;
-        shard.rotation.z = Math.sin(time * 0.5 + i) * 0.05;
+        shard.position.y += Math.sin(time + i) * 0.15;
       });
 
       renderer.render(scene, camera);
@@ -146,9 +154,11 @@ export function ProjectMatrix() {
     animate();
 
     const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const w = containerRef.current?.clientWidth || window.innerWidth;
+      const h = containerRef.current?.clientHeight || window.innerHeight;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(w, h);
     };
     window.addEventListener("resize", onResize);
 
@@ -159,11 +169,11 @@ export function ProjectMatrix() {
       window.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
       renderer.dispose();
-      if (containerRef.current) {
+      if (containerRef.current && renderer.domElement) {
         containerRef.current.removeChild(renderer.domElement);
       }
     };
   }, [router]);
 
-  return <div ref={containerRef} className="w-full h-full cursor-none" />;
+  return <div ref={containerRef} className="w-full h-full cursor-none bg-transparent" />;
 }
