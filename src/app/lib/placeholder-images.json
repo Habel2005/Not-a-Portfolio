@@ -1,0 +1,29 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "proj-1",
+      "description": "Abstract liquid metal structure",
+      "imageUrl": "https://picsum.photos/seed/void1/1200/800",
+      "imageHint": "liquid chrome"
+    },
+    {
+      "id": "proj-2",
+      "description": "Brutalist architectural fragment",
+      "imageUrl": "https://picsum.photos/seed/void2/1200/800",
+      "imageHint": "brutalist architecture"
+    },
+    {
+      "id": "proj-3",
+      "description": "High fashion editorial lighting",
+      "imageUrl": "https://picsum.photos/seed/void3/1200/800",
+      "imageHint": "high fashion"
+    },
+    {
+      "id": "proj-4",
+      "description": "Dark technological grid",
+      "imageUrl": "https://picsum.photos/seed/void4/1200/800",
+      "imageHint": "cyber technology"
+    }
+  ]
+}
