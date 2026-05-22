@@ -8,22 +8,34 @@ export function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".hero-char", {
-        y: 300,
-        skewY: 10,
+      // Overlapping letter reveal
+      gsap.from(".hero-line span", {
+        y: "100%",
         opacity: 0,
-        duration: 1.6,
-        stagger: 0.05,
-        ease: "power4.out",
+        rotateX: -90,
+        duration: 2,
+        stagger: 0.1,
+        ease: "expo.out",
       });
 
-      gsap.from(".nav-item", {
-        y: -20,
+      // Kinetic metadata reveal
+      gsap.from(".hero-meta", {
+        x: -20,
         opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        delay: 0.8,
+        duration: 1.5,
+        delay: 1,
         ease: "power3.out",
+      });
+
+      // Background image parallax
+      gsap.to(".hero-bg", {
+        y: -100,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        }
       });
     }, containerRef);
 
@@ -31,42 +43,42 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col justify-center px-8 bg-background overflow-hidden">
-      <nav className="absolute top-8 left-8 right-8 flex justify-between items-center z-50">
-        <div className="text-metadata nav-item">Habel / Archive ©2024</div>
-        <div className="flex gap-12 text-metadata">
-          <button className="nav-item hover:opacity-100 transition-opacity">Work</button>
-          <button className="nav-item hover:opacity-100 transition-opacity">Journey</button>
-          <button className="nav-item hover:opacity-100 transition-opacity">Contact</button>
+    <section ref={containerRef} className="relative h-screen flex flex-col justify-end p-8 md:p-12 bg-background overflow-hidden">
+      <nav className="fixed top-12 left-12 right-12 flex justify-between items-start z-[100] mix-blend-difference text-white">
+        <div className="space-y-1">
+          <div className="text-metadata hero-meta">Habel / Archive</div>
+          <div className="text-[10px] font-code uppercase opacity-40">Creative Engineer</div>
+        </div>
+        <div className="flex flex-col items-end gap-2 text-metadata hero-meta">
+          <button className="hover:text-primary transition-colors">Project_Matrix</button>
+          <button className="hover:text-primary transition-colors">Narrative_01</button>
+          <button className="hover:text-primary transition-colors">Contact_Sync</button>
         </div>
       </nav>
 
-      <div className="relative z-10">
-        <h1 className="text-huge font-headline font-bold uppercase italic select-none leading-none">
-          <div className="overflow-hidden">
-            <span className="block hero-char">Creative</span>
+      <div className="relative z-10 w-full mb-12">
+        <h1 className="text-huge font-headline leading-[0.75] uppercase tracking-tighter select-none flex flex-col">
+          <div className="hero-line overflow-hidden">
+            <span>HABEL</span>
           </div>
-          <div className="overflow-hidden text-right">
-            <span className="block hero-char text-primary">Engineer</span>
+          <div className="hero-line overflow-hidden self-end text-primary kinetic-hover">
+            <span>ARCHIVE</span>
           </div>
-          <div className="overflow-hidden">
-            <span className="block hero-char">Habel.</span>
+          <div className="hero-line overflow-hidden">
+            <span>STUDIO</span>
           </div>
         </h1>
       </div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center space-y-4 os-element">
-        <div className="text-metadata animate-pulse">Scroll to descend</div>
-        <div className="w-[1px] h-16 bg-foreground/10 mx-auto" />
+      <div className="absolute bottom-12 right-12 text-metadata hero-meta flex gap-12">
+        <span>EST. 2024</span>
+        <span className="opacity-20">—</span>
+        <span>BRUTALIST_UX</span>
       </div>
 
-      {/* Parallax Background Shard */}
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 h-96 opacity-5 grayscale pointer-events-none rotate-12">
-        <img 
-          src="https://picsum.photos/seed/habel-hero/800/1200" 
-          alt="" 
-          className="w-full h-full object-cover"
-        />
+      {/* Giant Faded Letter Background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-bold opacity-[0.02] select-none pointer-events-none hero-bg">
+        H
       </div>
     </section>
   );

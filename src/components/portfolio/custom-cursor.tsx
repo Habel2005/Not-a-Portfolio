@@ -28,11 +28,11 @@ export function CustomCursor() {
     };
 
     const onMouseDown = () => {
-      gsap.to(follower, { scale: 0.5, duration: 0.3 });
+      gsap.to(follower, { scale: 1.5, borderColor: "#D2FF00", duration: 0.3 });
     };
 
     const onMouseUp = () => {
-      gsap.to(follower, { scale: 1, duration: 0.3 });
+      gsap.to(follower, { scale: 1, borderColor: "rgba(255,255,255,0.2)", duration: 0.3 });
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -50,13 +50,13 @@ export function CustomCursor() {
     <>
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-primary rounded-full pointer-events-none z-[100] mix-blend-difference"
+        className="fixed top-0 left-0 w-1 h-1 bg-primary rounded-full pointer-events-none z-[9999] mix-blend-difference"
       />
       <div
         ref={followerRef}
-        className="fixed top-0 left-0 w-12 h-12 border border-primary/20 rounded-full pointer-events-none z-[99] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+        className="fixed top-0 left-0 w-12 h-12 border border-white/20 rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center mix-blend-difference"
       >
-        <div className="w-1 h-1 bg-primary/40 rounded-full animate-ping" />
+        <div className="w-0.5 h-0.5 bg-primary/40 rounded-full" />
       </div>
     </>
   );

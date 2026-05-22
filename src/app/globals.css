@@ -11,7 +11,7 @@
     --popover: 30 20% 98%;
     --popover-foreground: 240 10% 4%;
     --primary: 71 100% 45%;
-    --primary-foreground: 30 20% 98%;
+    --primary-foreground: 240 10% 4%;
     --secondary: 240 5% 90%;
     --secondary-foreground: 240 10% 4%;
     --muted: 240 5% 94%;
@@ -37,41 +37,51 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
+    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 }
 
 .text-huge {
-  font-size: clamp(4rem, 15vw, 18rem);
-  line-height: 0.8;
-  letter-spacing: -0.06em;
+  font-size: clamp(5rem, 20vw, 25rem);
+  line-height: 0.75;
+  letter-spacing: -0.08em;
+  font-weight: 900;
 }
 
 .text-metadata {
-  @apply font-code text-[10px] uppercase tracking-[0.4em] opacity-40;
+  @apply font-code text-[9px] uppercase tracking-[0.5em] opacity-40;
 }
 
 .grain-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 99;
-  opacity: 0.05;
+  z-index: 9999;
+  opacity: 0.04;
   background-image: url('https://grainy-gradients.vercel.app/noise.svg');
 }
 
-.asymmetric-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2rem;
+.kinetic-hover {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kinetic-hover:hover {
+  transform: skewX(-10deg) scale(1.05);
+}
+
+.mask-reveal {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 ::-webkit-scrollbar {
   width: 0px;
 }
 
-.magnetic-item {
-  display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+.magnetic-area {
+  @apply relative inline-block;
+}
+
+.blend-difference {
+  mix-blend-mode: difference;
 }
