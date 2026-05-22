@@ -51,10 +51,10 @@ export function SystemShell() {
               </div>
             </div>
             <div className="space-y-1 font-code text-[8px] text-white/30 uppercase leading-tight tracking-tighter">
-              <div>> CHECKING_SPATIAL_FORCE_FIELDS... OK</div>
-              <div>> MOUNTING_GEOMETRIC_SHARD_MATRIX... OK</div>
-              <div>> SYNCHRONIZING_FLUID_DISPLACEMENT_SHADERS... OK</div>
-              <div>> ESTABLISHING_VOID_CONNECTION... OK</div>
+              <div>&gt; CHECKING_SPATIAL_FORCE_FIELDS... OK</div>
+              <div>&gt; MOUNTING_GEOMETRIC_SHARD_MATRIX... OK</div>
+              <div>&gt; SYNCHRONIZING_FLUID_DISPLACEMENT_SHADERS... OK</div>
+              <div>&gt; ESTABLISHING_VOID_CONNECTION... OK</div>
             </div>
             <div className="text-center pt-12">
               <h1 className="text-4xl font-headline font-bold text-acid-green tracking-tighter animate-pulse">VOID ARCHIVE OS</h1>
