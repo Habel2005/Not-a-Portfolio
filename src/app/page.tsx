@@ -23,7 +23,7 @@ export default function Home() {
     // Initial State reset
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
 
-    // Transition Timeline - Dark transition triggers early for cinematic contrast
+    // Transition Timeline
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
@@ -37,16 +37,19 @@ export default function Home() {
       .to("body", { backgroundColor: "#f9f8f5", color: "#050505", duration: 0.1 }, 0.4)
       .to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 1.85);
 
-    // Precise System Entry - Fade out as soon as core components are ready
-    const timer = setTimeout(() => {
+    // Fade out loader ONLY when app is ready
+    const handleLoad = () => {
       gsap.to(".loader-wrapper", {
         opacity: 0,
         pointerEvents: "none",
-        duration: 0.8,
-        ease: "power2.inOut",
+        duration: 0.6,
+        ease: "power2.out",
         onComplete: () => setIsBooting(false)
       });
-    }, 2800); // Shorter window to match a high-performance feel
+    };
+
+    // Use a small delay to ensure ThreeJS and GSAP triggers are settled
+    const timer = setTimeout(handleLoad, 2000);
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -56,7 +59,7 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="relative">
-      {/* MINIMALIST LOOPING LOADER - DIRECT ADAPTATION */}
+      {/* PURE CSS LOADER - INSTANT BOOT */}
       <div className="loader-wrapper fixed inset-0 z-[10000] bg-void-black flex items-center justify-center overflow-hidden">
         <div className="relative flex flex-col items-center">
           <svg viewBox="0 0 600 160" className="w-[80vw] max-w-xl overflow-visible">

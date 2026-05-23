@@ -55,13 +55,13 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      const spread = Math.PI * 1.2; 
+      const spread = Math.PI * 1.5; 
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 1400;
+      const radius = 1600;
       
       const posX = Math.sin(angle) * radius;
-      const posY = (Math.random() - 0.5) * 300;
-      const posZ = Math.cos(angle) * radius - 1400;
+      const posY = (Math.random() - 0.5) * 400;
+      const posZ = Math.cos(angle) * radius - 1600;
 
       mesh.position.set(posX, posY, posZ);
       mesh.rotation.y = -angle;
@@ -125,27 +125,27 @@ export function ProjectMatrix() {
         const targetRot = shard.userData.origRot.clone();
 
         if (isHovered) {
-          // Independent Movement: Pull forward and face user
-          targetPos.z += 600; 
+          // Independent Movement: Glide forward and square up
+          targetPos.z += 800; 
           targetRot.y = 0; 
-          targetRot.x = mouse.y * 0.2; // Independent reactive tilt
-          targetRot.z = -mouse.x * 0.1;
+          targetRot.x = mouse.y * 0.15; // Independent reactive tilt
+          targetRot.z = -mouse.x * 0.05;
           
           gsap.to(mat, { opacity: 1, duration: 0.3 });
         } else {
-          // Dim others to highlight the selection
-          gsap.to(mat, { opacity: hoveredShard ? 0.1 : 1, duration: 0.6 });
+          // Dim non-hovered elements for spatial focus
+          gsap.to(mat, { opacity: hoveredShard ? 0.15 : 1, duration: 0.6 });
         }
 
-        // Smooth independent lerping
-        shard.position.lerp(targetPos, 0.08);
-        shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.08);
-        shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.08);
-        shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.08);
+        // Independent physics interpolation
+        shard.position.lerp(targetPos, 0.07);
+        shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.07);
+        shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.07);
+        shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.07);
 
-        // Ambient hanging physics
+        // Subconscious hanging motion
         const time = Date.now() * 0.001;
-        shard.position.y += Math.sin(time + i) * 0.2;
+        shard.position.y += Math.sin(time + i) * 0.3;
       });
 
       renderer.render(scene, camera);
