@@ -66,7 +66,6 @@ export function ProjectMatrix() {
       mesh.position.set(posX, posY, posZ);
       mesh.rotation.y = -angle;
       
-      // Store original state for independent animation
       mesh.userData = { 
         id: img.id,
         origPos: mesh.position.clone(),
@@ -132,7 +131,6 @@ export function ProjectMatrix() {
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       
-      // Update Hover State
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(shards);
       const currentHover = intersects.length > 0 ? (intersects[0].object as THREE.Mesh) : null;
@@ -145,39 +143,36 @@ export function ProjectMatrix() {
         const isHovered = shard === hoveredShard;
         const mat = shard.material as THREE.MeshBasicMaterial;
         
-        // Target Position Logic
         const targetPos = shard.userData.origPos.clone();
         const targetRot = shard.userData.origRot.clone();
 
         if (isHovered) {
-          // Move forward and center
-          targetPos.z += 300;
-          targetRot.y = 0;
-          targetRot.x = mouse.y * 0.2; // Independent reactive tilt
-          targetRot.z = -mouse.x * 0.1;
+          targetPos.z += 400; // Pull forward more aggressively
+          targetRot.y = 0; // Square up to camera
+          targetRot.x = mouse.y * 0.15; // Reactive tilt
+          targetRot.z = -mouse.x * 0.05;
           
           gsap.to(mat, { opacity: 1, duration: 0.3 });
         } else {
           // Subtle mouse reactivity even when not hovered
-          const distToMouse = Math.abs(mouse.x - (shard.position.x / 1000));
+          const distToMouse = Math.abs(mouse.x - (shard.position.x / 1300));
           const influence = Math.max(0, 1 - distToMouse);
           
           targetRot.x += mouse.y * 0.05 * influence;
           targetRot.y += mouse.x * 0.05 * influence;
           
-          // If something else is hovered, dim this one
-          gsap.to(mat, { opacity: hoveredShard ? 0.3 : 1, duration: 0.5 });
+          gsap.to(mat, { opacity: hoveredShard ? 0.2 : 1, duration: 0.5 });
         }
 
-        // Smooth Lerp to Targets
-        shard.position.lerp(targetPos, 0.1);
-        shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.1);
-        shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.1);
-        shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.1);
+        // Smooth Lerp
+        shard.position.lerp(targetPos, 0.08);
+        shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.08);
+        shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.08);
+        shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.08);
 
-        // Hanging Ambient Physics (Secondary Layer)
+        // Hanging Ambient Physics
         const time = Date.now() * 0.001;
-        shard.position.y += Math.sin(time + i) * 0.2;
+        shard.position.y += Math.sin(time + i) * 0.15;
       });
 
       renderer.render(scene, camera);
