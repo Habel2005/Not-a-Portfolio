@@ -15,6 +15,7 @@ export function ProjectMatrix() {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera;
     group: THREE.Group;
+    shards: THREE.Mesh[];
   } | null>(null);
 
   useEffect(() => {
@@ -39,12 +40,8 @@ export function ProjectMatrix() {
     const group = new THREE.Group();
     scene.add(group);
 
-    sceneRef.current = { renderer, scene, camera, group };
-
     const textureLoader = new THREE.TextureLoader();
     const shards: THREE.Mesh[] = [];
-
-    // Larger Editorial Card Geometry
     const shardGeom = new THREE.PlaneGeometry(400, 600);
 
     PlaceHolderImages.forEach((img, i) => {
@@ -58,21 +55,24 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      // Much wider arc and deeper radius for "spread" feel
-      const spread = Math.PI * 0.7; 
+      const spread = Math.PI * 0.8; 
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
       const radius = 1300;
       
-      mesh.position.set(
-        Math.sin(angle) * radius,
-        (Math.random() - 0.5) * 150, // More vertical variance
-        Math.cos(angle) * radius - 1300
-      );
-      
-      // Face the camera but with a slight organic tilt
+      const posX = Math.sin(angle) * radius;
+      const posY = (Math.random() - 0.5) * 200;
+      const posZ = Math.cos(angle) * radius - 1300;
+
+      mesh.position.set(posX, posY, posZ);
       mesh.rotation.y = -angle;
-      mesh.rotation.x = (Math.random() - 0.5) * 0.1;
-      mesh.userData = { id: img.id };
+      
+      // Store original state for independent animation
+      mesh.userData = { 
+        id: img.id,
+        origPos: mesh.position.clone(),
+        origRot: mesh.rotation.clone(),
+        angle: angle
+      };
       
       group.add(mesh);
       shards.push(mesh);
@@ -85,28 +85,20 @@ export function ProjectMatrix() {
       });
     });
 
+    sceneRef.current = { renderer, scene, camera, group, shards };
+
     const mouse = new THREE.Vector2();
-    const targetRotation = new THREE.Vector2();
-    const currentRotation = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
+    let hoveredShard: THREE.Mesh | null = null;
     
     const onMouseMove = (e: MouseEvent) => {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-      // Heavy magnetic inertia
-      targetRotation.x = mouse.y * 0.2;
-      targetRotation.y = mouse.x * 0.25;
     };
 
     const onClick = () => {
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(shards);
-      
-      if (intersects.length > 0) {
-        const clickedShard = intersects[0].object as THREE.Mesh;
-        const id = clickedShard.userData.id;
-
+      if (hoveredShard) {
+        const id = hoveredShard.userData.id;
         const tl = gsap.timeline({
           onComplete: () => {
             router.push(`/projects/${id}`);
@@ -114,18 +106,18 @@ export function ProjectMatrix() {
         });
 
         tl.to(camera.position, {
-          x: clickedShard.position.x,
-          y: clickedShard.position.y,
-          z: clickedShard.position.z + 500,
-          duration: 1.5,
+          x: hoveredShard.position.x,
+          y: hoveredShard.position.y,
+          z: hoveredShard.position.z + 500,
+          duration: 1.2,
           ease: "expo.inOut"
         });
 
         shards.forEach(s => {
-          if (s !== clickedShard) {
+          if (s !== hoveredShard) {
             gsap.to((s.material as THREE.MeshBasicMaterial), { 
               opacity: 0, 
-              duration: 0.8,
+              duration: 0.5,
               ease: "power2.in" 
             });
           }
@@ -140,18 +132,52 @@ export function ProjectMatrix() {
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       
-      // Dampened inertia
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.03;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.03;
-      
-      group.rotation.x = currentRotation.x;
-      group.rotation.y = currentRotation.y;
+      // Update Hover State
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(shards);
+      const currentHover = intersects.length > 0 ? (intersects[0].object as THREE.Mesh) : null;
 
-      // Asynchronous "Hanging" physics
+      if (currentHover !== hoveredShard) {
+        hoveredShard = currentHover;
+      }
+
       shards.forEach((shard, i) => {
+        const isHovered = shard === hoveredShard;
+        const mat = shard.material as THREE.MeshBasicMaterial;
+        
+        // Target Position Logic
+        const targetPos = shard.userData.origPos.clone();
+        const targetRot = shard.userData.origRot.clone();
+
+        if (isHovered) {
+          // Move forward and center
+          targetPos.z += 300;
+          targetRot.y = 0;
+          targetRot.x = mouse.y * 0.2; // Independent reactive tilt
+          targetRot.z = -mouse.x * 0.1;
+          
+          gsap.to(mat, { opacity: 1, duration: 0.3 });
+        } else {
+          // Subtle mouse reactivity even when not hovered
+          const distToMouse = Math.abs(mouse.x - (shard.position.x / 1000));
+          const influence = Math.max(0, 1 - distToMouse);
+          
+          targetRot.x += mouse.y * 0.05 * influence;
+          targetRot.y += mouse.x * 0.05 * influence;
+          
+          // If something else is hovered, dim this one
+          gsap.to(mat, { opacity: hoveredShard ? 0.3 : 1, duration: 0.5 });
+        }
+
+        // Smooth Lerp to Targets
+        shard.position.lerp(targetPos, 0.1);
+        shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.1);
+        shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.1);
+        shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.1);
+
+        // Hanging Ambient Physics (Secondary Layer)
         const time = Date.now() * 0.001;
-        shard.position.y += Math.sin(time + i) * 0.3;
-        shard.rotation.z = Math.sin(time * 0.5 + i) * 0.02;
+        shard.position.y += Math.sin(time + i) * 0.2;
       });
 
       renderer.render(scene, camera);
