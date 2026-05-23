@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -60,7 +59,7 @@ export default function Home() {
   return (
     <main ref={mainRef} className="relative">
       {/* PURE CSS LOADER - INSTANT BOOT */}
-      <div className="loader-wrapper fixed inset-0 z-[10000] bg-void-black flex items-center justify-center overflow-hidden">
+      <div className="loader-wrapper">
         <div className="relative flex flex-col items-center">
           <svg viewBox="0 0 600 160" className="w-[80vw] max-w-xl overflow-visible">
             <text 
@@ -84,45 +83,6 @@ export default function Home() {
             </text>
           </svg>
         </div>
-
-        <style jsx>{`
-          .loader-text-body {
-            fill: transparent;
-            stroke: #D2FF00;
-            stroke-width: 2px;
-            animation: drawing-animate 3.3s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          .loader-text-dot {
-            fill: #D2FF00;
-            stroke: #D2FF00;
-            animation: dot-animate 3.3s alternate infinite;
-          }
-          @keyframes drawing-animate {
-            0% {
-              fill: transparent;
-              stroke: #D2FF00;
-              stroke-width: 3;
-              stroke-dashoffset: 25%;
-              stroke-dasharray: 0 26%;
-            }
-            50% {
-              fill: transparent;
-              stroke: #D2FF00;
-              stroke-width: 3;
-            }
-            80%, 100% {
-              fill: #D2FF00;
-              stroke: transparent;
-              stroke-width: 0;
-              stroke-dashoffset: -25%;
-              stroke-dasharray: 26% 0;
-            }
-          }
-          @keyframes dot-animate {
-            0%, 60% { opacity: 0; }
-            100% { opacity: 1; }
-          }
-        `}</style>
       </div>
 
       <CustomCursor />
