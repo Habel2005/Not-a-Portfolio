@@ -23,7 +23,7 @@ export default function Home() {
     // Initial State reset
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
 
-    // Transition Timeline - Optimized for snappier peaks
+    // Transition Timeline
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
@@ -34,7 +34,7 @@ export default function Home() {
     });
 
     // Hit Void Black early in the hero scroll
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.05 }, 0.05)
+    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 0.1)
       .to("body", { backgroundColor: "#f9f8f5", color: "#050505", duration: 0.1 }, 0.4)
       .to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 1.85);
 
@@ -47,7 +47,7 @@ export default function Home() {
         ease: "expo.inOut",
         onComplete: () => setIsBooting(false)
       });
-    }, 4000); // 4s to allow at least one full cycle of the "drawing" animation
+    }, 4000); // 4s to allow enough cycles for perceived stability
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -57,7 +57,7 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="relative">
-      {/* PERSISTENT REPEATING LOADER - ADAPTATION OF ORIGINAL CSS */}
+      {/* PERSISTENT REPEATING LOADER - ADAPTATION OF USER CSS */}
       <div className="loader-wrapper fixed inset-0 z-[10000] bg-void-black flex items-center justify-center overflow-hidden">
         <div className="relative flex flex-col items-center gap-12">
           <svg viewBox="0 0 600 160" className="w-[80vw] max-w-2xl overflow-visible">
@@ -106,14 +106,14 @@ export default function Home() {
             0% {
               fill: transparent;
               stroke: #D2FF00;
-              stroke-width: 2px;
+              stroke-width: 3;
               stroke-dashoffset: 25%;
               stroke-dasharray: 0 26%;
             }
             50% {
               fill: transparent;
               stroke: #D2FF00;
-              stroke-width: 2px;
+              stroke-width: 3;
             }
             80%, 100% {
               fill: white;
@@ -124,8 +124,8 @@ export default function Home() {
             }
           }
           @keyframes dot-animate {
-            0%, 60% { opacity: 0; transform: scale(0); }
-            100% { opacity: 1; transform: scale(1); }
+            0%, 60% { opacity: 0; }
+            100% { opacity: 1; }
           }
           @keyframes animate-loader-line {
             0% { transform: translateX(-100%); }
