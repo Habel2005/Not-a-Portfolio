@@ -55,13 +55,13 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      const spread = Math.PI * 0.8; 
+      const spread = Math.PI * 1.2; 
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 1300;
+      const radius = 1400;
       
       const posX = Math.sin(angle) * radius;
-      const posY = (Math.random() - 0.5) * 200;
-      const posZ = Math.cos(angle) * radius - 1300;
+      const posY = (Math.random() - 0.5) * 300;
+      const posZ = Math.cos(angle) * radius - 1400;
 
       mesh.position.set(posX, posY, posZ);
       mesh.rotation.y = -angle;
@@ -78,9 +78,9 @@ export function ProjectMatrix() {
 
       gsap.to(material, {
         opacity: 1,
-        duration: 2.5,
+        duration: 2,
         delay: i * 0.1,
-        ease: "expo.out"
+        ease: "power2.out"
       });
     });
 
@@ -98,29 +98,7 @@ export function ProjectMatrix() {
     const onClick = () => {
       if (hoveredShard) {
         const id = hoveredShard.userData.id;
-        const tl = gsap.timeline({
-          onComplete: () => {
-            router.push(`/projects/${id}`);
-          }
-        });
-
-        tl.to(camera.position, {
-          x: hoveredShard.position.x,
-          y: hoveredShard.position.y,
-          z: hoveredShard.position.z + 500,
-          duration: 1.2,
-          ease: "expo.inOut"
-        });
-
-        shards.forEach(s => {
-          if (s !== hoveredShard) {
-            gsap.to((s.material as THREE.MeshBasicMaterial), { 
-              opacity: 0, 
-              duration: 0.5,
-              ease: "power2.in" 
-            });
-          }
-        });
+        router.push(`/projects/${id}`);
       }
     };
 
@@ -147,32 +125,27 @@ export function ProjectMatrix() {
         const targetRot = shard.userData.origRot.clone();
 
         if (isHovered) {
-          targetPos.z += 400; // Pull forward more aggressively
-          targetRot.y = 0; // Square up to camera
-          targetRot.x = mouse.y * 0.15; // Reactive tilt
-          targetRot.z = -mouse.x * 0.05;
+          // Independent Movement: Pull forward and face user
+          targetPos.z += 600; 
+          targetRot.y = 0; 
+          targetRot.x = mouse.y * 0.2; // Independent reactive tilt
+          targetRot.z = -mouse.x * 0.1;
           
           gsap.to(mat, { opacity: 1, duration: 0.3 });
         } else {
-          // Subtle mouse reactivity even when not hovered
-          const distToMouse = Math.abs(mouse.x - (shard.position.x / 1300));
-          const influence = Math.max(0, 1 - distToMouse);
-          
-          targetRot.x += mouse.y * 0.05 * influence;
-          targetRot.y += mouse.x * 0.05 * influence;
-          
-          gsap.to(mat, { opacity: hoveredShard ? 0.2 : 1, duration: 0.5 });
+          // Dim others to highlight the selection
+          gsap.to(mat, { opacity: hoveredShard ? 0.1 : 1, duration: 0.6 });
         }
 
-        // Smooth Lerp
+        // Smooth independent lerping
         shard.position.lerp(targetPos, 0.08);
         shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.08);
         shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.08);
         shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.08);
 
-        // Hanging Ambient Physics
+        // Ambient hanging physics
         const time = Date.now() * 0.001;
-        shard.position.y += Math.sin(time + i) * 0.15;
+        shard.position.y += Math.sin(time + i) * 0.2;
       });
 
       renderer.render(scene, camera);

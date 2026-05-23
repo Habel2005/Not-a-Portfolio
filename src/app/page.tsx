@@ -23,7 +23,7 @@ export default function Home() {
     // Initial State reset
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
 
-    // Transition Timeline
+    // Transition Timeline - Dark transition triggers early for cinematic contrast
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: mainRef.current,
@@ -33,21 +33,20 @@ export default function Home() {
       }
     });
 
-    // Hit Void Black early in the hero scroll
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 0.1)
+    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 0.05)
       .to("body", { backgroundColor: "#f9f8f5", color: "#050505", duration: 0.1 }, 0.4)
       .to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 1.85);
 
-    // Boot Sequence Exit
+    // Precise System Entry - Fade out as soon as core components are ready
     const timer = setTimeout(() => {
       gsap.to(".loader-wrapper", {
         opacity: 0,
         pointerEvents: "none",
-        duration: 1.5,
-        ease: "expo.inOut",
+        duration: 0.8,
+        ease: "power2.inOut",
         onComplete: () => setIsBooting(false)
       });
-    }, 4000); // 4s to allow enough cycles for perceived stability
+    }, 2800); // Shorter window to match a high-performance feel
 
     return () => {
       ScrollTrigger.getAll().forEach(t => t.kill());
@@ -57,10 +56,10 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="relative">
-      {/* PERSISTENT REPEATING LOADER - EXACT ADAPTATION OF USER CSS */}
+      {/* MINIMALIST LOOPING LOADER - DIRECT ADAPTATION */}
       <div className="loader-wrapper fixed inset-0 z-[10000] bg-void-black flex items-center justify-center overflow-hidden">
-        <div className="relative flex flex-col items-center gap-12">
-          <svg viewBox="0 0 600 160" className="w-[80vw] max-w-2xl overflow-visible">
+        <div className="relative flex flex-col items-center">
+          <svg viewBox="0 0 600 160" className="w-[80vw] max-w-xl overflow-visible">
             <text 
               x="50%" 
               y="50%" 
@@ -81,13 +80,6 @@ export default function Home() {
               .
             </text>
           </svg>
-
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-48 h-[1px] bg-white/10 relative overflow-hidden">
-              <div className="absolute top-0 left-0 h-full bg-primary w-full animate-loader-line" />
-            </div>
-            <div className="text-metadata text-white/20 tracking-[0.5em] animate-pulse">SYSTEM_BOOT_V2.5</div>
-          </div>
         </div>
 
         <style jsx>{`
@@ -116,7 +108,7 @@ export default function Home() {
               stroke-width: 3;
             }
             80%, 100% {
-              fill: white;
+              fill: #D2FF00;
               stroke: transparent;
               stroke-width: 0;
               stroke-dashoffset: -25%;
@@ -126,10 +118,6 @@ export default function Home() {
           @keyframes dot-animate {
             0%, 60% { opacity: 0; }
             100% { opacity: 1; }
-          }
-          @keyframes animate-loader-line {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
           }
         `}</style>
       </div>
