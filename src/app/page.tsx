@@ -32,7 +32,7 @@ export default function Home() {
       }
     });
 
-    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 0.05)
+    tl.to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 0.1)
       .to("body", { backgroundColor: "#f9f8f5", color: "#050505", duration: 0.1 }, 0.4)
       .to("body", { backgroundColor: "#050505", color: "#ffffff", duration: 0.1 }, 1.85);
 
@@ -75,7 +75,7 @@ export default function Home() {
               x="50%" 
               y="50%" 
               dy=".32em" 
-              dx="1.8em" 
+              dx="1.55em" 
               textAnchor="middle" 
               className="loader-text-dot font-headline font-bold text-[120px]"
             >
