@@ -37,7 +37,7 @@ export function Hero() {
 
       // Parallax Scrolling Effect
       gsap.to(topLineRef.current, {
-        y: -150,
+        y: -250,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
@@ -48,7 +48,7 @@ export function Hero() {
       });
 
       gsap.to(bottomLineRef.current, {
-        y: 150,
+        y: 350,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
@@ -64,22 +64,27 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className="relative h-screen flex flex-col justify-center p-8 md:p-12 overflow-hidden">
-      {/* Persistent Navigation Layer */}
+      {/* Persistent Navigation Layer - Refined for Technical Distinction */}
       <nav className="fixed top-12 right-12 flex flex-col items-end z-[100] mix-blend-difference text-white text-right">
         <div className="space-y-6 hero-meta">
           <div className="space-y-0.5">
-            <div className="text-metadata opacity-60">Habel / Portfolio</div>
-            <div className="text-[10px] font-code uppercase opacity-30">Creative Engineer</div>
+            <div className="text-[10px] font-code tracking-[0.3em] uppercase opacity-40">Habel / Portfolio</div>
           </div>
           
-          <div className="flex flex-col items-end gap-3 pt-6 border-t border-white/5">
+          <div className="flex flex-col items-end gap-3 pt-6 border-t border-white/10">
             {['Archive', 'Narrative', 'Connect'].map((link, idx) => (
               <button 
                 key={link} 
-                className="text-nav opacity-40 hover:opacity-100 hover:text-primary flex items-center gap-2 group"
+                className="flex items-center gap-4 group py-0.5 relative"
               >
-                <span className="text-[8px] opacity-30 group-hover:text-primary transition-colors">0{idx + 1}_</span>
-                {link}
+                <span className="text-[8px] font-code opacity-20 group-hover:opacity-100 group-hover:text-primary transition-all tracking-tighter">
+                  [ 0{idx + 1} ]
+                </span>
+                <span className="text-[10px] font-code uppercase tracking-[0.25em] opacity-40 group-hover:opacity-100 group-hover:text-primary transition-all">
+                  {link}
+                </span>
+                {/* Minimal hover bar for UI feedback */}
+                <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-2 bg-primary transition-all duration-300" />
               </button>
             ))}
           </div>
@@ -99,7 +104,7 @@ export function Hero() {
           
           {/* Middle Line - Kinetic Hover Preserved */}
           <div className="hero-line overflow-hidden self-center lg:self-end text-primary kinetic-hover lg:pr-[15vw] z-20">
-            <span>ARCHIVE</span>
+            <span>DESIGN ×</span>
           </div>
           
           {/* Bottom Line - Outlined Aesthetic with Parallax */}
@@ -110,7 +115,7 @@ export function Hero() {
                 color: 'transparent' 
               }}
             >
-              STUDIO
+              &nbsp;CODE
             </span>
           </div>
         </h1>
@@ -119,7 +124,7 @@ export function Hero() {
       {/* Refined Bottom Labels */}
       <div className="absolute bottom-12 left-8 right-8 lg:left-12 lg:right-12 z-10 flex justify-between items-end hero-meta mix-blend-difference text-white">
         <div className="max-w-xs">
-          <p className="text-[10px] uppercase tracking-[0.2em] opacity-40 leading-relaxed font-code">
+        <p className="text-sm md:text-base max-w-[320px] leading-relaxed tracking-[0.08em] text-white/70 font-code pl-2">
             Elevating visual identities through high-fashion aesthetics and cinematic precision.
           </p>
         </div>
