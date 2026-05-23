@@ -3,15 +3,12 @@
 import { useParams, useRouter } from "next/navigation";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowLeft, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import gsap from "gsap";
-import { generateEditorialCopy, type CopywritingOutput } from "@/ai/flows/copywriting-flow";
 
 export default function ProjectPage() {
   const { id } = useParams();
-  const router = useRouter();
   const project = PlaceHolderImages.find((p) => p.id === id);
-  const [copy, setCopy] = useState<CopywritingOutput | null>(null);
 
   useEffect(() => {
     if (!project) return;
@@ -27,11 +24,6 @@ export default function ProjectPage() {
       ease: "expo.out",
       clearProps: "all"
     });
-
-    generateEditorialCopy({ 
-      context: `Project: ${project.description}. Tone: Brutalist luxury. High fashion.`,
-      tone: "brutalist luxury"
-    }).then(setCopy);
 
   }, [project]);
 
@@ -59,14 +51,14 @@ export default function ProjectPage() {
         <div className="grid grid-cols-12 gap-12 items-end mb-48">
           <div className="col-span-12 lg:col-span-10">
             <h1 className="text-[12vw] font-headline font-bold leading-[0.8] uppercase tracking-tighter project-reveal">
-              {copy?.headline || project.description}
+              {project.description}
             </h1>
           </div>
           <div className="col-span-12 lg:col-span-2">
             <div className="space-y-8 project-reveal">
               <div className="text-metadata text-primary">Technical Identity</div>
               <p className="text-lg font-body leading-tight opacity-70">
-                {copy?.body || "Precision architectural development meet cinematic digital motion."}
+                Precision architectural development meets cinematic digital motion. An exploration into the intersection of spatial logic and digital fluidity.
               </p>
             </div>
           </div>
