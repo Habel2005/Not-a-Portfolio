@@ -57,7 +57,7 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="relative">
-      {/* PERSISTENT REPEATING LOADER - ADAPTATION OF USER CSS */}
+      {/* PERSISTENT REPEATING LOADER - EXACT ADAPTATION OF USER CSS */}
       <div className="loader-wrapper fixed inset-0 z-[10000] bg-void-black flex items-center justify-center overflow-hidden">
         <div className="relative flex flex-col items-center gap-12">
           <svg viewBox="0 0 600 160" className="w-[80vw] max-w-2xl overflow-visible">
