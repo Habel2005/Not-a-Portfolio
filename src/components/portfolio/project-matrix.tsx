@@ -25,7 +25,7 @@ export function ProjectMatrix() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 5000);
-    camera.position.z = 1000;
+    camera.position.z = 1200;
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
@@ -44,8 +44,8 @@ export function ProjectMatrix() {
     const textureLoader = new THREE.TextureLoader();
     const shards: THREE.Mesh[] = [];
 
-    // Curved Gallery Wall - Shallow Shard Distribution
-    const shardGeom = new THREE.PlaneGeometry(350, 500);
+    // Larger Editorial Card Geometry
+    const shardGeom = new THREE.PlaneGeometry(400, 600);
 
     PlaceHolderImages.forEach((img, i) => {
       const texture = textureLoader.load(img.imageUrl);
@@ -58,19 +58,20 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       
-      // Shallow arc distribution for better clickability
-      const spread = Math.PI * 0.35; 
+      // Much wider arc and deeper radius for "spread" feel
+      const spread = Math.PI * 0.7; 
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 900;
+      const radius = 1300;
       
       mesh.position.set(
         Math.sin(angle) * radius,
-        (Math.random() - 0.5) * 60,
-        Math.cos(angle) * radius - 900
+        (Math.random() - 0.5) * 150, // More vertical variance
+        Math.cos(angle) * radius - 1300
       );
       
-      // Face the camera directly
+      // Face the camera but with a slight organic tilt
       mesh.rotation.y = -angle;
+      mesh.rotation.x = (Math.random() - 0.5) * 0.1;
       mesh.userData = { id: img.id };
       
       group.add(mesh);
@@ -78,9 +79,9 @@ export function ProjectMatrix() {
 
       gsap.to(material, {
         opacity: 1,
-        duration: 2,
-        delay: i * 0.05,
-        ease: "power2.out"
+        duration: 2.5,
+        delay: i * 0.1,
+        ease: "expo.out"
       });
     });
 
@@ -93,9 +94,9 @@ export function ProjectMatrix() {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-      // Heavy inertia rotation
-      targetRotation.x = mouse.y * 0.15;
-      targetRotation.y = mouse.x * 0.2;
+      // Heavy magnetic inertia
+      targetRotation.x = mouse.y * 0.2;
+      targetRotation.y = mouse.x * 0.25;
     };
 
     const onClick = () => {
@@ -112,18 +113,21 @@ export function ProjectMatrix() {
           }
         });
 
-        // Cinematic zoom into project
         tl.to(camera.position, {
           x: clickedShard.position.x,
           y: clickedShard.position.y,
-          z: clickedShard.position.z + 400,
-          duration: 1.2,
+          z: clickedShard.position.z + 500,
+          duration: 1.5,
           ease: "expo.inOut"
         });
 
         shards.forEach(s => {
           if (s !== clickedShard) {
-            gsap.to((s.material as THREE.MeshBasicMaterial), { opacity: 0, duration: 0.5 });
+            gsap.to((s.material as THREE.MeshBasicMaterial), { 
+              opacity: 0, 
+              duration: 0.8,
+              ease: "power2.in" 
+            });
           }
         });
       }
@@ -136,16 +140,18 @@ export function ProjectMatrix() {
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       
-      // Weighted inertia logic for the hanging feeling
-      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.04;
-      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.04;
+      // Dampened inertia
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.03;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.03;
       
       group.rotation.x = currentRotation.x;
       group.rotation.y = currentRotation.y;
 
-      // Heavy floating physics
+      // Asynchronous "Hanging" physics
       shards.forEach((shard, i) => {
-        shard.position.y += Math.sin(Date.now() * 0.0007 + i) * 0.15;
+        const time = Date.now() * 0.001;
+        shard.position.y += Math.sin(time + i) * 0.3;
+        shard.rotation.z = Math.sin(time * 0.5 + i) * 0.02;
       });
 
       renderer.render(scene, camera);
