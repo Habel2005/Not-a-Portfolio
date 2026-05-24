@@ -18,6 +18,12 @@
       "description": "Minimal Performance Template",
       "imageUrl": "https://picsum.photos/seed/web/1200/1600",
       "imageHint": "minimal white"
+    },
+    {
+      "id": "architecture",
+      "description": "Spatial Systems & Shaders",
+      "imageUrl": "https://picsum.photos/seed/arch/1200/1600",
+      "imageHint": "architectural concrete"
     }
   ]
 }

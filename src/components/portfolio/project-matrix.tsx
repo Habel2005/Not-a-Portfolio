@@ -198,6 +198,9 @@ export function ProjectMatrix() {
       container.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(frameId);
+      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.position));
+      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.rotation));
+      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.material));
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
