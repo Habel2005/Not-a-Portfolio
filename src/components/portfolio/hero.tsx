@@ -102,20 +102,69 @@ export function Hero() {
           </div>
           
           {/* Middle Line - Kinetic Hover Preserved */}
-          <div className="hero-line overflow-hidden self-center lg:self-end text-primary kinetic-hover lg:pr-[15vw] z-20">
-            <span>DESIGN ×</span>
+{/* Middle Line - Precision Rotation Hover */}
+<div className="hero-line overflow-hidden self-center lg:self-end text-primary lg:pr-[15vw] z-20 group cursor-pointer">
+            <span className="inline-flex items-center gap-4 lg:gap-6">
+              
+              {/* Premium Tracking Expansion Hover */}
+              <div className="transition-all duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] group-hover:tracking-[0.05em] group-hover:opacity-80">
+                DESIGN
+              </div>
+              
+              {/* Plus to Cross Rotation */}
+              <div className="text-[0.9em] transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] rotate-45 group-hover:rotate-0 origin-center">
+                +
+              </div>
+            </span>
           </div>
           
-          {/* Bottom Line - Video Masked Aesthetic with Parallax */}
-          <div ref={bottomLineRef} className="hero-line -mt-8 md:-mt-12 lg:-mt-20 w-full text-center lg:text-left">
-            <div className="hacker-mask-container relative inline-block">
-              <video autoPlay loop muted playsInline className="matrix-bg">
-                <source src="/lib/hack.mp4" type="video/mp4" />
-              </video>
-              <span className="hacker-text block">
-                &nbsp;CODE
-              </span>
-            </div>
+{/* Bottom Line - Interactive Outline to Video Reveal */}
+          {/* ADDED: 'group cursor-pointer' to trigger the hover state */}
+          <div ref={bottomLineRef} className="hero-line -mt-8 md:-mt-12 lg:-mt-20 w-full relative h-[15vw] min-h-[120px] group cursor-pointer">
+            <span className="block relative w-full h-full">
+
+              {/* ONE Single SVG handling everything natively */}
+              <svg className="absolute inset-0 w-full h-full z-20 pointer-events-none">
+                <defs>
+                  <clipPath id="code-clip">
+                    <text 
+                      x="0" 
+                      y="50%" 
+                      dominantBaseline="central" 
+                      className="text-[15vw] font-headline font-bold uppercase tracking-tighter"
+                    >
+                      &nbsp;CODE
+                    </text>
+                  </clipPath>
+                </defs>
+
+                {/* 1. The Video Container - Hidden by default, smoothly fades in on hover */}
+                <g 
+                  clipPath="url(#code-clip)" 
+                  className="transition-opacity duration-700 ease-out opacity-0 group-hover:opacity-100"
+                >
+                  <foreignObject x="0" y="0" width="100%" height="100%">
+                    <div className="w-full h-full overflow-hidden">
+                      {/* Retained the high-quality centering trick from earlier */}
+                      <video autoPlay loop muted playsInline className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto max-w-none">
+                        <source src="/lib/hack.mp4" type="video/mp4" />
+                      </video>
+                    </div>
+                  </foreignObject>
+                </g>
+
+                {/* 2. Stroke Outline - Solid by default, drops to 30% opacity on hover so the video shines through */}
+                <text 
+                  x="0" 
+                  y="50%" 
+                  dominantBaseline="central" 
+                  className="text-[15vw] font-headline font-bold uppercase tracking-tighter fill-transparent stroke-current stroke-[1px] transition-opacity duration-700 opacity-100 group-hover:opacity-30"
+                >
+                  &nbsp;CODE
+                </text>
+              </svg>
+
+            </span>
           </div>
         </h1>
       </div>

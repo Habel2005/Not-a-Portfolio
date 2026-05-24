@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -9,43 +10,38 @@ import { useRouter } from "next/navigation";
 export function ProjectMatrix() {
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const sceneRef = useRef<{
-    renderer: THREE.WebGLRenderer;
-    scene: THREE.Scene;
-    camera: THREE.PerspectiveCamera;
-    group: THREE.Group;
-    shards: THREE.Mesh[];
-  } | null>(null);
+  const isNavigating = useRef(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || containerRef.current.clientWidth === 0) return;
 
-    const width = containerRef.current.clientWidth;
-    const height = containerRef.current.clientHeight;
+    const container = containerRef.current;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 5000);
-    camera.position.z = 1200;
+    camera.position.z = 900;
 
-    const renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
       alpha: true,
-      powerPreference: "high-performance" 
+      powerPreference: "high-performance"
     });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
-    const group = new THREE.Group();
-    scene.add(group);
+    const mainGroup = new THREE.Group();
+    scene.add(mainGroup);
 
     const textureLoader = new THREE.TextureLoader();
-    const shards: THREE.Mesh[] = [];
-    const shardGeom = new THREE.PlaneGeometry(400, 600);
+    const shardGeom = new THREE.PlaneGeometry(600, 850);
+    const shardGroups: { group: THREE.Group, mesh: THREE.Mesh, origZ: number }[] = [];
 
     PlaceHolderImages.forEach((img, i) => {
       const texture = textureLoader.load(img.imageUrl);
-      const material = new THREE.MeshBasicMaterial({ 
+      const material = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
         opacity: 0,
@@ -53,27 +49,23 @@ export function ProjectMatrix() {
       });
 
       const mesh = new THREE.Mesh(shardGeom, material);
-      
-      const spread = Math.PI * 1.5; 
+      const wrapperGroup = new THREE.Group();
+      const radius = 2500;
+      const spread = Math.PI * 0.25;
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
-      const radius = 1600;
-      
-      const posX = Math.sin(angle) * radius;
-      const posY = (Math.random() - 0.5) * 400;
-      const posZ = Math.cos(angle) * radius - 1600;
 
-      mesh.position.set(posX, posY, posZ);
-      mesh.rotation.y = -angle;
-      
-      mesh.userData = { 
-        id: img.id,
-        origPos: mesh.position.clone(),
-        origRot: mesh.rotation.clone(),
-        angle: angle
-      };
-      
-      group.add(mesh);
-      shards.push(mesh);
+      const posX = Math.sin(angle) * radius;
+      const posY = (Math.random() - 0.5) * 150;
+      const posZ = Math.cos(angle) * radius - radius;
+
+      wrapperGroup.position.set(posX, posY, posZ);
+      wrapperGroup.rotation.y = -angle;
+
+      mesh.userData = { id: img.id, index: i };
+
+      wrapperGroup.add(mesh);
+      mainGroup.add(wrapperGroup);
+      shardGroups.push({ group: wrapperGroup, mesh: mesh, origZ: posZ });
 
       gsap.to(material, {
         opacity: 1,
@@ -83,68 +75,102 @@ export function ProjectMatrix() {
       });
     });
 
-    sceneRef.current = { renderer, scene, camera, group, shards };
-
-    const mouse = new THREE.Vector2();
+    const mouse = new THREE.Vector2(-1000, -1000);
     const raycaster = new THREE.Raycaster();
-    let hoveredShard: THREE.Mesh | null = null;
-    
+    let hoveredMesh: THREE.Mesh | null = null;
+
     const onMouseMove = (e: MouseEvent) => {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      if (isNavigating.current) return;
+      const rect = container.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     };
 
     const onClick = () => {
-      if (hoveredShard) {
-        const id = hoveredShard.userData.id;
-        router.push(`/projects/${id}`);
+      if (hoveredMesh && !isNavigating.current) {
+        isNavigating.current = true;
+        const id = hoveredMesh.userData.id;
+
+        shardGroups.forEach(({ mesh }) => {
+          if (mesh !== hoveredMesh) {
+            gsap.to(mesh.material, { opacity: 0, duration: 0.5, ease: "power2.out" });
+          }
+        });
+
+        scene.attach(hoveredMesh);
+
+        gsap.to(hoveredMesh.position, {
+          x: 0,
+          y: 0,
+          z: camera.position.z - 350,
+          duration: 1.2,
+          ease: "power4.inOut"
+        });
+
+        gsap.to(hoveredMesh.rotation, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 1.2,
+          ease: "power4.inOut"
+        });
+
+        setTimeout(() => {
+          router.push(`/projects/${id}`);
+        }, 1200);
       }
     };
 
     window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("click", onClick);
+    container.addEventListener("click", onClick);
 
     let frameId: number;
     const animate = () => {
       frameId = requestAnimationFrame(animate);
-      
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(shards);
-      const currentHover = intersects.length > 0 ? (intersects[0].object as THREE.Mesh) : null;
 
-      if (currentHover !== hoveredShard) {
-        hoveredShard = currentHover;
+      if (!isNavigating.current) {
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(shardGroups.map(sg => sg.mesh));
+        const currentHover = intersects.length > 0 ? (intersects[0].object as THREE.Mesh) : null;
+
+        if (currentHover !== hoveredMesh) {
+          if (hoveredMesh) {
+            gsap.to(hoveredMesh.position, { z: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+            gsap.to(hoveredMesh.rotation, { x: 0, y: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+            gsap.to(hoveredMesh.material, { opacity: currentHover ? 0.3 : 1, duration: 0.5, overwrite: "auto" });
+          }
+
+          if (currentHover) {
+            gsap.to(currentHover.position, { z: 300, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+            const parentRotY = currentHover.parent?.rotation.y || 0;
+            gsap.to(currentHover.rotation, {
+              x: mouse.y * 0.1,
+              y: -parentRotY,
+              duration: 0.5,
+              ease: "power2.out",
+              overwrite: "auto"
+            });
+            gsap.to(currentHover.material, { opacity: 1, duration: 0.3, overwrite: "auto" });
+
+            shardGroups.forEach(({ mesh }) => {
+              if (mesh !== currentHover) gsap.to(mesh.material, { opacity: 0.3, duration: 0.5, overwrite: "auto" });
+            });
+          }
+          hoveredMesh = currentHover;
+        } else if (hoveredMesh) {
+          gsap.to(hoveredMesh.rotation, {
+            x: mouse.y * 0.1,
+            y: -(hoveredMesh.parent?.rotation.y || 0) + (mouse.x * 0.1),
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto"
+          });
+        }
       }
 
-      shards.forEach((shard, i) => {
-        const isHovered = shard === hoveredShard;
-        const mat = shard.material as THREE.MeshBasicMaterial;
-        
-        const targetPos = shard.userData.origPos.clone();
-        const targetRot = shard.userData.origRot.clone();
-
-        if (isHovered) {
-          // Independent Movement: Glide forward and square up
-          targetPos.z += 800; 
-          targetRot.y = 0; 
-          targetRot.x = mouse.y * 0.15; // Independent reactive tilt
-          targetRot.z = -mouse.x * 0.05;
-          
-          gsap.to(mat, { opacity: 1, duration: 0.3 });
-        } else {
-          // Dim non-hovered elements for spatial focus
-          gsap.to(mat, { opacity: hoveredShard ? 0.15 : 1, duration: 0.6 });
-        }
-
-        // Independent physics interpolation
-        shard.position.lerp(targetPos, 0.07);
-        shard.rotation.x = THREE.MathUtils.lerp(shard.rotation.x, targetRot.x, 0.07);
-        shard.rotation.y = THREE.MathUtils.lerp(shard.rotation.y, targetRot.y, 0.07);
-        shard.rotation.z = THREE.MathUtils.lerp(shard.rotation.z, targetRot.z, 0.07);
-
-        // Subconscious hanging motion
-        const time = Date.now() * 0.001;
-        shard.position.y += Math.sin(time + i) * 0.3;
+      const time = Date.now() * 0.001;
+      shardGroups.forEach(({ group }, i) => {
+        group.position.y += Math.sin(time + i) * 0.2;
       });
 
       renderer.render(scene, camera);
@@ -152,9 +178,8 @@ export function ProjectMatrix() {
     animate();
 
     const onResize = () => {
-      if (!containerRef.current) return;
-      const w = containerRef.current.clientWidth;
-      const h = containerRef.current.clientHeight;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
@@ -163,12 +188,23 @@ export function ProjectMatrix() {
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("click", onClick);
+      container.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(frameId);
+      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.position));
+      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.rotation));
+      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.material));
+      scene.traverse((object) => {
+        if (object instanceof THREE.Mesh) {
+          object.geometry.dispose();
+          if (object.material.map) object.material.map.dispose();
+          object.material.dispose();
+        }
+      });
+      shardGeom.dispose();
       renderer.dispose();
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
     };
   }, [router]);

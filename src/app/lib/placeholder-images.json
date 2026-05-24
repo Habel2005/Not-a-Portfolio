@@ -1,28 +1,23 @@
+
 {
   "placeholderImages": [
     {
-      "id": "project-1",
-      "description": "Spatial Architecture Visualization",
-      "imageUrl": "https://picsum.photos/seed/habel1/1200/1600",
-      "imageHint": "brutalist concrete"
+      "id": "zentry",
+      "description": "Zentry / Local AI Architecture",
+      "imageUrl": "https://picsum.photos/seed/zentry/1200/1600",
+      "imageHint": "hacker brutalist"
     },
     {
-      "id": "project-2",
-      "description": "Kinetic Typography Interface",
-      "imageUrl": "https://picsum.photos/seed/habel2/1200/1600",
-      "imageHint": "minimalist abstract"
+      "id": "learnquest",
+      "description": "LearnQuest / Mobile Learning",
+      "imageUrl": "https://picsum.photos/seed/learn/1200/1600",
+      "imageHint": "clean mobile"
     },
     {
-      "id": "project-3",
-      "description": "Liquid Metal Interactive Form",
-      "imageUrl": "https://picsum.photos/seed/habel3/1200/1600",
-      "imageHint": "liquid silver"
-    },
-    {
-      "id": "project-4",
-      "description": "Monochrome Editorial Campaign",
-      "imageUrl": "https://picsum.photos/seed/habel4/1200/1600",
-      "imageHint": "fashion photography"
+      "id": "web-template",
+      "description": "Minimal Performance Template",
+      "imageUrl": "https://picsum.photos/seed/web/1200/1600",
+      "imageHint": "minimal white"
     }
   ]
 }
