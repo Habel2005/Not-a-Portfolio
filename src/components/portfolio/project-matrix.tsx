@@ -50,6 +50,8 @@ export function ProjectMatrix() {
 
       const mesh = new THREE.Mesh(shardGeom, material);
       const wrapperGroup = new THREE.Group();
+      
+      // Arc logic
       const radius = 2500;
       const spread = Math.PI * 0.25;
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
@@ -134,12 +136,14 @@ export function ProjectMatrix() {
         const currentHover = intersects.length > 0 ? (intersects[0].object as THREE.Mesh) : null;
 
         if (currentHover !== hoveredMesh) {
+          // Reset previous
           if (hoveredMesh) {
             gsap.to(hoveredMesh.position, { z: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             gsap.to(hoveredMesh.rotation, { x: 0, y: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             gsap.to(hoveredMesh.material, { opacity: currentHover ? 0.3 : 1, duration: 0.5, overwrite: "auto" });
           }
 
+          // Independant agency for hovered mesh
           if (currentHover) {
             gsap.to(currentHover.position, { z: 300, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             const parentRotY = currentHover.parent?.rotation.y || 0;
@@ -152,12 +156,14 @@ export function ProjectMatrix() {
             });
             gsap.to(currentHover.material, { opacity: 1, duration: 0.3, overwrite: "auto" });
 
+            // Dim others
             shardGroups.forEach(({ mesh }) => {
               if (mesh !== currentHover) gsap.to(mesh.material, { opacity: 0.3, duration: 0.5, overwrite: "auto" });
             });
           }
           hoveredMesh = currentHover;
         } else if (hoveredMesh) {
+          // Magnetic reaction while hovering
           gsap.to(hoveredMesh.rotation, {
             x: mouse.y * 0.1,
             y: -(hoveredMesh.parent?.rotation.y || 0) + (mouse.x * 0.1),
@@ -168,6 +174,7 @@ export function ProjectMatrix() {
         }
       }
 
+      // Continuous subtle "hanging" float
       const time = Date.now() * 0.001;
       shardGroups.forEach(({ group }, i) => {
         group.position.y += Math.sin(time + i) * 0.2;
@@ -191,9 +198,6 @@ export function ProjectMatrix() {
       container.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(frameId);
-      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.position));
-      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.rotation));
-      gsap.killTweensOf(shardGroups.map(sg => sg.mesh.material));
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();

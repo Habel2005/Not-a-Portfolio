@@ -7,8 +7,6 @@ import { useEffect } from "react";
 import gsap from "gsap";
 
 export default function LearnQuestPage() {
-  const router = useRouter();
-
   useEffect(() => {
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
     
@@ -52,8 +50,9 @@ export default function LearnQuestPage() {
 
         <div className="grid grid-cols-12 gap-12 mb-64">
           <div className="col-span-12 md:col-span-5 learn-reveal">
-            <div className="aspect-[9/16] bg-neutral-200 border border-black/5 overflow-hidden shadow-2xl">
-              <img src="https://picsum.photos/seed/learn-mob/1080/1920" className="w-full h-full object-cover" alt="Mobile App" />
+            <div className="aspect-[9/16] bg-neutral-200 border border-black/5 overflow-hidden shadow-2xl relative">
+              <img src="https://picsum.photos/seed/learn/1080/1920" className="w-full h-full object-cover" alt="Mobile App Interface" />
+              <div className="absolute bottom-6 left-6 right-6 p-4 bg-white/20 backdrop-blur-xl border border-white/30 text-[10px] font-code">APP_FRAME: 1080x1920</div>
             </div>
           </div>
           <div className="col-span-12 md:col-span-7 flex flex-col justify-center space-y-24 learn-reveal">
@@ -63,7 +62,7 @@ export default function LearnQuestPage() {
                 <h3 className="text-4xl font-headline font-bold uppercase tracking-tight">Semantic Splitting</h3>
               </div>
               <p className="text-xl opacity-60 max-w-md">
-                Our algorithm analyzes documentation and splits it into logical "knowledge shards" for optimized retention.
+                Our algorithm analyzes documentation and splits it into logical "knowledge shards" for optimized retention and daily engagement.
               </p>
             </div>
             <div className="space-y-6">
@@ -72,7 +71,7 @@ export default function LearnQuestPage() {
                 <h3 className="text-4xl font-headline font-bold uppercase tracking-tight">Buddy System</h3>
               </div>
               <p className="text-xl opacity-60 max-w-md">
-                Social accountability mechanics integrated directly into the spaced-repetition loop.
+                Social accountability mechanics integrated directly into the spaced-repetition loop, ensuring students stay on track together.
               </p>
             </div>
           </div>
@@ -84,10 +83,10 @@ export default function LearnQuestPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <p className="text-lg opacity-50">
-              We redesigned the traditional flashcard interface into a "Quest" format, making deep work feel like a cinematic progression.
+              We redesigned the traditional flashcard interface into a "Quest" format, making deep work feel like a cinematic progression rather than a chore.
             </p>
             <div className="flex justify-end items-end">
-              <button className="flex items-center gap-4 text-primary text-metadata group">
+              <button className="flex items-center gap-4 text-primary text-metadata group border border-primary/20 px-8 py-3 hover:bg-primary hover:text-void-black transition-all">
                 VIEW_THE_PIPELINE <ArrowRight className="group-hover:translate-x-2 transition-transform" />
               </button>
             </div>
@@ -95,7 +94,7 @@ export default function LearnQuestPage() {
         </div>
       </section>
 
-      <footer className="py-24 px-8 border-t border-black/5 flex flex-col items-center gap-12">
+      <footer className="py-24 px-8 border-t border-black/5 flex flex-col items-center gap-12 bg-white">
         <div className="text-metadata opacity-40">END_OF_CASE_STUDY</div>
         <button onClick={handleBack} className="text-6xl md:text-[10vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-all">
           NEXT_PROJECT
