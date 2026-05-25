@@ -2,6 +2,12 @@
 {
   "placeholderImages": [
     {
+      "id": "web-template",
+      "description": "Minimal Performance Template",
+      "imageUrl": "https://picsum.photos/seed/web/1200/1600",
+      "imageHint": "minimal white"
+    },
+    {
       "id": "zentry",
       "description": "Zentry / Local AI Architecture",
       "imageUrl": "https://picsum.photos/seed/zentry/1200/1600",
@@ -12,12 +18,6 @@
       "description": "LearnQuest / Mobile Learning",
       "imageUrl": "https://picsum.photos/seed/learn/1200/1600",
       "imageHint": "clean mobile"
-    },
-    {
-      "id": "web-template",
-      "description": "Minimal Performance Template",
-      "imageUrl": "https://picsum.photos/seed/web/1200/1600",
-      "imageHint": "minimal white"
     },
     {
       "id": "architecture",
