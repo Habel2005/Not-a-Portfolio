@@ -2,8 +2,8 @@
 {
   "placeholderImages": [
     {
-      "id": "web-template",
-      "description": "Minimal Performance Template",
+      "id": "zero",
+      "description": "Zero Studio / WebGL & Shaders",
       "imageUrl": "https://picsum.photos/seed/web/1200/1600",
       "imageHint": "minimal white"
     },
@@ -20,8 +20,8 @@
       "imageHint": "clean mobile"
     },
     {
-      "id": "architecture",
-      "description": "Spatial Systems & Shaders",
+      "id": "kolo",
+      "description": "Kolo / Native Android App",
       "imageUrl": "https://picsum.photos/seed/arch/1200/1600",
       "imageHint": "architectural concrete"
     }
