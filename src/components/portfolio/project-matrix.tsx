@@ -60,7 +60,8 @@ export function ProjectMatrix() {
         transparent: true,
         opacity: 0,
         side: THREE.DoubleSide,
-        toneMapped: false // Guarantees Three.js won't artificially dim the image
+        toneMapped: false, // Guarantees Three.js won't artificially dim the image
+        color: 0xbfbfbf   // THE VIBE FIX: Mild reduction in saturation/color for studio look
       });
 
       const mesh = new THREE.Mesh(shardGeom, material);
@@ -108,28 +109,22 @@ export function ProjectMatrix() {
         isNavigating.current = true;
         const id = hoveredMesh.userData.id;
 
-        // 1. Instantly drop the opacity of all other cards to focus the user
         shardGroups.forEach(({ mesh }) => {
           if (mesh !== hoveredMesh) {
             gsap.to(mesh.material, { opacity: 0, duration: 0.4, ease: "power2.out" });
           }
         });
 
-        // Detach from the rotating gallery and put it in absolute world space
         scene.attach(hoveredMesh);
 
-        // 2. The Fix: Center & Frame
-        // Camera is at z: 900. Moving the card to z: 300 leaves 600 units of space.
-        // This perfectly frames your 600x850 cards on screen without blowing them out.
         gsap.to(hoveredMesh.position, {
           x: 0,
           y: 0,
           z: 300, 
-          duration: 0.8, // Shortened from 1.2s for a much snappier feel
-          ease: "expo.inOut" // A premium, hardware-accelerated easing curve
+          duration: 0.8,
+          ease: "expo.inOut"
         });
 
-        // Square it up perfectly to the user's monitor
         gsap.to(hoveredMesh.rotation, {
           x: 0,
           y: 0,
@@ -138,8 +133,6 @@ export function ProjectMatrix() {
           ease: "expo.inOut"
         });
 
-        // 3. Fire the Next.js router the EXACT millisecond the animation finishes.
-        // No more awkward waiting or hanging.
         setTimeout(() => {
           router.push(`/projects/${id}`);
         }, 850); 
@@ -159,14 +152,12 @@ export function ProjectMatrix() {
         const currentHover = intersects.length > 0 ? (intersects[0].object as THREE.Mesh) : null;
 
         if (currentHover !== hoveredMesh) {
-          // Reset previous
           if (hoveredMesh) {
             gsap.to(hoveredMesh.position, { z: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             gsap.to(hoveredMesh.rotation, { x: 0, y: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             gsap.to(hoveredMesh.material, { opacity: currentHover ? 0.3 : 1, duration: 0.5, overwrite: "auto" });
           }
 
-          // Independant agency for hovered mesh
           if (currentHover) {
             gsap.to(currentHover.position, { z: 300, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             const parentRotY = currentHover.parent?.rotation.y || 0;
@@ -179,14 +170,12 @@ export function ProjectMatrix() {
             });
             gsap.to(currentHover.material, { opacity: 1, duration: 0.3, overwrite: "auto" });
 
-            // Dim others
             shardGroups.forEach(({ mesh }) => {
               if (mesh !== currentHover) gsap.to(mesh.material, { opacity: 0.3, duration: 0.5, overwrite: "auto" });
             });
           }
           hoveredMesh = currentHover;
         } else if (hoveredMesh) {
-          // Magnetic reaction while hovering
           gsap.to(hoveredMesh.rotation, {
             x: mouse.y * 0.1,
             y: -(hoveredMesh.parent?.rotation.y || 0) + (mouse.x * 0.1),
@@ -197,7 +186,6 @@ export function ProjectMatrix() {
         }
       }
 
-      // Continuous subtle "hanging" float
       const time = Date.now() * 0.001;
       shardGroups.forEach(({ group }, i) => {
         group.position.y += Math.sin(time + i) * 0.2;

@@ -70,7 +70,7 @@ export function StudioNarrative() {
         
         <div className="col-span-12 lg:col-span-11 space-y-24">
           <h2 className="text-6xl md:text-[10vw] font-headline font-bold tracking-tighter reveal-text leading-[0.85] uppercase">
-            What am i? <span className="text-primary italic">Who am i!</span>.
+            Me &<br></br><span className="text-primary italic">&nbsp;Myself</span>.
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 items-start">
