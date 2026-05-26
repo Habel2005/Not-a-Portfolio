@@ -63,48 +63,41 @@ export function StudioNarrative() {
       
       {/* 01: The Identity & Bio */}
       <div className="px-6 md:px-12 max-w-[1600px] mx-auto mb-48">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative items-start">
           
-          {/* Main Title */}
-          <div className="col-span-12 lg:col-span-5">
-            <div className="text-metadata text-primary mb-8 reveal-text">02 / THE ARCHITECT</div>
-            <h2 className="text-6xl md:text-[10vw] font-headline font-bold uppercase leading-[0.8] tracking-tighter reveal-text">
-              Hab<span className="text-primary">el.</span>
-            </h2>
-          </div>
-
-          {/* Bio & Education */}
-          <div className="col-span-12 lg:col-span-5 space-y-16 pt-8 md:pt-12">
-            <p className="text-3xl md:text-5xl font-body leading-[1.1] tracking-tight reveal-text">
-              FROM TINKERING IN <span className="italic text-primary">LINUX</span> TO ENGINEERING <span className="underline decoration-primary/30">AI PIPELINES</span>.
-            </p>
-            
-            <div className="space-y-8">
-              <p className="text-xl md:text-2xl font-body leading-relaxed opacity-60 reveal-text max-w-xl">
-                My journey began with the curiosity of building cat games on Scratch. Today, I specialize in local LLM infrastructure, native mobile systems, and high-performance WebGL experiences.
-              </p>
-              
-              <div className="reveal-text border-l border-primary pl-8 pt-2">
-                <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-4">BASE & ACADEMY</div>
-                <p className="text-2xl font-bold tracking-tight uppercase">Kochi, Kerala</p>
-                <p className="text-xs font-mono opacity-40 mt-2 uppercase tracking-widest">CS Undergrad @ TIST</p>
-              </div>
-            </div>
-          </div>
-
-          {/* The "Beyond The Screen" Tray */}
-          <div className="col-span-12 lg:col-span-2 relative flex justify-start lg:justify-end reveal-text mt-12 lg:mt-0">
-            <div className="lg:absolute lg:top-12 lg:-right-12 lg:w-80 p-10 border border-white/10 bg-white/[0.03] backdrop-blur-md transform lg:rotate-2 hover:rotate-0 transition-transform duration-700 shadow-2xl">
-               <div className="text-[9px] font-mono uppercase tracking-[0.4em] text-primary mb-8 pb-4 border-b border-white/10">EXTERNAL_INPUT</div>
-               <p className="font-display italic text-3xl opacity-100 mb-6 leading-none">Aviation & <br/>Astronomy.</p>
+          {/* The "Beyond The Screen" Tray - Moved to Left & Compacted */}
+          <div className="col-span-12 lg:col-span-3 reveal-text">
+            <div className="p-8 border border-white/10 bg-white/[0.02] backdrop-blur-md transform -rotate-2 hover:rotate-0 transition-transform duration-700 shadow-2xl max-w-[280px]">
+               <div className="text-[9px] font-mono uppercase tracking-[0.4em] text-primary mb-6 pb-2 border-b border-white/10">EXTERNAL_INPUT</div>
+               <p className="font-display italic text-2xl mb-4 leading-none">Aviation & <br/>Astronomy.</p>
                <p className="text-[10px] font-mono opacity-40 leading-relaxed uppercase tracking-[0.15em]">
                  OBSESSED WITH ATC TELEMETRY, FLIGHT DYNAMICS, AND THE SPATIAL SINGULARITY OF BLACK HOLES.
                </p>
-               <div className="mt-8 flex gap-2">
+               <div className="mt-6 flex gap-1.5">
                  <div className="w-1 h-1 bg-primary rounded-full animate-pulse" />
                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                 <div className="w-1 h-1 bg-primary/20 rounded-full" />
                </div>
+            </div>
+          </div>
+
+          {/* Main Title Area */}
+          <div className="col-span-12 lg:col-span-4">
+            <div className="text-metadata text-primary mb-8 reveal-text">02 / THE ARCHITECT</div>
+            <h2 className="text-6xl md:text-[8.5vw] font-headline font-bold uppercase leading-[0.8] tracking-tighter reveal-text">
+              Who am<span className="text-primary">&nbsp;i?</span>
+            </h2>
+          </div>
+
+          {/* Bio Content - Updated Paragraph */}
+          <div className="col-span-12 lg:col-span-5 pt-8 md:pt-12">
+            <p className="text-xl md:text-3xl font-body leading-tight opacity-60 reveal-text">
+              My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, bridging the gap between backend logic and refined interactive experiences.
+            </p>
+            
+            <div className="reveal-text border-l border-primary pl-8 pt-2 mt-20">
+              <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-4">BASE_STATION</div>
+              <p className="text-2xl font-bold tracking-tight uppercase">Kochi, Kerala</p>
+              <p className="text-xs font-mono opacity-40 mt-2 uppercase tracking-widest">CS Undergrad @ TIST</p>
             </div>
           </div>
 
