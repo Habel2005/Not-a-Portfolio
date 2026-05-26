@@ -41,11 +41,26 @@ export function ProjectMatrix() {
 
     PlaceHolderImages.forEach((img, i) => {
       const texture = textureLoader.load(img.imageUrl);
+      
+      // --- THE HD IMAGE QUALITY FIX ---
+      // 1. Fix the "whitish" washed-out look by enforcing standard web color space
+      texture.colorSpace = THREE.SRGBColorSpace; 
+      
+      // 2. Prevent the browser from creating blurry low-res versions (Mipmaps)
+      texture.generateMipmaps = false;
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      
+      // 3. Keep images razor-sharp when looking at them from an angle
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      // --------------------------------
+
       const material = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
         opacity: 0,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        toneMapped: false // Guarantees Three.js won't artificially dim the image
       });
 
       const mesh = new THREE.Mesh(shardGeom, material);
@@ -93,33 +108,41 @@ export function ProjectMatrix() {
         isNavigating.current = true;
         const id = hoveredMesh.userData.id;
 
+        // 1. Instantly drop the opacity of all other cards to focus the user
         shardGroups.forEach(({ mesh }) => {
           if (mesh !== hoveredMesh) {
-            gsap.to(mesh.material, { opacity: 0, duration: 0.5, ease: "power2.out" });
+            gsap.to(mesh.material, { opacity: 0, duration: 0.4, ease: "power2.out" });
           }
         });
 
+        // Detach from the rotating gallery and put it in absolute world space
         scene.attach(hoveredMesh);
 
+        // 2. The Fix: Center & Frame
+        // Camera is at z: 900. Moving the card to z: 300 leaves 600 units of space.
+        // This perfectly frames your 600x850 cards on screen without blowing them out.
         gsap.to(hoveredMesh.position, {
           x: 0,
           y: 0,
-          z: camera.position.z - 350,
-          duration: 1.2,
-          ease: "power4.inOut"
+          z: 300, 
+          duration: 0.8, // Shortened from 1.2s for a much snappier feel
+          ease: "expo.inOut" // A premium, hardware-accelerated easing curve
         });
 
+        // Square it up perfectly to the user's monitor
         gsap.to(hoveredMesh.rotation, {
           x: 0,
           y: 0,
           z: 0,
-          duration: 1.2,
-          ease: "power4.inOut"
+          duration: 0.8,
+          ease: "expo.inOut"
         });
 
+        // 3. Fire the Next.js router the EXACT millisecond the animation finishes.
+        // No more awkward waiting or hanging.
         setTimeout(() => {
           router.push(`/projects/${id}`);
-        }, 1200);
+        }, 850); 
       }
     };
 

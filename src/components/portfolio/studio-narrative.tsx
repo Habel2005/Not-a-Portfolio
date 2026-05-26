@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -64,28 +65,48 @@ export function StudioNarrative() {
     <section ref={sectionRef} className="py-64 px-8 max-w-screen-2xl mx-auto space-y-64 bg-transparent">
       
       {/* 01: IDENTITY & ORIGIN */}
-      <div className="grid grid-cols-12 gap-12">
-        <div className="col-span-12 md:col-span-1 text-metadata uppercase opacity-40">02 / Journey</div>
-        <div className="col-span-12 md:col-span-8 space-y-16">
+      <div className="grid grid-cols-12 gap-12 lg:gap-24">
+        <div className="col-span-12 lg:col-span-1 text-metadata uppercase opacity-40">02 / Journey</div>
+        
+        <div className="col-span-12 lg:col-span-11 space-y-24">
           <h2 className="text-6xl md:text-[10vw] font-headline font-bold tracking-tighter reveal-text leading-[0.85] uppercase">
             What am i? <span className="text-primary italic">Who am i!</span>.
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
-            <p className="text-xl md:text-3xl font-body leading-tight opacity-60 reveal-text">
-              My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, bridging the gap between backend logic and refined interactive experiences.
-            </p>
-            <div className="space-y-12 reveal-text">
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24 items-start">
+            {/* The Compact Metadata Tray - Left Margin Style */}
+            <div className="col-span-12 md:col-span-4 space-y-16 reveal-text">
               <div className="border-l border-foreground/10 pl-8">
                 <div className="text-metadata mb-2 uppercase opacity-40">Education</div>
                 <p className="text-xl font-bold">Computer Science Undergrad</p>
                 <p className="text-metadata opacity-60 mt-1 uppercase">Toc H Institute of Science & Technology</p>
               </div>
-              <div className="border-l border-primary pl-8 relative">
-                <div className="absolute -left-[1px] top-0 w-[2px] h-4 bg-primary animate-pulse" />
-                <div className="text-metadata text-primary mb-2 uppercase">Off_Screen_Telemetry</div>
-                <p className="text-xl font-bold">Aviation & Astronomy</p>
-                <p className="text-metadata opacity-60 mt-1 uppercase">Fascinated by ATC Systems & Black Holes</p>
+
+              {/* The Pinned Card - Pat David / Bruno Simon Style */}
+              <div className="relative group pt-6">
+                <div className="bg-white text-void-black p-8 shadow-2xl rotate-[-4deg] group-hover:rotate-0 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] border border-black/5 max-w-[280px] origin-top">
+                  {/* The Pin head */}
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 bg-red-600 rounded-full shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),2px_2px_4px_rgba(255,255,255,0.3)] z-20" />
+                  
+                  <div className="text-[9px] font-code text-primary mb-6 uppercase tracking-[0.3em] opacity-40">Off_Screen_Telemetry</div>
+                  <h5 className="text-2xl font-headline font-bold uppercase leading-none mb-3 tracking-tighter">Aviation & <br/>Astronomy</h5>
+                  <p className="text-[10px] opacity-60 uppercase leading-relaxed font-code tracking-tighter mb-8">
+                    Fascinated by ATC Systems & Theoretical Physics of Black Holes.
+                  </p>
+                  
+                  <div className="pt-4 border-t border-black/5 flex justify-between items-center opacity-30 text-[8px] font-code">
+                     <span>BEYOND_THE_SCREEN</span>
+                     <span>CODE: 0x4F</span>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            {/* The Main Narrative */}
+            <div className="col-span-12 md:col-span-8">
+              <p className="text-xl md:text-4xl font-body leading-[1.1] opacity-60 reveal-text tracking-tighter">
+                My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, bridging the gap between backend logic and refined interactive experiences.
+              </p>
             </div>
           </div>
         </div>
