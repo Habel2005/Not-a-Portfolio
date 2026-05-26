@@ -4,25 +4,25 @@
     {
       "id": "zero",
       "description": "Zero Studio / WebGL & Shaders",
-      "imageUrl": "https://picsum.photos/seed/web/1200/1600",
+      "imageUrl": "/projects/zero/zero.png",
       "imageHint": "minimal white"
     },
     {
       "id": "zentry",
       "description": "Zentry / Local AI Architecture",
-      "imageUrl": "https://picsum.photos/seed/zentry/1200/1600",
+      "imageUrl": "/projects/zentry/zentry.png",
       "imageHint": "hacker brutalist"
     },
     {
       "id": "learnquest",
       "description": "LearnQuest / Mobile Learning",
-      "imageUrl": "https://picsum.photos/seed/learn/1200/1600",
+      "imageUrl": "/projects/learnquest/learnquest.png",
       "imageHint": "clean mobile"
     },
     {
       "id": "kolo",
       "description": "Kolo / Native Android App",
-      "imageUrl": "https://picsum.photos/seed/arch/1200/1600",
+      "imageUrl": "/projects/kolo/kolo.png",
       "imageHint": "architectural concrete"
     }
   ]

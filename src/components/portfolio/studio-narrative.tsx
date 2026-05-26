@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,128 +8,161 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const TECH_DATA = {
+  LOCAL_AI: [
+    "Llama.cpp", "Faster-Whisper", "IndicTrans2", 
+    "Phi-3", "Qwen", "Gemma", "Silero TTS", "ChromaDB"
+  ],
+  WEB_SYSTEMS: [
+    "Node.js", "React", "Next.js", "Tailwind CSS", 
+    "Three.js", "WebGL", "GSAP", "TypeScript"
+  ],
+  NATIVE_DEV: [
+    "Flutter", "Dart", "Kotlin", "Android SDK", 
+    "FreeSWITCH", "Python 3", "C++", "Docker"
+  ]
+};
+
+type TechCategory = keyof typeof TECH_DATA;
+
 export function StudioNarrative() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState<TechCategory>("LOCAL_AI");
 
+  // Initial Scroll Animations
   useEffect(() => {
-    // Reset to pure brutalist dark theme
-    gsap.set("body", { backgroundColor: "#050505", color: "#F0F0F0" });
-
     const ctx = gsap.context(() => {
-      // Standard Text Reveal
       gsap.from(".reveal-text", {
         opacity: 0,
-        y: 60,
-        skewY: 2,
-        duration: 1.5,
-        stagger: 0.15,
-        ease: "power3.out",
+        y: 80,
+        skewY: 5,
+        duration: 1.8,
+        stagger: 0.2,
+        ease: "expo.out",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 80%",
         }
       });
-
-      // Artistic Tech Stack Marquee Parallax
-      gsap.to(".tech-row", {
-        xPercent: -20,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".tech-art-container",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1
-        }
-      });
-
-      gsap.to(".tech-row-reverse", {
-        xPercent: 20, 
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".tech-art-container",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1
-        }
-      });
-
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
+  // Terminal Tab Switch Animation
+  useEffect(() => {
+    if (!terminalRef.current) return;
+    
+    // Quick flash animation when switching tabs to mimic terminal loading
+    gsap.fromTo(".tech-item", 
+      { opacity: 0, x: -10 },
+      { opacity: 1, x: 0, duration: 0.3, stagger: 0.05, ease: "power2.out" }
+    );
+  }, [activeCategory]);
+
   return (
-    <section ref={sectionRef} className="py-64 overflow-hidden font-sans bg-void-black text-white">
+    <section ref={sectionRef} className="py-64 px-8 max-w-screen-2xl mx-auto space-y-64 bg-transparent">
       
-      {/* 01: The Identity & Bio */}
-      <div className="px-6 md:px-12 max-w-[1600px] mx-auto mb-48">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative items-start">
-          
-          {/* The "Beyond The Screen" Tray - Moved to Left & Compacted */}
-          <div className="col-span-12 lg:col-span-3 reveal-text">
-            <div className="p-8 border border-white/10 bg-white/[0.02] backdrop-blur-md transform -rotate-2 hover:rotate-0 transition-transform duration-700 shadow-2xl max-w-[280px]">
-               <div className="text-[9px] font-mono uppercase tracking-[0.4em] text-primary mb-6 pb-2 border-b border-white/10">EXTERNAL_INPUT</div>
-               <p className="font-display italic text-2xl mb-4 leading-none">Aviation & <br/>Astronomy.</p>
-               <p className="text-[10px] font-mono opacity-40 leading-relaxed uppercase tracking-[0.15em]">
-                 OBSESSED WITH ATC TELEMETRY, FLIGHT DYNAMICS, AND THE SPATIAL SINGULARITY OF BLACK HOLES.
-               </p>
-               <div className="mt-6 flex gap-1.5">
-                 <div className="w-1 h-1 bg-primary rounded-full animate-pulse" />
-                 <div className="w-1 h-1 bg-primary/40 rounded-full" />
-               </div>
-            </div>
-          </div>
-
-          {/* Main Title Area */}
-          <div className="col-span-12 lg:col-span-4">
-            <div className="text-metadata text-primary mb-8 reveal-text">02 / THE ARCHITECT</div>
-            <h2 className="text-6xl md:text-[8.5vw] font-headline font-bold uppercase leading-[0.8] tracking-tighter reveal-text">
-              Who am<span className="text-primary">&nbsp;i?</span>
-            </h2>
-          </div>
-
-          {/* Bio Content - Updated Paragraph */}
-          <div className="col-span-12 lg:col-span-5 pt-8 md:pt-12">
+      {/* 01: IDENTITY & ORIGIN */}
+      <div className="grid grid-cols-12 gap-12">
+        <div className="col-span-12 md:col-span-1 text-metadata uppercase opacity-40">02 / Journey</div>
+        <div className="col-span-12 md:col-span-8 space-y-16">
+          <h2 className="text-6xl md:text-[10vw] font-headline font-bold tracking-tighter reveal-text leading-[0.85] uppercase">
+            What am i? <span className="text-primary italic">Who am i!</span>.
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
             <p className="text-xl md:text-3xl font-body leading-tight opacity-60 reveal-text">
               My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, bridging the gap between backend logic and refined interactive experiences.
             </p>
-            
-            <div className="reveal-text border-l border-primary pl-8 pt-2 mt-20">
-              <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-4">BASE_STATION</div>
-              <p className="text-2xl font-bold tracking-tight uppercase">Kochi, Kerala</p>
-              <p className="text-xs font-mono opacity-40 mt-2 uppercase tracking-widest">CS Undergrad @ TIST</p>
+            <div className="space-y-12 reveal-text">
+              <div className="border-l border-foreground/10 pl-8">
+                <div className="text-metadata mb-2 uppercase opacity-40">Education</div>
+                <p className="text-xl font-bold">Computer Science Undergrad</p>
+                <p className="text-metadata opacity-60 mt-1 uppercase">Toc H Institute of Science & Technology</p>
+              </div>
+              <div className="border-l border-primary pl-8 relative">
+                <div className="absolute -left-[1px] top-0 w-[2px] h-4 bg-primary animate-pulse" />
+                <div className="text-metadata text-primary mb-2 uppercase">Off_Screen_Telemetry</div>
+                <p className="text-xl font-bold">Aviation & Astronomy</p>
+                <p className="text-metadata opacity-60 mt-1 uppercase">Fascinated by ATC Systems & Black Holes</p>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* 02: The Tech Stack (Artistic Marquee) */}
-      <div className="tech-art-container relative w-full py-48 flex flex-col justify-center border-y border-white/5 select-none bg-white/[0.01]">
-         
-         <div className="tech-row flex whitespace-nowrap text-[15vw] font-headline font-bold uppercase leading-[0.7] tracking-tighter opacity-[0.05]">
-            <span>LLAMA.CPP • WHISPER • FREESWITCH • CHROMADB •&nbsp;</span>
-            <span>LLAMA.CPP • WHISPER • FREESWITCH • CHROMADB •&nbsp;</span>
-         </div>
-         
-         <div className="tech-row-reverse flex whitespace-nowrap text-[15vw] font-headline font-bold uppercase leading-[0.7] tracking-tighter opacity-20 text-primary -ml-[30vw]" style={{ WebkitTextStroke: '1px currentColor', color: 'transparent' }}>
-            <span>THREE.JS • WEBGL • GSAP • NEXT.JS • REACT •&nbsp;</span>
-            <span>THREE.JS • WEBGL • GSAP • NEXT.JS • REACT •&nbsp;</span>
-         </div>
-         
-         <div className="tech-row flex whitespace-nowrap text-[15vw] font-headline font-bold uppercase leading-[0.7] tracking-tighter opacity-[0.05]">
-            <span>FLUTTER • KOTLIN • DART • PYTHON3 • TAILWIND •&nbsp;</span>
-            <span>FLUTTER • KOTLIN • DART • PYTHON3 • TAILWIND •&nbsp;</span>
-         </div>
-         
-         {/* Center Label Overlay */}
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-            <div className="px-16 py-8 border border-primary/20 bg-void-black/90 backdrop-blur-2xl shadow-[0_0_50px_rgba(210,255,0,0.1)]">
-               <div className="text-xs font-mono uppercase tracking-[0.6em] text-primary font-bold">THE_ARSENAL</div>
+      {/* 02: THE TERMINAL OS LAYOUT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+        
+        {/* Left Column: Interactive Categories */}
+        <div className="col-span-1 lg:col-span-5 space-y-8 reveal-text">
+          <div className="text-metadata uppercase opacity-40">The Arsenal</div>
+          <h4 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tight">
+            Tools of <span className="text-primary">Extraction</span>.
+          </h4>
+          <p className="text-sm opacity-50 uppercase tracking-[0.2em] leading-relaxed max-w-sm mb-12">
+            Select a system to view active dependencies and local environments.
+          </p>
+
+          <div className="flex flex-col gap-4">
+            {(Object.keys(TECH_DATA) as TechCategory[]).map((category, idx) => (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`text-left text-xl md:text-2xl font-headline font-bold uppercase tracking-widest transition-all duration-300 py-4 border-b ${
+                  activeCategory === category 
+                    ? "text-primary border-primary pl-4" 
+                    : "text-foreground/40 border-foreground/10 hover:text-foreground/70 hover:pl-2"
+                }`}
+              >
+                <span className="text-[10px] font-code opacity-40 mr-4">0{idx + 1}</span>
+                {category.replace("_", " ")}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Column: The OS Terminal Window */}
+        <div className="col-span-1 lg:col-span-7 reveal-text">
+          <div 
+            ref={terminalRef}
+            className="rounded-xl overflow-hidden border border-foreground/10 shadow-2xl bg-[#0A0A0A] text-[#F0F0F0]"
+          >
+            {/* macOS Window Header */}
+            <div className="h-12 bg-white/5 border-b border-white/10 flex items-center px-4 relative">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
+              </div>
+              <div className="absolute left-1/2 -translate-x-1/2 text-[10px] font-code text-white/40 uppercase tracking-widest">
+                habel@system:~/{activeCategory.toLowerCase()}
+              </div>
             </div>
-         </div>
 
+            {/* Terminal Body */}
+            <div className="p-8 md:p-12 min-h-[350px] md:min-h-[400px]">
+              <div className="text-primary mb-8 font-code text-xs md:text-sm tracking-widest">
+                $ ls -la ./{activeCategory.toLowerCase()}/models
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                {TECH_DATA[activeCategory].map((tech) => (
+                  <div key={tech} className="tech-item font-code text-sm md:text-base tracking-widest flex items-center gap-4">
+                    <span className="text-white/20 select-none">→</span>
+                    <span className="text-white/80">{tech}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Blinking Cursor at the bottom */}
+              <div className="mt-12 flex items-center gap-2 font-code text-sm text-primary">
+                $ <span className="w-2 h-4 bg-primary animate-pulse" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
     </section>
   );
 }
