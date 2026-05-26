@@ -145,10 +145,10 @@ export default function ZeroStudioPage() {
       <footer className="py-32 px-12 border-t border-white/10 flex justify-between items-center bg-[#050505]">
         <div className="text-metadata opacity-20 tracking-widest uppercase italic">END_OF_TRANSMISSION</div>
         <button 
-          onClick={() => window.location.href = "/projects/kolo"}
+          onClick={() => window.location.href = "/projects/zentry"}
           className="text-4xl md:text-[6vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group"
         >
-          <span>KOLO_APP</span>
+          <span>ZENTRY</span>
           <ArrowRight className="w-12 h-12 md:w-20 md:h-20 group-hover:translate-x-4 transition-transform" />
         </button>
       </footer>

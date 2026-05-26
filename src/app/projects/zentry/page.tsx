@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { X, Terminal, Database, Server, Zap, Globe, Cpu } from "lucide-react";
+import { X, Terminal, Database, Server, Zap, Globe, Cpu, ArrowRight } from "lucide-react";
 import Transmission02 from "./Transmission02";
 
 export default function ZentryProjectPage() {
@@ -129,7 +129,7 @@ export default function ZentryProjectPage() {
           className="text-4xl md:text-[6vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group"
         >
           <span>LEARNQUEST</span>
-          <Zap className="w-12 h-12 md:w-20 md:h-20 group-hover:rotate-12 transition-transform" />
+          <ArrowRight className="w-12 h-12 md:w-20 md:h-20 group-hover:translate-x-4 transition-transform" />
         </button>
       </footer>
     </main>

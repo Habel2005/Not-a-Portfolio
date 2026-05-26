@@ -163,10 +163,10 @@ export default function LearnQuestPage() {
       <footer className="py-32 px-12 border-t border-void-black/10 flex justify-between items-center bg-[#f9f8f5]">
         <div className="text-metadata opacity-20 tracking-widest uppercase italic">END_OF_TRANSMISSION</div>
         <button 
-          onClick={() => window.location.href = "/projects/web-template"}
+          onClick={() => window.location.href = "/projects/kolo"}
           className="text-4xl md:text-[6vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group"
         >
-          <span>WEB_VITALS</span>
+          <span>KOLO</span>
           <ArrowRight className="w-12 h-12 md:w-20 md:h-20 group-hover:translate-x-4 transition-transform" />
         </button>
       </footer>

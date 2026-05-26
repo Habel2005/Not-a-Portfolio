@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -12,81 +13,131 @@ export function StudioNarrative() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Reset to pure brutalist dark theme
+    gsap.set("body", { backgroundColor: "#050505", color: "#F0F0F0" });
+
     const ctx = gsap.context(() => {
+      // Standard Text Reveal
       gsap.from(".reveal-text", {
         opacity: 0,
-        y: 80,
-        skewY: 5,
-        duration: 1.8,
-        stagger: 0.2,
-        ease: "expo.out",
+        y: 60,
+        skewY: 2,
+        duration: 1.5,
+        stagger: 0.15,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 80%",
         }
       });
 
-      gsap.to(".narrative-img", {
-        scale: 1.1,
-        filter: "grayscale(0)",
+      // Artistic Tech Stack Marquee Parallax
+      gsap.to(".tech-row", {
+        xPercent: -20,
+        ease: "none",
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: ".tech-art-container",
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: 1
         }
       });
+
+      gsap.to(".tech-row-reverse", {
+        xPercent: 20, 
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".tech-art-container",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-64 px-8 max-w-screen-2xl mx-auto space-y-64">
-      <div className="grid grid-cols-12 gap-12">
-        <div className="col-span-12 md:col-span-1 text-metadata">02 / Journey</div>
-        <div className="col-span-12 md:col-span-8 space-y-16">
-          <h2 className="text-6xl md:text-[10vw] font-headline font-bold tracking-tighter reveal-text leading-[0.85] uppercase">
-            Code as <span className="text-primary italic">Architecture</span>.
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
-            <p className="text-xl md:text-3xl font-body leading-tight opacity-60 reveal-text">
-              Habel's philosophy is rooted in technical precision. Bridging the gap between creative computing and cinematic luxury to build experiences that hold weight.
+    <section ref={sectionRef} className="py-64 overflow-hidden font-sans bg-void-black text-white">
+      
+      {/* 01: The Identity & Bio */}
+      <div className="px-6 md:px-12 max-w-[1600px] mx-auto mb-48">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative">
+          
+          {/* Main Title */}
+          <div className="col-span-12 lg:col-span-5">
+            <div className="text-metadata text-primary mb-8 reveal-text">02 / THE ARCHITECT</div>
+            <h2 className="text-6xl md:text-[10vw] font-headline font-bold uppercase leading-[0.8] tracking-tighter reveal-text">
+              Hab<span className="text-primary">el.</span>
+            </h2>
+          </div>
+
+          {/* Bio & Education */}
+          <div className="col-span-12 lg:col-span-5 space-y-16 pt-8 md:pt-12">
+            <p className="text-3xl md:text-5xl font-body leading-[1.1] tracking-tight reveal-text">
+              FROM TINKERING IN <span className="italic text-primary">LINUX</span> TO ENGINEERING <span className="underline decoration-primary/30">AI PIPELINES</span>.
             </p>
-            <div className="space-y-12 reveal-text">
-              <div className="border-l border-foreground/10 pl-8">
-                <div className="text-metadata mb-2">Education</div>
-                <p className="text-xl font-bold">BSc Creative Computing</p>
-                <p className="text-metadata opacity-40 mt-1">First Class Honours</p>
-              </div>
-              <div className="border-l border-foreground/10 pl-8">
-                <div className="text-metadata mb-2">Focus</div>
-                <p className="text-xl font-bold">Spatial UI & Shaders</p>
-                <p className="text-metadata opacity-40 mt-1">GSAP / ThreeJS / WebGL</p>
+            
+            <div className="space-y-8">
+              <p className="text-xl md:text-2xl font-body leading-relaxed opacity-60 reveal-text max-w-xl">
+                My journey began with the curiosity of building cat games on Scratch. Today, I specialize in local LLM infrastructure, native mobile systems, and high-performance WebGL experiences.
+              </p>
+              
+              <div className="reveal-text border-l border-primary pl-8 pt-2">
+                <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-4">BASE & ACADEMY</div>
+                <p className="text-2xl font-bold tracking-tight uppercase">Kochi, Kerala</p>
+                <p className="text-xs font-mono opacity-40 mt-2 uppercase tracking-widest">CS Undergrad @ TIST</p>
               </div>
             </div>
           </div>
+
+          {/* The "Beyond The Screen" Tray */}
+          <div className="col-span-12 lg:col-span-2 relative flex justify-start lg:justify-end reveal-text mt-12 lg:mt-0">
+            <div className="lg:absolute lg:top-12 lg:-right-12 lg:w-80 p-10 border border-white/10 bg-white/[0.03] backdrop-blur-md transform lg:rotate-2 hover:rotate-0 transition-transform duration-700 shadow-2xl">
+               <div className="text-[9px] font-mono uppercase tracking-[0.4em] text-primary mb-8 pb-4 border-b border-white/10">EXTERNAL_INPUT</div>
+               <p className="font-display italic text-3xl opacity-100 mb-6 leading-none">Aviation & <br/>Astronomy.</p>
+               <p className="text-[10px] font-mono opacity-40 leading-relaxed uppercase tracking-[0.15em]">
+                 OBSESSED WITH ATC TELEMETRY, FLIGHT DYNAMICS, AND THE SPATIAL SINGULARITY OF BLACK HOLES.
+               </p>
+               <div className="mt-8 flex gap-2">
+                 <div className="w-1 h-1 bg-primary rounded-full animate-pulse" />
+                 <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                 <div className="w-1 h-1 bg-primary/20 rounded-full" />
+               </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-8 items-center">
-        <div className="col-span-12 md:col-span-4 space-y-8 reveal-text">
-          <div className="text-metadata">Manifesto</div>
-          <h4 className="text-4xl font-headline font-bold uppercase tracking-tight">
-            Rejecting the Friction of <span className="text-primary">Standard</span> UX.
-          </h4>
-          <p className="text-sm opacity-50 uppercase tracking-[0.2em] leading-relaxed max-w-xs">
-            Digital experiences should feel expensive. They should feel heavy. Every pixel serves the rhythm.
-          </p>
-        </div>
-        <div className="col-span-12 md:col-span-8 h-[80vh] overflow-hidden reveal-text relative">
-          <img 
-            src="https://picsum.photos/seed/habel-arch/1600/1200" 
-            alt="Workspace" 
-            className="w-full h-full object-cover grayscale brightness-50 narrative-img"
-          />
-          <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
-        </div>
+      {/* 02: The Tech Stack (Artistic Marquee) */}
+      <div className="tech-art-container relative w-full py-48 flex flex-col justify-center border-y border-white/5 select-none bg-white/[0.01]">
+         
+         <div className="tech-row flex whitespace-nowrap text-[15vw] font-headline font-bold uppercase leading-[0.7] tracking-tighter opacity-[0.05]">
+            <span>LLAMA.CPP • WHISPER • FREESWITCH • CHROMADB •&nbsp;</span>
+            <span>LLAMA.CPP • WHISPER • FREESWITCH • CHROMADB •&nbsp;</span>
+         </div>
+         
+         <div className="tech-row-reverse flex whitespace-nowrap text-[15vw] font-headline font-bold uppercase leading-[0.7] tracking-tighter opacity-20 text-primary -ml-[30vw]" style={{ WebkitTextStroke: '1px currentColor', color: 'transparent' }}>
+            <span>THREE.JS • WEBGL • GSAP • NEXT.JS • REACT •&nbsp;</span>
+            <span>THREE.JS • WEBGL • GSAP • NEXT.JS • REACT •&nbsp;</span>
+         </div>
+         
+         <div className="tech-row flex whitespace-nowrap text-[15vw] font-headline font-bold uppercase leading-[0.7] tracking-tighter opacity-[0.05]">
+            <span>FLUTTER • KOTLIN • DART • PYTHON3 • TAILWIND •&nbsp;</span>
+            <span>FLUTTER • KOTLIN • DART • PYTHON3 • TAILWIND •&nbsp;</span>
+         </div>
+         
+         {/* Center Label Overlay */}
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+            <div className="px-16 py-8 border border-primary/20 bg-void-black/90 backdrop-blur-2xl shadow-[0_0_50px_rgba(210,255,0,0.1)]">
+               <div className="text-xs font-mono uppercase tracking-[0.6em] text-primary font-bold">THE_ARSENAL</div>
+            </div>
+         </div>
+
       </div>
+
     </section>
   );
 }
