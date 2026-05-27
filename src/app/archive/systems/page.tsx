@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { X, ArrowUpRight, Terminal } from "lucide-react";
+import { X, ArrowUpRight, Terminal, Github } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const systemsProjects = [
@@ -37,7 +37,7 @@ export default function SystemsArchive() {
     }, []);
 
     return (
-        <main ref={containerRef} className="min-h-screen bg-[#050505] text-white font-sans selection:bg-primary selection:text-black">
+        <main ref={containerRef} onMouseMove={onMouseMove} className="min-h-screen bg-[#050505] text-white font-sans selection:bg-primary selection:text-black">
             <nav className="fixed top-0 left-0 w-full p-8 flex justify-between items-center z-50">
                 <button onClick={() => router.push('/')} className="flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
                     <X size={20} />
@@ -60,7 +60,11 @@ export default function SystemsArchive() {
                     </div>
 
                     {systemsProjects.map((project, i) => (
-                        <div key={i} className="archive-row grid grid-cols-12 gap-4 py-8 border-b border-white/5 items-center hover:bg-white/[0.02] transition-colors group">
+                        <div key={i}
+                            // 5. Add hover events to trigger the image
+                            onMouseEnter={() => setActiveImg(project.img)}
+                            onMouseLeave={() => setActiveImg(null)}
+                            className="archive-row grid grid-cols-12 gap-4 py-8 border-b border-white/5 items-center hover:bg-white/[0.02] transition-colors group">
                             <div className="col-span-7 md:col-span-4 font-headline text-2xl md:text-4xl font-bold uppercase tracking-tight group-hover:text-primary transition-colors">
                                 {project.name}
                             </div>
@@ -74,9 +78,14 @@ export default function SystemsArchive() {
                             <div className="col-span-3 md:col-span-2 text-xs font-code uppercase tracking-widest text-white/40">
                                 {project.type}
                             </div>
-                            <div className="col-span-2 md:col-span-2 flex justify-end gap-4">
-                                <button className="text-white/40 hover:text-white transition-colors"><Terminal size={20} /></button>
-                                <button className="text-white/40 hover:text-primary transition-colors"><ArrowUpRight size={20} /></button>
+                            <div className="col-span-2 md:col-span-2 flex justify-end gap-4 relative z-20">
+                                {/* 6. External links wrap the buttons */}
+                                <a href="#" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                                    <Github size={20} />
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-primary transition-colors">
+                                    <ArrowUpRight size={20} />
+                                </a>
                             </div>
                         </div>
                     ))}

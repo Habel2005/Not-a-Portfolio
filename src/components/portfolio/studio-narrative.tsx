@@ -83,13 +83,13 @@ export function StudioNarrative() {
               </div>
 
               {/* The Pinned Card - Pat David / Bruno Simon Style */}
-              <div className="relative group pt-6">
-                <div className="bg-white text-void-black p-8 shadow-2xl rotate-[-4deg] group-hover:rotate-0 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] border border-black/5 max-w-[280px] origin-top">
+              <div className="relative pt-6">
+                <div className="bg-white text-void-black p-8 shadow-2xl rotate-[-4deg] hover:rotate-0 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] border border-black/5 max-w-[280px] origin-top">
                   {/* The Pin head */}
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 bg-red-600 rounded-full shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),2px_2px_4px_rgba(255,255,255,0.3)] z-20" />
 
                   <div className="text-[9px] font-code text-blend-violet mb-6 uppercase tracking-[0.3em] opacity-40">
-                    SIGNALS_FROM_ABOVE
+                    SOME EXTRA STUFF
                   </div>
 
                   <h5 className="text-2xl font-headline font-bold uppercase leading-none mb-3 tracking-tighter">
@@ -100,7 +100,7 @@ export function StudioNarrative() {
                     Drawn to flight systems, black holes, late night sky watching & endless curiosity.
                   </p>
 
-                  <div className="pt-4 border-t border-black/5 flex justify-between items-center opacity-30 text-[8px] font-code">
+                  <div className="pt-4 border-t border-black/5 flex justify-between items-center text-black/30 text-[10px] font-code">
                     <div className="relative group cursor-help">
                       <span>
                         FUN FACT: A BLACK HOLE CAN TAKE ABOUT 10<sup>67</sup> YEARS TO DIE.
@@ -110,22 +110,22 @@ export function StudioNarrative() {
                       <div className="absolute left-0 bottom-6 opacity-0 scale-95 pointer-events-none 
                                       group-hover:opacity-100 group-hover:scale-100
                                       transition-all duration-500 ease-out z-50">
-                        
+
                         <div className="bg-[#050505] text-white p-4 rounded-lg shadow-[0_40px_80px_rgba(0,0,0,0.9)] w-[240px] border border-white/10">
-                          
-                          <div className="text-[9px] uppercase tracking-[0.3em] text-primary mb-3">
-                            10^67 SCALE
-                          </div>
 
-                          <div className="overflow-hidden">
-                            <p className="zero-reveal text-[7px] leading-none font-code opacity-90 tracking-tighter block w-full">
-                              1000000000000000000000000000000000000000000000000000000000000000000
-                            </p>
-                          </div>
-
-                          <div className="mt-4 pt-2 border-t border-white/5 text-[8px] opacity-40 uppercase tracking-widest">
-                            Estimated Decay Horizon
-                          </div>
+                          <p className="text-[17px] leading-none font-code opacity-90 tracking-tighter break-all">
+                            10<sup>67</sup>={Array.from({ length: 68 }).map((_, i) => (
+                              <span
+                                key={i}
+                                className="inline-block opacity-0 group-hover:animate-zeroReveal"
+                                style={{
+                                  animationDelay: `${i * 0.02}s`,
+                                }}
+                              >
+                                {i === 0 ? "1" : "0"}
+                              </span>
+                            ))}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -135,9 +135,9 @@ export function StudioNarrative() {
             </div>
 
             {/* The Main Narrative */}
-            <div className="col-span-12 md:col-span-8">
+            <div className="col-span-12 md:col-span-7">
               <p className="text-xl md:text-3xl font-body leading-tight opacity-60 reveal-text">
-                My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, bridging the gap between backend logic and refined interactive experiences.
+                My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, focusing on both backend development and interactive user experiences.
               </p>
             </div>
           </div>
@@ -163,8 +163,8 @@ export function StudioNarrative() {
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={`text-left text-xl md:text-2xl font-headline font-bold uppercase tracking-widest transition-all duration-300 py-4 border-b ${activeCategory === category
-                    ? "text-blend-violet border-primary pl-4"
-                    : "text-foreground/40 border-foreground/10 hover:text-foreground/70 hover:pl-2"
+                  ? "text-blend-violet border-primary pl-4"
+                  : "text-foreground/40 border-foreground/10 hover:text-foreground/70 hover:pl-2"
                   }`}
               >
                 <span className="text-[10px] font-code opacity-40 mr-4">0{idx + 1}</span>
