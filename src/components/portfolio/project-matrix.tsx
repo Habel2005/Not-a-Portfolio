@@ -33,7 +33,7 @@ export function ProjectMatrix() {
     container.appendChild(renderer.domElement);
 
     const mainGroup = new THREE.Group();
-    scene.fog = new THREE.Fog("#050505", 1800, 4200);
+    scene.fog = new THREE.Fog("#050505", 1600, 4200);
     scene.add(mainGroup);
 
     const textureLoader = new THREE.TextureLoader();
@@ -55,6 +55,7 @@ export function ProjectMatrix() {
       // 3. Keep images razor-sharp when looking at them from an angle
       texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
       // --------------------------------
+      
 
       const material = new THREE.MeshBasicMaterial({
         map: texture,
@@ -64,7 +65,7 @@ export function ProjectMatrix() {
         toneMapped: false,
       
         // darker cinematic desaturation
-        color: new THREE.Color(0xb8b8b8),
+        color: new THREE.Color(0x8f8f8f),
       });
 
       const mesh = new THREE.Mesh(shardGeom, material);
@@ -193,7 +194,7 @@ export function ProjectMatrix() {
       shardGroups.forEach(({ group }, i) => {
         group.position.y += Math.sin(time + i) * 0.2;
       });
-      renderer.toneMappingExposure = 0.82;
+      renderer.toneMappingExposure = 0.72;
 
       renderer.render(scene, camera);
     };

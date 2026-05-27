@@ -11,15 +11,15 @@ if (typeof window !== "undefined") {
 
 const TECH_DATA = {
   LOCAL_AI: [
-    "Llama.cpp", "Faster-Whisper", "IndicTrans2", 
+    "Llama.cpp", "Faster-Whisper", "IndicTrans2",
     "Phi-3", "Qwen", "Gemma", "Silero TTS", "ChromaDB"
   ],
   WEB_SYSTEMS: [
-    "Node.js", "React", "Next.js", "Tailwind CSS", 
+    "Node.js", "React", "Next.js", "Tailwind CSS",
     "Three.js", "WebGL", "GSAP", "TypeScript"
   ],
   NATIVE_DEV: [
-    "Flutter", "Dart", "Kotlin", "Android SDK", 
+    "Flutter", "Dart", "Kotlin", "Android SDK",
     "FreeSWITCH", "Python 3", "C++", "Docker"
   ]
 };
@@ -53,9 +53,9 @@ export function StudioNarrative() {
   // Terminal Tab Switch Animation
   useEffect(() => {
     if (!terminalRef.current) return;
-    
+
     // Quick flash animation when switching tabs to mimic terminal loading
-    gsap.fromTo(".tech-item", 
+    gsap.fromTo(".tech-item",
       { opacity: 0, x: -10 },
       { opacity: 1, x: 0, duration: 0.3, stagger: 0.05, ease: "power2.out" }
     );
@@ -63,11 +63,11 @@ export function StudioNarrative() {
 
   return (
     <section ref={sectionRef} className="py-64 px-8 max-w-screen-2xl mx-auto space-y-64 bg-transparent">
-      
+
       {/* 01: IDENTITY & ORIGIN */}
       <div className="grid grid-cols-12 gap-12 lg:gap-24">
         <div className="col-span-12 lg:col-span-1 text-metadata uppercase opacity-40">02 / Journey</div>
-        
+
         <div className="col-span-12 lg:col-span-11 space-y-24">
           <h2 className="text-6xl md:text-[10vw] font-headline font-bold tracking-tighter reveal-text leading-[0.85] uppercase">
             Me &<br></br><span className="text-primary italic">&nbsp;Myself</span>.
@@ -87,16 +87,48 @@ export function StudioNarrative() {
                 <div className="bg-white text-void-black p-8 shadow-2xl rotate-[-4deg] group-hover:rotate-0 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] border border-black/5 max-w-[280px] origin-top">
                   {/* The Pin head */}
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-4 h-4 bg-red-600 rounded-full shadow-[inset_-2px_-2px_4px_rgba(0,0,0,0.4),2px_2px_4px_rgba(255,255,255,0.3)] z-20" />
-                  
-                  <div className="text-[9px] font-code text-primary mb-6 uppercase tracking-[0.3em] opacity-40">Off_Screen_Telemetry</div>
-                  <h5 className="text-2xl font-headline font-bold uppercase leading-none mb-3 tracking-tighter">Aviation & <br/>Astronomy</h5>
+
+                  <div className="text-[9px] font-code text-blend-violet mb-6 uppercase tracking-[0.3em] opacity-40">
+                    SIGNALS_FROM_ABOVE
+                  </div>
+
+                  <h5 className="text-2xl font-headline font-bold uppercase leading-none mb-3 tracking-tighter">
+                    Aviation & <br /> Cosmology
+                  </h5>
+
                   <p className="text-[10px] opacity-60 uppercase leading-relaxed font-code tracking-tighter mb-8">
-                    Fascinated by ATC Systems & Theoretical Physics of Black Holes.
+                    Drawn to flight systems, black holes, late night sky watching & endless curiosity.
                   </p>
-                  
+
                   <div className="pt-4 border-t border-black/5 flex justify-between items-center opacity-30 text-[8px] font-code">
-                     <span>BEYOND_THE_SCREEN</span>
-                     <span>CODE: 0x4F</span>
+                    <div className="relative group cursor-help">
+                      <span>
+                        FUN FACT: A BLACK HOLE CAN TAKE ABOUT 10<sup>67</sup> YEARS TO DIE.
+                      </span>
+
+                      {/* Hover Expansion - Optimized for the Big Number reveal */}
+                      <div className="absolute left-0 bottom-6 opacity-0 scale-95 pointer-events-none 
+                                      group-hover:opacity-100 group-hover:scale-100
+                                      transition-all duration-500 ease-out z-50">
+                        
+                        <div className="bg-[#050505] text-white p-4 rounded-lg shadow-[0_40px_80px_rgba(0,0,0,0.9)] w-[240px] border border-white/10">
+                          
+                          <div className="text-[9px] uppercase tracking-[0.3em] text-primary mb-3">
+                            10^67 SCALE
+                          </div>
+
+                          <div className="overflow-hidden">
+                            <p className="zero-reveal text-[7px] leading-none font-code opacity-90 tracking-tighter block w-full">
+                              1000000000000000000000000000000000000000000000000000000000000000000
+                            </p>
+                          </div>
+
+                          <div className="mt-4 pt-2 border-t border-white/5 text-[8px] opacity-40 uppercase tracking-widest">
+                            Estimated Decay Horizon
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -104,7 +136,7 @@ export function StudioNarrative() {
 
             {/* The Main Narrative */}
             <div className="col-span-12 md:col-span-8">
-              <p className="text-xl md:text-4xl font-body leading-[1.1] opacity-60 reveal-text tracking-tighter">
+              <p className="text-xl md:text-3xl font-body leading-tight opacity-60 reveal-text">
                 My journey started with tinkering in Linux environments and building cat games on Scratch. Today, I architect self-hosted AI infrastructure and engineer native applications, bridging the gap between backend logic and refined interactive experiences.
               </p>
             </div>
@@ -114,7 +146,7 @@ export function StudioNarrative() {
 
       {/* 02: THE TERMINAL OS LAYOUT */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-        
+
         {/* Left Column: Interactive Categories */}
         <div className="col-span-1 lg:col-span-5 space-y-8 reveal-text">
           <div className="text-metadata uppercase opacity-40">The Arsenal</div>
@@ -130,11 +162,10 @@ export function StudioNarrative() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`text-left text-xl md:text-2xl font-headline font-bold uppercase tracking-widest transition-all duration-300 py-4 border-b ${
-                  activeCategory === category 
-                    ? "text-primary border-primary pl-4" 
+                className={`text-left text-xl md:text-2xl font-headline font-bold uppercase tracking-widest transition-all duration-300 py-4 border-b ${activeCategory === category
+                    ? "text-blend-violet border-primary pl-4"
                     : "text-foreground/40 border-foreground/10 hover:text-foreground/70 hover:pl-2"
-                }`}
+                  }`}
               >
                 <span className="text-[10px] font-code opacity-40 mr-4">0{idx + 1}</span>
                 {category.replace("_", " ")}
@@ -145,7 +176,7 @@ export function StudioNarrative() {
 
         {/* Right Column: The OS Terminal Window */}
         <div className="col-span-1 lg:col-span-7 reveal-text">
-          <div 
+          <div
             ref={terminalRef}
             className="rounded-xl overflow-hidden border border-foreground/10 shadow-2xl bg-[#0A0A0A] text-[#F0F0F0]"
           >
@@ -166,7 +197,7 @@ export function StudioNarrative() {
               <div className="text-primary mb-8 font-code text-xs md:text-sm tracking-widest">
                 $ ls -la ./{activeCategory.toLowerCase()}/models
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
                 {TECH_DATA[activeCategory].map((tech) => (
                   <div key={tech} className="tech-item font-code text-sm md:text-base tracking-widest flex items-center gap-4">

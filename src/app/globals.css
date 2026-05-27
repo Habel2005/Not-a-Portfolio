@@ -134,3 +134,19 @@
   0%, 60% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+@keyframes revealZeros {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.zero-reveal {
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  animation: revealZeros 2s steps(67) forwards;
+}

@@ -14,16 +14,16 @@
       "imageHint": "hacker brutalist"
     },
     {
-      "id": "learnquest",
-      "description": "LearnQuest / Mobile Learning",
-      "imageUrl": "/projects/learnquest/learnquest.png",
-      "imageHint": "clean mobile"
-    },
-    {
       "id": "kolo",
       "description": "Kolo / Native Android App",
       "imageUrl": "/projects/kolo/kolo.png",
       "imageHint": "architectural concrete"
+    },
+    {
+      "id": "learnquest",
+      "description": "LearnQuest / Mobile Learning",
+      "imageUrl": "/projects/learnquest/learnquest.png",
+      "imageHint": "clean mobile"
     }
   ]
 }

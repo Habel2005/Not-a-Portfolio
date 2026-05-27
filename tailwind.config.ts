@@ -53,6 +53,7 @@ export default {
         'void-black': '#050505',
         'deep-obsidian': '#0D0D0E',
         'acid-green': '#D2FF00',
+        'blend-violet': '#3F22D2',
       },
       borderRadius: {
         lg: 'var(--radius)',
