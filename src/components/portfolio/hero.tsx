@@ -144,9 +144,16 @@ export function Hero() {
                   className="transition-opacity duration-700 ease-out opacity-0 group-hover:opacity-100"
                 >
                   <foreignObject x="0" y="0" width="100%" height="100%">
-                    <div className="w-full h-full overflow-hidden">
-                      {/* Retained the high-quality centering trick from earlier */}
-                      <video autoPlay loop muted playsInline className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto max-w-none">
+                    {/* INSET FIX: We pull the container away from the absolute top/bottom edges */}
+                    <div className="absolute inset-0 w-full h-[98%] top-[1%] overflow-hidden flex items-center justify-center scale-[0.99] origin-center">
+                      <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        // Added will-change-transform to force the GPU to handle this layer correctly
+                        className="w-full h-full object-cover will-change-transform"
+                      >
                         <source src="/lib/hack.mp4" type="video/mp4" />
                       </video>
                     </div>
@@ -184,7 +191,7 @@ export function Hero() {
 
       {/* Decorative Background Element */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-bold opacity-[0.02] select-none pointer-events-none">
-        H
+        #X:
       </div>
     </section>
   );

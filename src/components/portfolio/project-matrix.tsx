@@ -33,6 +33,7 @@ export function ProjectMatrix() {
     container.appendChild(renderer.domElement);
 
     const mainGroup = new THREE.Group();
+    scene.fog = new THREE.Fog("#050505", 1800, 4200);
     scene.add(mainGroup);
 
     const textureLoader = new THREE.TextureLoader();
@@ -60,8 +61,10 @@ export function ProjectMatrix() {
         transparent: true,
         opacity: 0,
         side: THREE.DoubleSide,
-        toneMapped: false, // Guarantees Three.js won't artificially dim the image
-        color: 0xbfbfbf   // THE VIBE FIX: Mild reduction in saturation/color for studio look
+        toneMapped: false,
+      
+        // darker cinematic desaturation
+        color: new THREE.Color(0xb8b8b8),
       });
 
       const mesh = new THREE.Mesh(shardGeom, material);
@@ -190,6 +193,7 @@ export function ProjectMatrix() {
       shardGroups.forEach(({ group }, i) => {
         group.position.y += Math.sin(time + i) * 0.2;
       });
+      renderer.toneMappingExposure = 0.82;
 
       renderer.render(scene, camera);
     };
