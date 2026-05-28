@@ -1,173 +1,243 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { X, Smartphone, Users, Brain, Split, Zap, ArrowRight, Layout } from "lucide-react";
+import { X, Smartphone, Brain, Github, ChevronRight, ChevronLeft, ArrowRight } from "lucide-react";
 
 export default function LearnQuestPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // State for the mobile screenshot slider
+  const [activeScreen, setActiveScreen] = useState(1);
+  const totalScreens = 20;
 
   useEffect(() => {
+    // High-contrast editorial light theme to contrast with dark Zentry
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
 
     const ctx = gsap.context(() => {
       gsap.from(".lq-reveal", {
-        y: 60,
+        y: 40,
         opacity: 0,
         duration: 1.2,
         stagger: 0.1,
-        ease: "expo.out"
+        ease: "power3.out",
       });
 
-      // Semantic split animation
-      gsap.to(".split-card", {
+      // Subtle parallax for the device
+      gsap.to(".device-container", {
         y: -20,
-        stagger: {
-          each: 0.2,
-          repeat: -1,
-          yoyo: true
-        },
-        ease: "power1.inOut"
+        scrollTrigger: {
+          trigger: ".device-container",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
       });
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const handleBack = () => { window.location.href = "/"; };
+  const handleNext = () => {
+    setActiveScreen((prev) => (prev === totalScreens ? 1 : prev + 1));
+  };
+
+  const handlePrev = () => {
+    setActiveScreen((prev) => (prev === 1 ? totalScreens : prev - 1));
+  };
 
   return (
-    <main ref={containerRef} className="bg-[#f9f8f5] min-h-screen text-void-black font-body selection:bg-primary selection:text-void-black">
-      {/* Editorial Navigation */}
-      <nav className="fixed top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-50">
-        <button onClick={handleBack} className="flex items-center gap-4 text-metadata hover:text-primary transition-colors group">
-          <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
-          <span>CLOSE_STATION</span>
+    <main ref={containerRef} className="bg-[#f9f8f5] min-h-screen text-[#050505] font-body selection:bg-primary selection:text-black overflow-x-hidden">
+      {/* Editorial Navigation - HUD Style */}
+      <nav className="fixed top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-50 mix-blend-difference text-white">
+        <button 
+          onClick={() => window.location.href = "/"}
+          className="flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] hover:text-primary transition-colors group"
+        >
+          <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" /> 
+          <span>EXIT_MISSION</span>
         </button>
-        <div className="text-metadata opacity-40 uppercase tracking-[0.4em]">PROJECT_FILE: LEARNQUEST_v0.1</div>
+        <div className="text-[10px] font-code opacity-40 uppercase tracking-[0.5em]">
+          ARCHIVE_REF: LQ_v1.1
+        </div>
       </nav>
 
-      {/* Luxury Header */}
-      <section className="pt-48 pb-32 px-8 md:px-16 lg:px-24 max-w-screen-2xl mx-auto min-h-screen flex flex-col justify-center">
-        <div className="lq-reveal flex items-center gap-3 mb-12">
-          <Smartphone size={14} className="text-primary" />
-          <span className="text-metadata tracking-[0.3em] opacity-40">MOBILE_ECOSYSTEM</span>
+      {/* Hero Header - Massive Typographic Scale */}
+      <section className="pt-48 pb-24 px-8 md:px-16 lg:px-24 max-w-screen-2xl mx-auto flex flex-col justify-center">
+        <div className="lq-reveal flex items-center gap-3 mb-12 text-primary">
+          <Brain size={14} />
+          <span className="text-[10px] font-code tracking-[0.4em] uppercase">Machine Learning / Mobile</span>
         </div>
         
-        <h1 className="lq-reveal text-[12vw] font-headline font-bold uppercase tracking-tighter leading-[0.75] mb-24">
-          Learn<span className="text-primary italic">Quest.</span>
+        <h1 className="lq-reveal text-[13vw] font-headline font-bold uppercase tracking-tighter leading-[0.75] mb-20">
+          Learn<br/><span className="italic font-light text-black/10">Quest.</span>
         </h1>
 
-        <div className="lq-reveal grid grid-cols-12 gap-12 border-t border-void-black/10 pt-16">
-          <div className="col-span-12 lg:col-span-6">
-            <h3 className="text-metadata opacity-40 mb-6">[01] MISSION</h3>
-            <p className="text-2xl md:text-4xl leading-tight font-light tracking-tight">
-              Redefining the learning curve through high-retention semantic digestion and social accountability systems.
+        <div className="lq-reveal grid grid-cols-1 md:grid-cols-12 gap-16 border-t border-black/10 pt-16">
+          <div className="md:col-span-7 lg:col-span-6">
+            <h3 className="text-[10px] font-code opacity-30 uppercase tracking-[0.3em] mb-8">[01] CONTEXT_CORE</h3>
+            <p className="text-2xl md:text-4xl font-light leading-[1.1] tracking-tight mb-12">
+              An intelligent educational platform delivering hyper-personalized micro-learning paths through AI curation and semantic web scraping.
             </p>
+            <a 
+              href="https://github.com/Habel2005/LearnQuest" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] group"
+            >
+              <Github size={18} className="group-hover:text-primary transition-colors" />
+              <span className="border-b border-black/20 pb-1 group-hover:border-primary transition-colors">View Source Repository</span>
+            </a>
           </div>
-          <div className="col-span-12 lg:col-span-6 flex flex-col justify-end gap-12">
-            <div className="flex gap-4">
-               <span className="px-4 py-2 bg-void-black text-white text-[10px] font-code uppercase tracking-widest">iOS_Native</span>
-               <span className="px-4 py-2 border border-void-black/10 text-[10px] font-code uppercase tracking-widest">AI_Powered</span>
-            </div>
+          
+          <div className="md:col-span-5 lg:col-start-9 flex flex-wrap content-start gap-3 mt-8 md:mt-16">
+            {['Flutter Native', 'Gemini API', 'Groq', 'Python Backend', 'Firebase', 'Youtube v3 API','Github API'].map((tag) => (
+               <span key={tag} className="px-5 py-2 border border-black/10 rounded-full text-[9px] font-code uppercase tracking-[0.2em] text-black/40 hover:border-black/60 hover:text-black transition-colors cursor-default">
+                 {tag}
+               </span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Feature Section: The Grid */}
-      <section className="py-64 px-8 border-t border-void-black/10 bg-white">
-        <div className="max-w-screen-2xl mx-auto grid grid-cols-12 gap-12 items-center">
-            <div className="col-span-12 lg:col-span-5 space-y-12">
-                <div className="w-12 h-12 bg-primary flex items-center justify-center text-void-black">
-                    <Split size={20} />
-                </div>
-                <h2 className="text-6xl font-headline font-bold uppercase tracking-tighter leading-none">
-                    Semantic <br/><span className="text-white bg-void-black px-4">Splitting.</span>
-                </h2>
-                <p className="text-xl opacity-60 font-light leading-relaxed">
-                    Our LLM-powered parser breaks down complex architectural documentation into "Semantic Shards"—the smallest units of meaning for instant retention.
-                </p>
+      {/* Visual Showcase: The Interface Study */}
+      <section className="py-16 md:py-24 px-8 max-w-screen-2xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
+          
+          {/* Left: The Device Slider with Precision Bezel */}
+          <div className="lg:col-span-5 flex flex-col items-center relative device-container">
+            <div className="text-[10px] font-code opacity-20 uppercase tracking-[0.5em] mb-16 lg:hidden">INTERFACE_GEOMETRY</div>
+            
+            <div className="relative flex items-center justify-center group w-full">
+              {/* Navigation Control (Left) */}
+              <button 
+                onClick={handlePrev}
+                className="absolute left-0 md:-left-12 z-30 p-6 flex items-center justify-center rounded-full hover:bg-black/5 transition-all text-black/20 hover:text-black"
+              >
+                <ChevronLeft size={48} strokeWidth={1} />
+              </button>
+
+              {/* Refined Hardware Frame */}
+              <div className="relative z-20">
+                 <div className="w-[300px] h-[610px] md:w-[340px] md:h-[700px] border-[10px] border-[#e2e2e2] rounded-[48px] shadow-[0_40px_100px_rgba(0,0,0,0.1)] bg-white overflow-hidden relative flex items-center justify-center ring-1 ring-black/5">
+                   
+                   {/* Screen Content */}
+                   <div className="w-full h-full relative overflow-hidden">
+                    <img 
+                      key={activeScreen} 
+                      src={`/projects/learnquest/a${activeScreen}.png`} 
+                      alt={`LearnQuest Interface ${activeScreen}`} 
+                      className="w-full h-full object-cover animate-fade-in" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/[0.02] pointer-events-none" />
+                   </div>
+                 </div>
+                 {/* Shadow Ambient */}
+                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-10 bg-black/5 blur-3xl -z-10" />
+              </div>
+
+              {/* Navigation Control (Right) */}
+              <button 
+                onClick={handleNext}
+                className="absolute right-0 md:-right-12 z-30 p-6 flex items-center justify-center rounded-full hover:bg-black/5 transition-all text-black/20 hover:text-black"
+              >
+                <ChevronRight size={48} strokeWidth={1} />
+              </button>
+            </div>
+            
+            {/* Pagination Indicator - Minimalist */}
+            <div className="flex items-center gap-8 mt-16 font-code text-[10px] tracking-[0.5em] opacity-30">
+              <span className="text-black">0{activeScreen}</span>
+              <div className="w-24 h-px bg-black/10 relative">
+                <div 
+                  className="absolute top-0 left-0 h-full bg-black transition-all duration-500" 
+                  style={{ width: `${(activeScreen / totalScreens) * 100}%` }}
+                />
+              </div>
+              <span>{totalScreens}</span>
+            </div>
+          </div>
+
+          {/* Right: Technical Manifest & Execution Narrative */}
+          <div className="lg:col-span-7 flex flex-col gap-32">
+            
+            {/* System Architecture Manifest */}
+            <div>
+              <div className="flex items-center gap-6 mb-12">
+                <div className="w-12 h-px bg-primary/40"></div>
+                <h3 className="text-[10px] font-code opacity-40 uppercase tracking-[0.4em]">[02] SYSTEM_ARCHITECTURE</h3>
+              </div>
+              
+              <div className="border-t border-black/10">
+                {[
+                  { label: "Frontend", value: "Flutter 3.26.0 (Dart 3.6.0)" },
+                  { label: "AI Engines", value: "Gemini / Groq / Mixtral" },
+                  { label: "Data Pipeline", value: "Python + Web Scraping" },
+                  { label: "Backend Infrastructure", value: "Firebase Cloud Ecosystem" },
+                  { label: "Messaging", value: "Firebase FCM Stack" }
+                ].map((dep, i) => (
+                  <div key={i} className="flex flex-row items-center justify-between py-6 border-b border-black/5 group hover:bg-black/[0.02] transition-all px-4 -mx-4">
+                    <span className="font-light text-black/60 text-xl tracking-tight group-hover:text-black group-hover:pl-2 transition-all">{dep.label}</span>
+                    <span className="text-[10px] font-code text-black/20 tracking-[0.2em] uppercase group-hover:text-primary transition-colors">{dep.value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="col-span-12 lg:col-span-7 flex flex-col gap-6 relative">
-                <div className="p-12 bg-[#f9f8f5] border border-void-black/5 rounded-2xl opacity-40">
-                  <p className="text-sm font-code leading-relaxed">
-                    Microlearning is an approach that uses small, manageable pieces of information to help people learn new skills. It is effective because it focuses on a single concept at a time...
+            {/* Core Objectives - High Fashion Grid */}
+            <div className="space-y-16">
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-px bg-primary/40"></div>
+                <h3 className="text-[10px] font-code opacity-40 uppercase tracking-[0.4em]">[03] EXECUTION_LOG</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="space-y-6 group">
+                  <div className="text-[10px] font-code text-primary opacity-40 group-hover:opacity-100 transition-opacity">OBJ_01</div>
+                  <h4 className="text-xl font-headline font-bold uppercase tracking-tight">Dynamic Learning Paths</h4>
+                  <p className="text-sm font-light text-black/40 leading-relaxed group-hover:text-black/60 transition-colors">
+                    Automatically scales difficulty from Beginner to Expert based on user progress and semantic analysis of their interactions.
                   </p>
                 </div>
-                <div className="flex flex-col gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm">
-                    <div className="split-card p-6 bg-white shadow-2xl border border-primary/20 text-sm font-bold uppercase tracking-tighter">
-                      "Small, manageable pieces of info."
-                    </div>
-                    <div className="split-card p-6 bg-white shadow-2xl border border-primary/20 text-sm font-bold uppercase tracking-tighter">
-                      "Focus on a single concept."
-                    </div>
+                
+                <div className="space-y-6 group">
+                  <div className="text-[10px] font-code text-primary opacity-40 group-hover:opacity-100 transition-opacity">OBJ_02</div>
+                  <h4 className="text-xl font-headline font-bold uppercase tracking-tight">Algorithmic Curation</h4>
+                  <p className="text-sm font-light text-black/40 leading-relaxed group-hover:text-black/60 transition-colors">
+                    Leverages Python web scrapers paired with Gemini and Groq APIs to digest and summarize articles, videos, and GitHub resources instantly.
+                  </p>
                 </div>
-            </div>
-        </div>
-      </section>
 
-      {/* Feature Section: The Buddy System */}
-      <section className="py-64 px-8 max-w-screen-2xl mx-auto text-center">
-        <div className="text-metadata mb-12 opacity-40 tracking-[0.4em]">COLLABORATIVE_INTELLIGENCE</div>
-        <h2 className="text-[8vw] font-headline font-bold uppercase tracking-tighter mb-32">
-          The <span className="italic">Buddy</span> System.
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {[
-            { icon: Zap, label: "Kinetic Focus", desc: "Real-time synchronization of learning sessions." },
-            { icon: Users, label: "Peer Validation", desc: "Collaborative proof-of-work for semantic retention." },
-            { icon: Layout, label: "Spatial UI", desc: "An interface that respects the laws of cognitive load." }
-          ].map((item, i) => (
-            <div key={i} className="p-16 border border-void-black/5 hover:border-primary transition-colors group">
-              <item.icon className="mx-auto mb-12 text-void-black/20 group-hover:text-primary transition-colors" size={40} />
-              <h4 className="text-xl font-bold uppercase tracking-tight mb-4">{item.label}</h4>
-              <p className="text-xs opacity-40 uppercase tracking-widest">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* High-Fashion Mockup Display */}
-      <section className="py-64 px-8 bg-void-black text-white overflow-hidden">
-        <div className="max-w-screen-2xl mx-auto grid grid-cols-12 gap-24 items-center">
-            <div className="col-span-12 lg:col-span-4">
-                <h3 className="text-4xl font-headline font-bold uppercase tracking-tighter mb-8">
-                  Architectural <br/>Design.
-                </h3>
-                <p className="text-metadata opacity-40 leading-loose">
-                  THE INTERFACE REJECTS THE FRICTION OF STANDARD EDTECH. EVERY GESTURE IS MAPPED TO SPATIAL MOMENTUM.
-                </p>
-            </div>
-            <div className="col-span-12 lg:col-span-8">
-                <div className="aspect-[16/9] bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden group">
-                  <div className="w-[300px] h-[600px] bg-white rounded-[40px] border-[12px] border-white/10 shadow-2xl overflow-hidden">
-                      <div className="p-8 space-y-8 h-full flex flex-col">
-                        <div className="w-12 h-12 bg-primary rounded-xl" />
-                        <div className="space-y-4">
-                          <div className="h-4 w-full bg-void-black/5 rounded" />
-                          <div className="h-4 w-2/3 bg-void-black/5 rounded" />
-                        </div>
-                        <div className="mt-auto h-24 w-full bg-void-black rounded-2xl" />
-                      </div>
+                <div className="md:col-span-2 p-12 bg-black/[0.02] border border-black/5 space-y-6 group hover:border-primary/40 transition-all">
+                  <div className="flex justify-between items-start">
+                    <h4 className="text-2xl font-headline font-bold uppercase tracking-tight">Social Accountability</h4>
+                    <span className="text-[10px] font-code text-primary">v1.1_STABLE</span>
                   </div>
-                  {/* Decorative Elements */}
-                  <div className="absolute top-12 right-12 text-[10vw] font-bold opacity-5 italic uppercase">MOBILE</div>
+                  <p className="text-base font-light text-black/50 leading-relaxed max-w-2xl">
+                    Features a built-in community discussion framework powered by Firebase, creating a peer-to-peer ecosystem that reinforces individual micro-learning habits through real-time notifications.
+                  </p>
                 </div>
+              </div>
             </div>
+            
+          </div>
         </div>
       </section>
 
-      {/* Editorial Footer */}
-      <footer className="py-32 px-12 border-t border-void-black/10 flex justify-between items-center bg-[#f9f8f5]">
-        <div className="text-metadata opacity-20 tracking-widest uppercase italic">END_OF_TRANSMISSION</div>
+      {/* Editorial Footer / Navigation */}
+      <footer className="py-24 px-8 border-t border-black/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-[#f9f8f5]">
+        <div className="text-[10px] font-code opacity-40 uppercase tracking-[0.2em]">
+          ENGINEERED BY HABEL • LEARNQUEST ARCHIVE
+        </div>
+        
         <button 
           onClick={() => window.location.href = "/projects/kolo"}
-          className="text-4xl md:text-[6vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group"
+          className="text-3xl md:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:opacity-50 transition-opacity flex items-center gap-6 group"
         >
-          <span>KOLO</span>
-          <ArrowRight className="w-12 h-12 md:w-20 md:h-20 group-hover:translate-x-4 transition-transform" />
+          <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.4em] absolute -top-8 left-0">NEXT_PROJECT</span>
+          <span>KOLO APP</span>
+          <ArrowRight className="w-8 h-8 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
         </button>
       </footer>
     </main>
