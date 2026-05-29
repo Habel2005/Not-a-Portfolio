@@ -1,17 +1,25 @@
-
 "use client";
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // Added usePathname
 
 export function ProjectMatrix() {
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const pathname = usePathname(); // Listen to URL changes
   const isNavigating = useRef(false);
 
+  // 1. The Route Watcher: Triggers reset when returning to the homepage
+  useEffect(() => {
+    if (pathname === "/") {
+      window.dispatchEvent(new Event("reset-matrix"));
+    }
+  }, [pathname]);
+
+  // 2. The Main WebGL Scene
   useEffect(() => {
     if (!containerRef.current || containerRef.current.clientWidth === 0) return;
 
@@ -43,19 +51,11 @@ export function ProjectMatrix() {
     PlaceHolderImages.forEach((img, i) => {
       const texture = textureLoader.load(img.imageUrl);
       
-      // --- THE HD IMAGE QUALITY FIX ---
-      // 1. Fix the "whitish" washed-out look by enforcing standard web color space
       texture.colorSpace = THREE.SRGBColorSpace; 
-      
-      // 2. Prevent the browser from creating blurry low-res versions (Mipmaps)
       texture.generateMipmaps = false;
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
-      
-      // 3. Keep images razor-sharp when looking at them from an angle
       texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      // --------------------------------
-      
 
       const material = new THREE.MeshBasicMaterial({
         map: texture,
@@ -63,15 +63,12 @@ export function ProjectMatrix() {
         opacity: 0,
         side: THREE.DoubleSide,
         toneMapped: false,
-      
-        // darker cinematic desaturation
         color: new THREE.Color(0x8f8f8f),
       });
 
       const mesh = new THREE.Mesh(shardGeom, material);
       const wrapperGroup = new THREE.Group();
       
-      // Arc logic
       const radius = 2500;
       const spread = Math.PI * 0.25;
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
@@ -113,12 +110,14 @@ export function ProjectMatrix() {
         isNavigating.current = true;
         const id = hoveredMesh.userData.id;
 
+        // Fade out other meshes
         shardGroups.forEach(({ mesh }) => {
           if (mesh !== hoveredMesh) {
             gsap.to(mesh.material, { opacity: 0, duration: 0.4, ease: "power2.out" });
           }
         });
 
+        // Detach from wrapper and attach directly to the scene so it can fly directly to the camera
         scene.attach(hoveredMesh);
 
         gsap.to(hoveredMesh.position, {
@@ -142,6 +141,37 @@ export function ProjectMatrix() {
         }, 850); 
       }
     };
+
+    // --- NEW: THE RESET LOGIC ---
+    const handleReset = () => {
+      if (!isNavigating.current) return;
+      
+      // Unlock interactions
+      isNavigating.current = false;
+
+      if (hoveredMesh) {
+        const index = hoveredMesh.userData.index;
+        const originalWrapper = shardGroups[index].group;
+        
+        // Re-attach to the original wrapper group (keeps it mathematically accurate)
+        originalWrapper.attach(hoveredMesh);
+
+        // Animate it back to its local zero position inside the wrapper
+        gsap.to(hoveredMesh.position, { x: 0, y: 0, z: 0, duration: 0.8, ease: "expo.inOut" });
+        gsap.to(hoveredMesh.rotation, { x: 0, y: 0, z: 0, duration: 0.8, ease: "expo.inOut" });
+      }
+
+      // Restore opacity for all shards
+      shardGroups.forEach(({ mesh }) => {
+        gsap.to(mesh.material, { opacity: 1, duration: 0.8, delay: 0.2, ease: "power2.out" });
+      });
+
+      hoveredMesh = null;
+    };
+
+    // Listen for the custom reset event from React
+    window.addEventListener("reset-matrix", handleReset);
+    // ----------------------------
 
     window.addEventListener("mousemove", onMouseMove);
     container.addEventListener("click", onClick);
@@ -213,6 +243,7 @@ export function ProjectMatrix() {
       window.removeEventListener("mousemove", onMouseMove);
       container.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("reset-matrix", handleReset); // Cleanup listener
       cancelAnimationFrame(frameId);
       gsap.killTweensOf(shardGroups.map(sg => sg.mesh.position));
       gsap.killTweensOf(shardGroups.map(sg => sg.mesh.rotation));
