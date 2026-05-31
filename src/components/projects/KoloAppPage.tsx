@@ -74,13 +74,12 @@ export default function KoloAppPage() {
 
   return (
     <div className={isDark ? "dark" : ""}>
-      <main ref={containerRef} className="bg-[#f9f8f5] dark:bg-[#020813] text-[#050505] dark:text-[#F0F4F8] min-h-screen font-body selection:bg-primary selection:text-black overflow-x-hidden transition-colors duration-700">
-        
+              
         {/* Editorial Navigation */}
         <nav className="fixed top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-50 mix-blend-difference text-white">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] hover:text-primary transition-colors group"
+            className="flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] hover:text-primary transition-colors group pointer-events-auto"
           >
             <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
             <span>EXIT_MISSION</span>
@@ -94,13 +93,16 @@ export default function KoloAppPage() {
             {/* Theme Toggle Button */}
             <button 
               onClick={() => setIsDark(!isDark)}
-              className="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-primary hover:text-primary transition-colors"
+              className="flex items-center pointer-events-auto justify-center w-8 h-8 rounded-full border border-white/20 hover:border-primary hover:text-primary transition-colors"
               aria-label="Toggle Theme"
             >
               {isDark ? <Sun size={14} /> : <Moon size={14} />}
             </button>
           </div>
         </nav>
+        
+      <main ref={containerRef} className="bg-[#f9f8f5] dark:bg-[#020813] text-[#050505] dark:text-[#F0F4F8] h-screen w-full overflow-y-auto font-body selection:bg-primary selection:text-black overflow-x-hidden transition-colors duration-700">
+
 
         {/* Hero Header - Massive & Cinematic */}
         <section className="pt-28 pb-20 px-8 md:px-16 lg:px-24 max-w-screen-2xl mx-auto flex flex-col justify-center">

@@ -2,125 +2,195 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { X, ArrowUpRight, Github } from "lucide-react";
+import { X, ArrowUpRight, Github, Code2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-// 1. Added 'img' to the data array
 const webProjects = [
-    { name: "Aura-Journal", tags: ["Next.js", "React", "Awwwards"], year: "2024", type: "Open Source", img: "https://picsum.photos/seed/aura/800/600" },
-    { name: "Mono-Frame", tags: ["Node.js", "Studio", "High-Fashion"], year: "2024", type: "Template", img: "https://picsum.photos/seed/mono/800/600" },
-    { name: "Genesis-Studio", tags: ["Next.js", "Template", "Web"], year: "2024", type: "Open Source", img: "https://picsum.photos/seed/genesis/800/600" },
-    { name: "VividCanvas", tags: ["Node.js", "Editorial", "Awwwards"], year: "2024", type: "Template", img: "https://picsum.photos/seed/vivid/800/600" },
-    { name: "Bloom-Ai", tags: ["Landing Page", "TypeScript"], year: "2024", type: "Template", img: "https://picsum.photos/seed/bloom/800/600" },
+    { 
+      id: "01",
+      name: "Aura-Journal", 
+      tags: ["Next.js", "React", "Awwwards"], 
+      type: "Open Source", 
+      desc: "A minimalistic daily reflection journal focused on typographic hierarchy and micro-interactions.",
+      img: "/services/web/aura.jpeg",
+      github: "https://github.com/Habel2005/Aura-Journal",
+      live: "https://aura-journal-eta.vercel.app/"
+    },
+    { 
+      id: "02",
+      name: "Mono-Frame", 
+      tags: ["Node.js", "Studio", "High-Fashion"], 
+      type: "Template", 
+      desc: "An editorial e-commerce template designed for high-fashion brutalist aesthetics.",
+      img: "/services/web/mono.jpeg",
+      github: "https://github.com/Habel2005/Mono-Frame",
+      live: "https://mono-frame-iota.vercel.app/"
+    },
+    { 
+      id: "03",
+      name: "Opus-Nexus", 
+      tags: ["Next.js", "Luxury Design", "Awwwards"], 
+      type: "Open Source", 
+      desc: "A digital presence platform showcasing luxury design and high-end brand aesthetics.",
+      img: "/services/web/opus.jpeg",
+      github: "https://github.com/Habel2005/Opus-Nexus",
+      live: "https://opus-nexus.vercel.app/"
+    },
+    { 
+      id: "04",
+      name: "VividCanvas", 
+      tags: ["Node.js", "Editorial", "TypeScript"], 
+      type: "Template", 
+      desc: "An editorial design studio template with a deep focus on Awwwards-inspired typography.",
+      img: "/services/web/vivid.jpeg",
+      github: "https://github.com/Habel2005/VividCanvas",
+      live: "https://vivid-canvas.vercel.app/"
+    },
+    { 
+      id: "05",
+      name: "Genesis-Studio", 
+      tags: ["Next.js", "WebGL"], 
+      type: "Open Source", 
+      desc: "A spatial computing laboratory landing page experimenting with Three.js rendering.",
+      img: "/services/web/genesis.jpeg",
+      github: "https://github.com/Habel2005/Genesis-Studio",
+      live: "https://genesis-studio-ashy.vercel.app/"
+    },
+    { 
+      id: "06",
+      name: "Bloom-Ai", 
+      tags: ["Landing Page", "TypeScript"], 
+      type: "Template", 
+      desc: "A cutting-edge AI landing page featuring modern web animations and kinetic scrolling.",
+      img: "/services/web/bloom.jpeg",
+      github: "https://github.com/Habel2005/Bloom-Ai",
+      live: "https://bloom-ai-dun.vercel.app/"
+    },
+    { 
+      id: "07",
+      name: "CloudCanvas", 
+      tags: ["React", "Next.js", "TypeScript"], 
+      type: "Template", 
+      desc: "A robust template focusing on fluid transitions and modern React component architecture.",
+      img: "/services/web/cloudcanvas.jpeg",
+      github: "https://github.com/Habel2005/CloudCanvas",
+      live: "https://cloud-canvas-six.vercel.app/"
+    }
 ];
 
 export default function WebArchive() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const previewRef = useRef<HTMLDivElement>(null); // 2. Ref for the floating image
-    const [activeImg, setActiveImg] = useState<string | null>(null); // 3. State to track hovered row
     const router = useRouter();
-
-    // 4. GSAP Mouse tracking logic
-    const onMouseMove = (e: React.MouseEvent) => {
-        if (!previewRef.current) return;
-        gsap.to(previewRef.current, {
-            x: e.clientX,
-            y: e.clientY,
-            duration: 0.6,
-            ease: "power3.out",
-        });
-    };
+    
+    // State to track which project is currently clicked/expanded
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     useEffect(() => {
         gsap.set("body", { backgroundColor: "#050505", color: "#ffffff" });
         const ctx = gsap.context(() => {
             gsap.from(".archive-row", {
                 opacity: 0,
-                y: 20,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: "power2.out",
+                y: 40,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                clearProps: "all" // FIX 1: Cleans up GSAP's inline styles to prevent CSS conflicts
             });
         }, containerRef);
         return () => ctx.revert();
     }, []);
 
+    const toggleExpand = (index: number) => {
+        setExpandedIndex(prev => prev === index ? null : index);
+    };
+
     return (
-        <main
-            ref={containerRef}
-            className="min-h-screen bg-[#050505] text-white font-sans selection:bg-primary selection:text-black relative overflow-hidden"
-            onMouseMove={onMouseMove} // Attach mouse listener to the whole page
-        >
-            <nav className="fixed top-0 left-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference">
-                <button onClick={() => router.push('/')} className="flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
+        <main ref={containerRef} className="min-h-screen bg-[#050505] text-white font-body selection:bg-primary selection:text-black">
+            
+            <nav className="fixed top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-[100] mix-blend-difference pointer-events-none">
+                <button onClick={() => router.back()} className="pointer-events-auto flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
                     <X size={20} />
                     <span className="text-[10px] font-code uppercase tracking-[0.3em]">RETURN_CORE</span>
                 </button>
-                <div className="text-[10px] font-code tracking-[0.3em] uppercase text-primary">01 // CREATIVE_WEB</div>
+                <div className="text-[10px] font-code tracking-[0.3em] uppercase text-primary">
+                  01 // CREATIVE_WEB
+                </div>
             </nav>
 
-            <section className="pt-48 px-8 md:px-16 max-w-[1600px] mx-auto pb-32 relative z-10">
-                <h1 className="text-6xl md:text-[8vw] font-headline font-bold uppercase tracking-tighter leading-none mb-24">
-                    Web <span className="text-primary italic">Index.</span>
-                </h1>
+            <section className="pt-40 px-4 md:px-8 max-w-[1800px] mx-auto pb-32">
+                <div className="flex items-center gap-3 mb-16 px-4">
+                  <Code2 size={14} className="text-primary" />
+                  <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">Web Repository</span>
+                </div>
 
-                <div className="border-t border-white/10">
-                    <div className="grid grid-cols-12 gap-4 py-4 border-b border-white/10 text-[10px] font-code uppercase tracking-[0.2em] text-white/40">
-                        <div className="col-span-5 md:col-span-4">Repository</div>
-                        <div className="col-span-5 md:col-span-4 hidden md:block">Stack / Tags</div>
-                        <div className="col-span-4 md:col-span-2">Type</div>
-                        <div className="col-span-3 md:col-span-2 text-right">Link</div>
-                    </div>
+                <div className="border-t border-white/10 flex flex-col">
+                    {webProjects.map((project, i) => {
+                        const isExpanded = expandedIndex === i;
 
-                    {webProjects.map((project, i) => (
-                        <div
-                            key={i}
-                            // 5. Add hover events to trigger the image
-                            onMouseEnter={() => setActiveImg(project.img)}
-                            onMouseLeave={() => setActiveImg(null)}
-                            className="archive-row grid grid-cols-12 gap-4 py-8 border-b border-white/5 items-center hover:bg-white/[0.02] transition-colors group cursor-pointer"
-                        >
-                            <div className="col-span-7 md:col-span-4 font-headline text-2xl md:text-4xl font-bold uppercase tracking-tight group-hover:text-primary transition-colors">
-                                {project.name}
+                        return (
+                            <div
+                                key={project.id}
+                                onClick={() => toggleExpand(i)}
+                                // FIX 2: Replaced 'transition-all' with 'transition-[height]'
+                                className={`archive-row relative border-b border-white/10 cursor-pointer overflow-hidden transition-[height] duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${isExpanded ? 'h-[70vh] md:h-[60vh]' : 'h-[15vh] md:h-[20vh]'}`}
+                            >
+                                {/* Background Image (Only visible when expanded) */}
+                                <div 
+                                  className={`absolute inset-0 z-0 transition-opacity duration-700 delay-100 ${isExpanded ? 'opacity-40' : 'opacity-0'}`}
+                                >
+                                    <img src={project.img} alt={project.name} className="w-full h-full object-cover grayscale" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent" />
+                                </div>
+
+                                {/* Default Closed Content */}
+                                <div className="absolute top-0 left-0 w-full h-[15vh] md:h-[20vh] flex items-center justify-between px-4 md:px-8 z-10">
+                                    <div className="flex items-baseline gap-6 md:gap-12">
+                                        <span className={`text-[10px] font-code transition-colors duration-500 ${isExpanded ? 'text-primary' : 'text-white/20'}`}>
+                                          {project.id}
+                                        </span>
+                                        <h2 className={`text-4xl md:text-7xl lg:text-[7vw] font-headline font-bold uppercase tracking-tighter transition-all duration-500 ${isExpanded ? 'text-white' : 'text-white/60 hover:text-white'}`}>
+                                            {project.name}
+                                        </h2>
+                                    </div>
+                                    
+                                    <div className="hidden lg:flex items-center gap-4">
+                                        {project.tags.map(tag => (
+                                            <span key={tag} className={`px-4 py-1.5 border rounded-full text-[9px] font-code uppercase tracking-widest transition-colors duration-500 ${isExpanded ? 'border-primary/30 text-primary' : 'border-white/10 text-white/40'}`}>
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Expanded Detail Content */}
+                                <div className={`absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 transition-all duration-700 ${isExpanded ? 'opacity-100 translate-y-0 delay-300' : 'opacity-0 translate-y-10 pointer-events-none'}`}>
+                                    <div className="max-w-2xl">
+                                        <p className="text-xl md:text-3xl font-light leading-[1.2] tracking-tight text-white/90">
+                                            {project.desc}
+                                        </p>
+                                        <div className="flex lg:hidden flex-wrap gap-2 mt-6">
+                                            {project.tags.map(tag => (
+                                                <span key={tag} className="px-3 py-1 border border-primary/30 rounded-full text-[9px] font-code uppercase tracking-widest text-primary">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-6">
+                                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[10px] font-code uppercase tracking-widest text-white hover:text-primary transition-colors border border-white/20 hover:border-primary px-6 py-3 rounded-full bg-black/50 backdrop-blur-md">
+                                            <Github size={16} /> Code
+                                        </a>
+                                        <a href={project.live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[10px] font-code uppercase tracking-widest text-black bg-white hover:bg-primary transition-colors px-6 py-3 rounded-full">
+                                            <ArrowUpRight size={16} /> Live Demo
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="col-span-12 md:col-span-4 hidden md:flex flex-wrap gap-2">
-                                {project.tags.map(tag => (
-                                    <span key={tag} className="px-3 py-1 border border-white/10 rounded-full text-[10px] font-code uppercase tracking-widest text-white/60">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                            <div className="col-span-3 md:col-span-2 text-xs font-code uppercase tracking-widest text-white/40">
-                                {project.type}
-                            </div>
-                            <div className="col-span-2 md:col-span-2 flex justify-end gap-4 relative z-20">
-                                {/* 6. External links wrap the buttons */}
-                                <a href="#" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                                    <Github size={20} />
-                                </a>
-                                <a href="#" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-primary transition-colors">
-                                    <ArrowUpRight size={20} />
-                                </a>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </section>
-
-            {/* 7. The Floating Cursor Image */}
-            <div
-                ref={previewRef}
-                className={`fixed top-0 left-0 w-[300px] h-[200px] pointer-events-none z-40 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out ${activeImg ? 'opacity-100 scale-100 rotate-2' : 'opacity-0 scale-90 rotate-0'
-                    }`}
-            >
-                <img
-                    src={activeImg || ""}
-                    alt="Project Preview"
-                    className="w-full h-full object-cover shadow-2xl border border-white/10"
-                />
-                {/* Cinematic dimming overlay */}
-                <div className="absolute inset-0 bg-[#050505]/20 mix-blend-overlay" />
-            </div>
         </main>
     );
 }

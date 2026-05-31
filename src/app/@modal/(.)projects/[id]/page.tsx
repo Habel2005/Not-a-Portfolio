@@ -6,10 +6,8 @@ import ZeroStudioPage from "@/components/projects/ZeroStudioPage";
 
 export default function ProjectModal({ params }: { params: { id: string } }) {
   return (
-    // The Fixed Overlay Layer
-    <div className="fixed inset-0 z-[100] w-full h-full overflow-y-auto bg-black/40 backdrop-blur-md">
-      
-      {/* The Dynamic Content */}
+    // ADDED: id="modal-scroller" so GSAP can find it!
+    <div id="modal-scroller" className="fixed inset-0 z-[100] w-full h-full overflow-y-auto bg-black/40 backdrop-blur-md">
       {params.id === "kolo" ? (
         <KoloAppPage />
       ) : params.id === "learnquest" ? (
@@ -21,7 +19,6 @@ export default function ProjectModal({ params }: { params: { id: string } }) {
       ) : (
         notFound()
       )}
-
     </div>
   );
 }
