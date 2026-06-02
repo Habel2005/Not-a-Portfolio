@@ -32,11 +32,13 @@ yarn-error.log*
 .firebase/
 
 # IDEs
+/.idx/
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Project specific
-public/lib/*.mp4
+/docs/
+.modified
+apphosting.yaml
 # Note: Keep the folder if you want to track the videos, or ignore if they are huge.
