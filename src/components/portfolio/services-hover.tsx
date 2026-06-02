@@ -46,7 +46,7 @@ export function ServicesHover() {
 
   return (
     <section
-      className="py-64 bg-foreground text-background relative overflow-hidden"
+      className="pt-32 pb-8 bg-foreground text-background relative overflow-hidden"
       onMouseMove={onMouseMove}
     >
       <div className="px-8 max-w-7xl mx-auto relative z-10">
@@ -56,7 +56,7 @@ export function ServicesHover() {
           {repositoryIndex.map((item) => (
             <div
               key={item.id}
-              onClick={() => router.push(item.route)}
+              onClick={() => router.push(item.route, { scroll: false })}
               className="group relative border-b border-background/5 py-12 md:py-20 flex items-center cursor-pointer hover:pl-12 transition-all duration-700 ease-in-out"
               onMouseEnter={() => {
                 setActiveImg(item.img); // Change the image source

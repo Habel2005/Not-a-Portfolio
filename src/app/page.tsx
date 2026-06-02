@@ -9,6 +9,7 @@ import { StudioNarrative } from "@/components/portfolio/studio-narrative";
 import { ServicesHover } from "@/components/portfolio/services-hover";
 import { CustomCursor } from "@/components/portfolio/custom-cursor";
 import { SectionHUD } from "@/components/portfolio/section-hud";
+import Footer from "@/components/ui/Footer";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -110,17 +111,7 @@ export default function Home() {
         <ServicesHover />
       </section>
       
-      <footer id="footer" className="py-48 px-8 text-center overflow-hidden">
-        <div className="text-metadata mb-12 opacity-40">Habel Studio / 2025</div>
-        <h2 className="text-huge font-headline font-bold tracking-tighter opacity-10 uppercase select-none italic">
-          Perspective
-        </h2>
-        <div className="mt-24 flex justify-center gap-12 text-metadata hover:text-primary transition-colors cursor-pointer">
-          <span className="cursor-pointer">LinkedIn</span>
-          <span className="cursor-pointer">Twitter</span>
-          <span className="cursor-pointer">Github</span>
-        </div>
-      </footer>
+      <Footer/>
     </main>
   );
 }

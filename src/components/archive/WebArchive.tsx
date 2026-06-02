@@ -6,88 +6,108 @@ import { X, ArrowUpRight, Github, Code2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const webProjects = [
-    { 
-      id: "01",
-      name: "Aura-Journal", 
-      tags: ["Next.js", "React", "Awwwards"], 
-      type: "Open Source", 
-      desc: "A minimalistic daily reflection journal focused on typographic hierarchy and micro-interactions.",
-      img: "/services/web/aura.jpeg",
-      github: "https://github.com/Habel2005/Aura-Journal",
-      live: "https://aura-journal-eta.vercel.app/"
+    {
+        id: "01",
+        name: "Aura-Journal",
+        tags: ["Next.js", "React", "Awwwards"],
+        type: "Open Source",
+        desc: "A minimalistic daily reflection journal focused on typographic hierarchy and micro-interactions.",
+        img: "/services/web/aura.jpeg",
+        github: "https://github.com/Habel2005/Aura-Journal",
+        live: "https://aura-journal-eta.vercel.app/"
     },
-    { 
-      id: "02",
-      name: "Mono-Frame", 
-      tags: ["Node.js", "Studio", "High-Fashion"], 
-      type: "Template", 
-      desc: "An editorial e-commerce template designed for high-fashion brutalist aesthetics.",
-      img: "/services/web/mono.jpeg",
-      github: "https://github.com/Habel2005/Mono-Frame",
-      live: "https://mono-frame-iota.vercel.app/"
+    {
+        id: "02",
+        name: "Mono-Frame",
+        tags: ["Node.js", "Studio", "High-Fashion"],
+        type: "Template",
+        desc: "An editorial e-commerce template designed for high-fashion brutalist aesthetics.",
+        img: "/services/web/mono.jpeg",
+        github: "https://github.com/Habel2005/Mono-Frame",
+        live: "https://mono-frame-iota.vercel.app/"
     },
-    { 
-      id: "03",
-      name: "Opus-Nexus", 
-      tags: ["Next.js", "Luxury Design", "Awwwards"], 
-      type: "Open Source", 
-      desc: "A digital presence platform showcasing luxury design and high-end brand aesthetics.",
-      img: "/services/web/opus.jpeg",
-      github: "https://github.com/Habel2005/Opus-Nexus",
-      live: "https://opus-nexus.vercel.app/"
+    {
+        id: "03",
+        name: "Opus-Nexus",
+        tags: ["Next.js", "Luxury Design", "Awwwards"],
+        type: "Open Source",
+        desc: "A digital presence platform showcasing luxury design and high-end brand aesthetics.",
+        img: "/services/web/opus.jpeg",
+        github: "https://github.com/Habel2005/Opus-Nexus",
+        live: "https://opus-nexus.vercel.app/"
     },
-    { 
-      id: "04",
-      name: "VividCanvas", 
-      tags: ["Node.js", "Editorial", "TypeScript"], 
-      type: "Template", 
-      desc: "An editorial design studio template with a deep focus on Awwwards-inspired typography.",
-      img: "/services/web/vivid.jpeg",
-      github: "https://github.com/Habel2005/VividCanvas",
-      live: "https://vivid-canvas.vercel.app/"
+    {
+        id: "04",
+        name: "VividCanvas",
+        tags: ["Node.js", "Editorial", "TypeScript"],
+        type: "Template",
+        desc: "An editorial design studio template with a deep focus on Awwwards-inspired typography.",
+        img: "/services/web/vivid.jpeg",
+        github: "https://github.com/Habel2005/VividCanvas",
+        live: "https://vivid-canvas.vercel.app/"
     },
-    { 
-      id: "05",
-      name: "Genesis-Studio", 
-      tags: ["Next.js", "WebGL"], 
-      type: "Open Source", 
-      desc: "A spatial computing laboratory landing page experimenting with Three.js rendering.",
-      img: "/services/web/genesis.jpeg",
-      github: "https://github.com/Habel2005/Genesis-Studio",
-      live: "https://genesis-studio-ashy.vercel.app/"
+    {
+        id: "05",
+        name: "Genesis-Studio",
+        tags: ["Next.js", "WebGL"],
+        type: "Open Source",
+        desc: "A spatial computing laboratory landing page experimenting with Three.js rendering.",
+        img: "/services/web/genesis.jpeg",
+        github: "https://github.com/Habel2005/Genesis-Studio",
+        live: "https://genesis-studio-ashy.vercel.app/"
     },
-    { 
-      id: "06",
-      name: "Bloom-Ai", 
-      tags: ["Landing Page", "TypeScript"], 
-      type: "Template", 
-      desc: "A cutting-edge AI landing page featuring modern web animations and kinetic scrolling.",
-      img: "/services/web/bloom.jpeg",
-      github: "https://github.com/Habel2005/Bloom-Ai",
-      live: "https://bloom-ai-dun.vercel.app/"
+    {
+        id: "06",
+        name: "Bloom-Ai",
+        tags: ["Landing Page", "TypeScript"],
+        type: "Template",
+        desc: "A cutting-edge AI landing page featuring modern web animations and kinetic scrolling.",
+        img: "/services/web/bloom.jpeg",
+        github: "https://github.com/Habel2005/Bloom-Ai",
+        live: "https://bloom-ai-dun.vercel.app/"
     },
-    { 
-      id: "07",
-      name: "CloudCanvas", 
-      tags: ["React", "Next.js", "TypeScript"], 
-      type: "Template", 
-      desc: "A robust template focusing on fluid transitions and modern React component architecture.",
-      img: "/services/web/cloudcanvas.jpeg",
-      github: "https://github.com/Habel2005/CloudCanvas",
-      live: "https://cloud-canvas-six.vercel.app/"
+    {
+        id: "07",
+        name: "CloudCanvas",
+        tags: ["React", "Next.js", "TypeScript"],
+        type: "Template",
+        desc: "A robust template focusing on fluid transitions and modern React component architecture.",
+        img: "/services/web/cloudcanvas.jpeg",
+        github: "https://github.com/Habel2005/CloudCanvas",
+        live: "https://cloud-canvas-six.vercel.app/"
+    },
+    {
+        id: "08",
+        name: "DashboardStudio",
+        tags: ["ERP", "TypeScript", "Data"],
+        type: "Template",
+        desc: "A comprehensive EverGreen themed ERP dashboard built for complex enterprise data visualization.",
+        img: "/services/web/dash.jpeg",
+        github: "https://github.com/Habel2005/dashboardstudio",
+        live: "https://studio-123594774-74e7c.web.app/dashboard"
     }
 ];
 
 export default function WebArchive() {
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
-    
+
     // State to track which project is currently clicked/expanded
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     useEffect(() => {
         gsap.set("body", { backgroundColor: "#050505", color: "#ffffff" });
         const ctx = gsap.context(() => {
+            // Animate the entire page sliding up from the bottom right
+            gsap.from(containerRef.current, {
+                y: "100vh",
+                x: "15vw",
+                rotationZ: 5, // Slight tilt for flair
+                opacity: 0,
+                duration: 1.2,
+                ease: "expo.out",
+                clearProps: "all"
+            });
             gsap.from(".archive-row", {
                 opacity: 0,
                 y: 40,
@@ -105,22 +125,22 @@ export default function WebArchive() {
     };
 
     return (
-        <main ref={containerRef} className="min-h-screen bg-[#050505] text-white font-body selection:bg-primary selection:text-black">
-            
+        <main ref={containerRef} className="min-h-screen bg-[#050505] text-white font-body selection:bg-primary selection:text-black h-screen w-full overflow-y-auto">
+
             <nav className="fixed top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-[100] mix-blend-difference pointer-events-none">
                 <button onClick={() => router.back()} className="pointer-events-auto flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
                     <X size={20} />
                     <span className="text-[10px] font-code uppercase tracking-[0.3em]">RETURN_CORE</span>
                 </button>
                 <div className="text-[10px] font-code tracking-[0.3em] uppercase text-primary">
-                  01 // CREATIVE_WEB
+                    01 // CREATIVE_WEB
                 </div>
             </nav>
 
             <section className="pt-40 px-4 md:px-8 max-w-[1800px] mx-auto pb-32">
                 <div className="flex items-center gap-3 mb-16 px-4">
-                  <Code2 size={14} className="text-primary" />
-                  <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">Web Repository</span>
+                    <Code2 size={14} className="text-primary" />
+                    <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">Web Repository</span>
                 </div>
 
                 <div className="border-t border-white/10 flex flex-col">
@@ -135,8 +155,8 @@ export default function WebArchive() {
                                 className={`archive-row relative border-b border-white/10 cursor-pointer overflow-hidden transition-[height] duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${isExpanded ? 'h-[70vh] md:h-[60vh]' : 'h-[15vh] md:h-[20vh]'}`}
                             >
                                 {/* Background Image (Only visible when expanded) */}
-                                <div 
-                                  className={`absolute inset-0 z-0 transition-opacity duration-700 delay-100 ${isExpanded ? 'opacity-40' : 'opacity-0'}`}
+                                <div
+                                    className={`absolute inset-0 z-0 transition-opacity duration-700 delay-100 ${isExpanded ? 'opacity-40' : 'opacity-0'}`}
                                 >
                                     <img src={project.img} alt={project.name} className="w-full h-full object-cover grayscale" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent" />
@@ -146,13 +166,13 @@ export default function WebArchive() {
                                 <div className="absolute top-0 left-0 w-full h-[15vh] md:h-[20vh] flex items-center justify-between px-4 md:px-8 z-10">
                                     <div className="flex items-baseline gap-6 md:gap-12">
                                         <span className={`text-[10px] font-code transition-colors duration-500 ${isExpanded ? 'text-primary' : 'text-white/20'}`}>
-                                          {project.id}
+                                            {project.id}
                                         </span>
                                         <h2 className={`text-4xl md:text-7xl lg:text-[7vw] font-headline font-bold uppercase tracking-tighter transition-all duration-500 ${isExpanded ? 'text-white' : 'text-white/60 hover:text-white'}`}>
                                             {project.name}
                                         </h2>
                                     </div>
-                                    
+
                                     <div className="hidden lg:flex items-center gap-4">
                                         {project.tags.map(tag => (
                                             <span key={tag} className={`px-4 py-1.5 border rounded-full text-[9px] font-code uppercase tracking-widest transition-colors duration-500 ${isExpanded ? 'border-primary/30 text-primary' : 'border-white/10 text-white/40'}`}>

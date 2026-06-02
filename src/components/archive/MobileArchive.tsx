@@ -12,10 +12,10 @@ const mobileProjects = [
         tags: ["Flutter", "Dart", "AI Curation"],
         type: "Application",
         desc: "An intelligent educational platform delivering hyper-personalized micro-learning paths.",
-        images: ["/projects/learnquest/a8.png","/projects/learnquest/a1.png","/projects/learnquest/a2.png","/projects/learnquest/a3.png",
-            "/projects/learnquest/a4.png","/projects/learnquest/a5.png","/projects/learnquest/a6.png","/projects/learnquest/a7.png"
-            ,"/projects/learnquest/a9.png","/projects/learnquest/a10.png","/projects/learnquest/a11.png","/projects/learnquest/a12.png"
-            ,"/projects/learnquest/a13.png","/projects/learnquest/a14.png","/projects/learnquest/a15.png","/projects/learnquest/a16.png"
+        images: ["/projects/learnquest/a8.png", "/projects/learnquest/a1.png", "/projects/learnquest/a2.png", "/projects/learnquest/a3.png",
+            "/projects/learnquest/a4.png", "/projects/learnquest/a5.png", "/projects/learnquest/a6.png", "/projects/learnquest/a7.png"
+            , "/projects/learnquest/a9.png", "/projects/learnquest/a10.png", "/projects/learnquest/a11.png", "/projects/learnquest/a12.png"
+            , "/projects/learnquest/a13.png", "/projects/learnquest/a14.png", "/projects/learnquest/a15.png", "/projects/learnquest/a16.png"
         ],
         github: "https://github.com/Habel2005/LearnQuest",
         live: "#"
@@ -26,8 +26,8 @@ const mobileProjects = [
         tags: ["Kotlin", "Android", "Offline-First"],
         type: "Application",
         desc: "A high-fidelity liturgical companion engineered natively for the Malankara Jacobite Syrian Church.",
-        images: ["/projects/kolo/3.png","/projects/kolo/1.png","/projects/kolo/2.png","/projects/kolo/4.png",
-            "/projects/kolo/5.png","/projects/kolo/6.png","/projects/kolo/7.png"
+        images: ["/projects/kolo/3.png", "/projects/kolo/1.png", "/projects/kolo/2.png", "/projects/kolo/4.png",
+            "/projects/kolo/5.png", "/projects/kolo/6.png", "/projects/kolo/7.png"
         ],
         github: "https://github.com/Habel2005/Kolo",
         live: "#"
@@ -38,8 +38,8 @@ const mobileProjects = [
         tags: ["Flutter", "Offline First", "Utility"],
         type: "Application",
         desc: "A fast, offline-first task management ecosystem built for seamless localized productivity.",
-        images: ["/services/mobile/task/task.jpeg","/services/mobile/task/task1.jpeg","/services/mobile/task/task2.jpeg",
-            "/services/mobile/task/task3.jpeg","/services/mobile/task/task4.jpeg"
+        images: ["/services/mobile/task/task.jpeg", "/services/mobile/task/task1.jpeg", "/services/mobile/task/task2.jpeg",
+            "/services/mobile/task/task3.jpeg", "/services/mobile/task/task4.jpeg"
         ],
         github: "https://github.com/Habel2005/TaskApp",
         live: "#"
@@ -50,9 +50,9 @@ const mobileProjects = [
         tags: ["Flutter", "Dart", "Sockets"],
         type: "Application",
         desc: "A real-time messaging room and chat application exploring native socket connections.",
-        images: ["/services/mobile/chat/app7.jpeg","/services/mobile/chat/app.jpeg",
-            "/services/mobile/chat/app2.jpeg","/services/mobile/chat/app3.jpeg","/services/mobile/chat/app4.jpeg",
-            "/services/mobile/chat/app5.jpeg","/services/mobile/chat/app6.jpeg"
+        images: ["/services/mobile/chat/app7.jpeg", "/services/mobile/chat/app.jpeg",
+            "/services/mobile/chat/app2.jpeg", "/services/mobile/chat/app3.jpeg", "/services/mobile/chat/app4.jpeg",
+            "/services/mobile/chat/app5.jpeg", "/services/mobile/chat/app6.jpeg"
         ],
         github: "https://github.com/Habel2005/chat",
         live: "#"
@@ -63,8 +63,8 @@ const mobileProjects = [
         tags: ["Flutter", "Dart", "Education"],
         type: "Application",
         desc: "A dedicated portal facilitating direct academic communication and secure resource sharing.",
-        images: ["/services/mobile/academics/5.jpeg","/services/mobile/academics/1.jpeg","/services/mobile/academics/2.jpeg",
-            "/services/mobile/academics/3.jpeg","/services/mobile/academics/4.jpeg","/services/mobile/academics/6.jpeg",
+        images: ["/services/mobile/academics/5.jpeg", "/services/mobile/academics/1.jpeg", "/services/mobile/academics/2.jpeg",
+            "/services/mobile/academics/3.jpeg", "/services/mobile/academics/4.jpeg", "/services/mobile/academics/6.jpeg",
             "/services/mobile/academics/7.jpeg"
         ],
         github: "https://github.com/Habel2005/Student-Teacher-Portal",
@@ -83,6 +83,16 @@ export default function MobileArchive() {
     useEffect(() => {
         gsap.set("body", { backgroundColor: "#050505", color: "#ffffff" });
         const ctx = gsap.context(() => {
+            // Animate the entire page sliding up from the bottom left
+            gsap.from(containerRef.current, {
+                y: "100vh",
+                x: "-15vw",
+                rotationZ: -5, // Tilt the other way
+                opacity: 0,
+                duration: 1.2,
+                ease: "expo.out",
+                clearProps: "all"
+            });
             gsap.from(".archive-row", {
                 opacity: 0,
                 y: 40,
@@ -101,7 +111,7 @@ export default function MobileArchive() {
     };
 
     return (
-        <main ref={containerRef} className="min-h-screen bg-[#050505] text-white font-body selection:bg-primary selection:text-black">
+        <main ref={containerRef} className="min-h-screen bg-[#050505] text-white font-body selection:bg-primary selection:text-black h-screen w-full overflow-y-auto">
 
             <nav className="fixed top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-[100] mix-blend-difference pointer-events-none">
                 <button onClick={() => router.back()} className="pointer-events-auto flex items-center gap-3 text-white/50 hover:text-primary transition-colors">
