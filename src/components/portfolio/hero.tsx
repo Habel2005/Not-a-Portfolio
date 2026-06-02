@@ -71,16 +71,27 @@ export function Hero() {
           </div>
 
           <div className="flex flex-col items-end gap-3 pt-6 border-t border-white/10">
-            {['Archive', 'Narrative', 'Connect'].map((link, idx) => (
+            {/* 1. Update the array to include the target IDs */}
+            {[
+              { label: 'Archive', target: '#archive' },
+              { label: 'Journey', target: '#narrative' },
+              { label: 'Connect', target: '#footer' } // Assuming Connect goes to the footer
+            ].map((link, idx) => (
               <button
-                key={link}
+                key={link.label}
+                // 2. Add the onClick handler for smooth scrolling
+                onClick={() => {
+                  document.querySelector(link.target)?.scrollIntoView({
+                    behavior: 'smooth'
+                  });
+                }}
                 className="flex items-center gap-4 group py-0.5 relative"
               >
                 <span className="text-[8px] font-code opacity-20 group-hover:opacity-100 group-hover:text-primary transition-all tracking-tighter">
                   [ 0{idx + 1} ]
                 </span>
                 <span className="text-[10px] font-code uppercase tracking-[0.25em] opacity-40 group-hover:opacity-100 group-hover:text-primary transition-all">
-                  {link}
+                  {link.label}
                 </span>
                 {/* Minimal hover bar for UI feedback */}
                 <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-1 h-0 group-hover:h-2 bg-primary transition-all duration-300" />
