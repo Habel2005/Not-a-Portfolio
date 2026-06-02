@@ -29,7 +29,7 @@ Just to clarify: **I am not looking for freelance work or taking client requests
 
 If you want to poke around the code or see what else I'm currently breaking, you can find me here:
 
-* **GitHub:** [@Habel2005](https://www.google.com/search?q=https://github.com/Habel2005)
-* **LinkedIn:** [Habel Shaji](https://www.google.com/search?q=%23)
+* **GitHub:** [@Habel2005](https://github.com/Habel2005)
+* **LinkedIn:** [Habel Shaji](https://www.linkedin.com/in/habel-bio/)
 
 *end of everything :/*

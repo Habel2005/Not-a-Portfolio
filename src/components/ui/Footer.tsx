@@ -51,7 +51,7 @@ export default function Footer() {
           {/* Column 2: Direct Email */}
           <div className="col-span-1 md:col-span-4">
             <a 
-              href="mailto:your.email@example.com" 
+              href="mailto:habelshaji2005@gmail.com" 
               className="text-[14px] md:text-[16px] font-body text-white hover:text-primary transition-colors border-b border-white/20 hover:border-primary pb-1 inline-flex items-center gap-2"
             >
               hello@habelshaji.com
@@ -63,10 +63,10 @@ export default function Footer() {
             <a href="https://github.com/Habel2005" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[10px] font-code uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors">
               Github <ArrowUpRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
             </a>
-            <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[10px] font-code uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors">
+            <a href="https://www.linkedin.com/in/habel-bio/" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[10px] font-code uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors">
               LinkedIn <ArrowUpRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
             </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[10px] font-code uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors">
+            <a href="https://drive.google.com/file/d/1aksQ7UbMoX_DxutAlpGh4a2ngwtaVETZ/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[10px] font-code uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors">
               Resume <ArrowUpRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
             </a>
           </div>
