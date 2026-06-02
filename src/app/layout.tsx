@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Analytics } from "@vercel/analytics/next"
 import './globals.css';
-
+import { Analytics } from '@vercel/analytics/next';
 export const metadata: Metadata = {
   title: "Habel's [Not a Portfolio]",
   description: "My portfolio experience.",
@@ -34,6 +33,7 @@ export default function RootLayout({
         <div className="grain-overlay" />
         {children}
         {modal}
+        <Analytics />
       </body>
     </html>
   );
