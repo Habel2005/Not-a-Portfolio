@@ -30,6 +30,7 @@ export default function Footer() {
             (window as any).spline = spline;
           }}
         />
+        <div className="absolute bottom-0 right-0 w-[150px] h-[50px] bg-[#050505] z-10 pointer-events-none" />
         {/* Soft vignette to fade the edges */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#050505_100%)] pointer-events-none" />
       </div>
