@@ -1,28 +1,34 @@
-# VOID | ARCHIVE
+# Habel Shaji / Digital Presence
 
-Personal Portfolio of Habel Shaji.  
-Computer Science Undergraduate.
+This repository holds the source code for my personal portfolio and digital archive.
 
-This archive is an editorial exploration of code as a visual medium. It rejects conventional web patterns in favor of cinematic brutality, high-fashion typography, and spatial logic.
+I built this space to be a reflection of my actual workflow—living somewhere at the intersection of artificial intelligence, spatial computing, and luxury brutalist web design. It is less of a traditional resume and more of an interactive archive for my ecosystem of projects, ranging from zero-latency local AI systems to Awwwards-inspired WebGL interfaces and offline-first mobile apps.
 
-## THE STACK
-- **Framework**: Next.js 15 (App Router)
-- **Visuals**: Three.js / WebGL / GLSL Shaders
-- **Choreography**: GSAP (ScrollTrigger / Precision Timelines)
-- **Styling**: Tailwind CSS / ShadCN UI
-- **Logic**: TypeScript
-- **3D Design**: Spline / ThreeJS Shards
+## The Architecture
 
-## THE ARCHIVE
-- **Zentry**: Flagship self-hosted telephony AI infrastructure.
-- **LearnQuest**: AI-curated micro-learning mobile ecosystem.
-- **Kolo**: Native liturgical companion engineered for Android.
-- **Zero**: Production-grade WebGL creative studio study.
+This site was built with a heavy focus on cinematic motion, custom routing, and performance. No generic templates, just raw code.
 
-## PHILOSOPHY
-Code is typically viewed as a utility. In this space, it is treated as an artifact. My work focuses on bridging the gap between deep backend logic and refined, high-fidelity interactive experiences. 
+* **Core:** Next.js (React) & TypeScript
+* **Styling:** Tailwind CSS (Custom luxury-brutalist design system)
+* **Motion Engine:** GSAP (GreenSock) for scroll triggers, timeline sequencing, and custom modal routing
+* **Spatial Computing:** Spline / WebGL for real-time 3D interactive rendering
 
-I architect systems that don't just function—they evoke.
+## The Archive
+
+The portfolio is split into three distinct repositories:
+
+* **01 / Creative Web:** Editorial templates, spatial computing labs, and high-fashion digital experiences.
+* **02 / Mobile Ecosystem:** Flutter & Kotlin applications focusing on native performance, offline-first utilities, and AI curation.
+* **03 / Systems & Utility:** Backend architectures, Python-based local LLM telephony agents, and complex branching logic.
+
+## Let's Work
+
+Based in Kochi, India. Always open to discussing complex systems, creative engineering, or new opportunities.
+
+* **Email:** hello@habelshaji.com
+* **GitHub:** [@Habel2005](https://www.google.com/search?q=https://github.com/Habel2005)
+* **LinkedIn:** [Habel Shaji](https://www.google.com/search?q=%23)
 
 ---
-Built in the Void. 2025.
+
+*End of everything :/ .*
