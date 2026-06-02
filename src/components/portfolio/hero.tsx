@@ -64,7 +64,7 @@ export function Hero() {
   return (
     <section ref={containerRef} className="relative h-screen flex flex-col justify-center p-8 md:p-12 overflow-hidden">
       {/* Persistent Navigation Layer - Refined for Technical Distinction */}
-      <nav className="fixed top-12 right-12 flex flex-col items-end z-[100] mix-blend-difference text-white text-right">
+      <nav className="hidden md:flex fixed top-12 right-12 flex flex-col items-end z-[100] mix-blend-difference text-white text-right pointer-events-none">
         <div className="space-y-6 hero-meta">
           <div className="space-y-0.5">
             <div className="text-[10px] font-code tracking-[0.3em] uppercase opacity-40">Habel / Portfolio</div>
@@ -85,7 +85,7 @@ export function Hero() {
                     behavior: 'smooth'
                   });
                 }}
-                className="flex items-center gap-4 group py-0.5 relative"
+                className="flex items-center gap-4 group py-0.5 relative pointer-events-auto"
               >
                 <span className="text-[8px] font-code opacity-20 group-hover:opacity-100 group-hover:text-primary transition-all tracking-tighter">
                   [ 0{idx + 1} ]

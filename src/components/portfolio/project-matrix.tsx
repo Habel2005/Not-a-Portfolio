@@ -27,6 +27,10 @@ export function ProjectMatrix() {
     const width = container.clientWidth;
     const height = container.clientHeight;
 
+    const isMobile = width < 768;
+    const scale = isMobile ? 0.45 : 1; // Shrinks the 3D objects by more than half on phones
+    const focusZ = isMobile ? 600 : 300; // Pulls the image closer to the camera on mobile when clicked
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 5000);
     camera.position.z = 900;
@@ -45,7 +49,7 @@ export function ProjectMatrix() {
     scene.add(mainGroup);
 
     const textureLoader = new THREE.TextureLoader();
-    const shardGeom = new THREE.PlaneGeometry(600, 850);
+    const shardGeom = new THREE.PlaneGeometry(600 * scale, 850 * scale);
     const shardGroups: { group: THREE.Group, mesh: THREE.Mesh, origZ: number }[] = [];
 
     PlaceHolderImages.forEach((img, i) => {
@@ -69,12 +73,12 @@ export function ProjectMatrix() {
       const mesh = new THREE.Mesh(shardGeom, material);
       const wrapperGroup = new THREE.Group();
       
-      const radius = 2500;
+      const radius = 2500 * scale;
       const spread = Math.PI * 0.25;
       const angle = (i / (PlaceHolderImages.length - 1)) * spread - (spread / 2);
 
       const posX = Math.sin(angle) * radius;
-      const posY = (Math.random() - 0.5) * 150;
+      const posY = (Math.random() - 0.5) * 150 * scale;
       const posZ = Math.cos(angle) * radius - radius;
 
       wrapperGroup.position.set(posX, posY, posZ);
@@ -123,7 +127,7 @@ export function ProjectMatrix() {
         gsap.to(hoveredMesh.position, {
           x: 0,
           y: 0,
-          z: 300, 
+          z: focusZ,
           duration: 0.8,
           ease: "expo.inOut"
         });
@@ -193,7 +197,7 @@ export function ProjectMatrix() {
           }
 
           if (currentHover) {
-            gsap.to(currentHover.position, { z: 300, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+            gsap.to(currentHover.position, { z: focusZ, duration: 0.5, ease: "power2.out", overwrite: "auto" });
             const parentRotY = currentHover.parent?.rotation.y || 0;
             gsap.to(currentHover.rotation, {
               x: mouse.y * 0.1,
