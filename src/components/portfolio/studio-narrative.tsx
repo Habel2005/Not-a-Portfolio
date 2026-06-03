@@ -151,7 +151,7 @@ export function StudioNarrative() {
         <div className="col-span-1 lg:col-span-5 space-y-8 reveal-text">
           <div className="text-metadata uppercase opacity-40">The Arsenal</div>
           <h4 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tight">
-            Tools of <span className="text-primary">Extraction</span>.
+            Tools I <span className="text-primary">Know</span>.
           </h4>
           <p className="text-sm opacity-50 uppercase tracking-[0.2em] leading-relaxed max-w-sm mb-12">
             Select a system to view active dependencies and local environments.

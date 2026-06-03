@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { X, ArrowLeft, Github, ChevronRight, ChevronLeft, Smartphone, Cpu, ShieldCheck, Sun, Moon, Download } from "lucide-react";
+import { X, ArrowLeft, Github, ChevronRight, ChevronLeft, Smartphone, Cpu, ShieldCheck, Sun, Moon, Download, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function KoloAppPage() {
@@ -281,15 +281,15 @@ export default function KoloAppPage() {
         {/* Editorial Footer */}
         <footer className="py-24 px-8 border-t border-black/10 dark:border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-[#f9f8f5] dark:bg-[#020813] transition-colors duration-700">
           <div className="text-[10px] font-code opacity-40 uppercase tracking-[0.2em]">
-            ENGINEERED BY HABEL • KOLO NATIVE ARCHIVE
+            ENGINEERED BY HABEL • KOLO 
           </div>
-          <button
-            onClick={() => router.back()}
+          <button 
+            onClick={() => router.push("/projects/kolo", { scroll: false })}
             className="text-3xl md:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:opacity-50 transition-opacity flex items-center gap-6 group relative"
           >
-            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.4em] absolute -top-8 left-0">BACK_TO</span>
-            <span>INDEX</span>
-            <ArrowLeft className="w-8 h-8 md:w-12 md:h-12 group-hover:-translate-x-2 transition-transform" />
+            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.4em] absolute -top-8 left-0">NEXT_PROJECT</span>
+            <span>LEARNQUEST</span>
+            <ArrowRight className="w-8 h-8 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
           </button>
         </footer>
       </main>

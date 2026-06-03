@@ -50,7 +50,7 @@ export function ServicesHover() {
       onMouseMove={onMouseMove}
     >
       <div className="px-8 max-w-7xl mx-auto relative z-10">
-        <div className="text-metadata text-primary mb-32">03 / The Archive</div>
+        <div className="text-metadata text-primary mb-32">03 / Capabilities</div>
 
         <div className="w-full">
           {repositoryIndex.map((item) => (

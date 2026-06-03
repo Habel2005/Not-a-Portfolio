@@ -8,14 +8,27 @@ export default function Footer() {
   // Simple local time clock (A staple of high-end portfolios)
   const [time, setTime] = useState("");
 
+  const emailPrefixes = ["hello", "is", "anyone", "here", "hmm", "null"];
+  const [emailIndex, setEmailIndex] = useState(0);
+
   useEffect(() => {
+    // Clock interval
     const updateTime = () => {
       const now = new Date();
       setTime(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: true, hour: 'numeric', minute: '2-digit' }));
     };
     updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    const clockInterval = setInterval(updateTime, 1000);
+
+    // iOS Dial interval (Swaps every 2.5 seconds)
+    const dialInterval = setInterval(() => {
+      setEmailIndex((prev) => (prev + 1) % emailPrefixes.length);
+    }, 2500); 
+
+    return () => {
+      clearInterval(clockInterval);
+      clearInterval(dialInterval);
+    };
   }, []);
 
   return (
@@ -48,13 +61,37 @@ export default function Footer() {
             <span>Local Time // {time || "..."}</span>
           </div>
 
-          {/* Column 2: Direct Email */}
-          <div className="col-span-1 md:col-span-4">
+{/* Column 2: Direct Email (Inline Slot Machine) */}
+          <div className="col-span-1 md:col-span-4 flex items-center md:justify-center">
             <a 
-              href="mailto:habelshaji2005@gmail.com" 
-              className="text-[14px] md:text-[16px] font-body text-white hover:text-primary transition-colors border-b border-white/20 hover:border-primary pb-1 inline-flex items-center gap-2"
+              href={`mailto:${emailPrefixes[emailIndex]}@notaportfolio.me`} 
+              className="group inline-flex items-center text-[14px] md:text-[16px] font-body border-b border-white/20 hover:border-primary pb-1 transition-colors cursor-pointer"
             >
-              hello@habelshaji.com
+              
+              {/* Tight Inline Mask Container */}
+              <div className="h-[1.5em] overflow-hidden relative flex items-start justify-end min-w-[4rem]">
+                {/* The Sliding Track */}
+                <div 
+                  className="flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)]"
+                  style={{ transform: `translateY(-${emailIndex * 1.5}em)` }}
+                >
+                  {emailPrefixes.map((prefix, i) => (
+                    <span 
+                      key={prefix} 
+                      className={`h-[1.5em] leading-[1.5em] text-right transition-colors duration-500 ${
+                        i === emailIndex ? 'text-white' : 'text-white/40'
+                      }`}
+                    >
+                      {prefix}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* The Static Domain */}
+              <div className="text-white group-hover:text-primary transition-colors h-[1.5em] leading-[1.5em]">
+                @notaportfolio.me
+              </div>
             </a>
           </div>
 

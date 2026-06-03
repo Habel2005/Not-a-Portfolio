@@ -81,7 +81,6 @@ export default function MobileArchive() {
 
 
     useEffect(() => {
-        gsap.set("body", { backgroundColor: "#050505", color: "#ffffff" });
         const ctx = gsap.context(() => {
             // Animate the entire page sliding up from the bottom left
             gsap.from(containerRef.current, {
@@ -119,14 +118,14 @@ export default function MobileArchive() {
                     <span className="text-[10px] font-code uppercase tracking-[0.3em]">RETURN_CORE</span>
                 </button>
                 <div className="text-[10px] font-code tracking-[0.3em] uppercase text-primary">
-                    02 // MOBILE_ECOSYSTEM
+                    02 // MOBILE_APPS I BUILD
                 </div>
             </nav>
 
             <section className="pt-40 px-4 md:px-8 max-w-[1800px] mx-auto pb-32">
                 <div className="flex items-center gap-3 mb-16 px-4">
                     <Smartphone size={14} className="text-primary" />
-                    <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">App Repository</span>
+                    <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">App type stuff</span>
                 </div>
 
                 <div className="border-t border-white/10 flex flex-col">

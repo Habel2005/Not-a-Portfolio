@@ -220,7 +220,7 @@ export default function ZentryProjectPage() {
 
   return (
     <div className={isDark ? "dark" : ""}>
-      
+
       {/* THE FIX: Navigation is outside main, with pointer-events-none to prevent blocking scroll */}
       <nav className="fixed top-0 left-0 w-full p-8 md:p-12 lg:px-16 flex justify-between items-center z-[100] mix-blend-difference text-white pointer-events-none">
         <button onClick={() => router.back()} className="pointer-events-auto flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] hover:text-primary transition-colors group">
@@ -452,12 +452,15 @@ export default function ZentryProjectPage() {
         {/* 04. Editorial Footer */}
         <footer className="py-32 px-8 md:px-16 lg:px-24 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-12 bg-[#f4f4f0] dark:bg-[#050505] transition-colors duration-700">
           <div className="text-[10px] font-code opacity-40 uppercase tracking-[0.3em] font-bold">
-            ENGINEERED BY HABEL • FLAGSHIP ARCHITECTURE • 2025
+            ENGINEERED BY HABEL • ZENTRY
           </div>
-          <button onClick={() => router.push("/projects/zero", { scroll: false })} className="text-4xl md:text-[5vw] lg:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group relative pointer-events-auto">
-            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.5em] absolute -top-10 left-0">NEXT_CASE_STUDY</span>
-            <span>ZERO STUDIO</span>
-            <ArrowRight className="w-10 h-10 md:w-16 md:h-16 group-hover:translate-x-4 transition-transform duration-500 ease-out" />
+          <button
+            onClick={() => router.push("/projects/kolo", { scroll: false })}
+            className="text-3xl md:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:opacity-50 transition-opacity flex items-center gap-6 group relative"
+          >
+            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.4em] absolute -top-8 left-0">NEXT_PROJECT</span>
+            <span>KOLO APP</span>
+            <ArrowRight className="w-8 h-8 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
           </button>
         </footer>
       </main>

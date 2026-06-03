@@ -96,7 +96,6 @@ export default function WebArchive() {
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     useEffect(() => {
-        gsap.set("body", { backgroundColor: "#050505", color: "#ffffff" });
         const ctx = gsap.context(() => {
             // Animate the entire page sliding up from the bottom right
             gsap.from(containerRef.current, {
@@ -133,14 +132,14 @@ export default function WebArchive() {
                     <span className="text-[10px] font-code uppercase tracking-[0.3em]">RETURN_CORE</span>
                 </button>
                 <div className="text-[10px] font-code tracking-[0.3em] uppercase text-primary">
-                    01 // CREATIVE_WEB
+                    01 // CREATIVE WEB I BUILD
                 </div>
             </nav>
 
             <section className="pt-40 px-4 md:px-8 max-w-[1800px] mx-auto pb-32">
                 <div className="flex items-center gap-3 mb-16 px-4">
                     <Code2 size={14} className="text-primary" />
-                    <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">Web Repository</span>
+                    <span className="text-[10px] font-code tracking-[0.4em] uppercase opacity-50">Web type stuff</span>
                 </div>
 
                 <div className="border-t border-white/10 flex flex-col">

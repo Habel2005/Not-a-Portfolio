@@ -19,6 +19,17 @@ export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
   const [isBooting, setIsBooting] = useState(true);
 
+  // 1. Define the function that the Matrix will call when it's ready
+  const handleMatrixLoaded = () => {
+    gsap.to(".loader-wrapper", {
+      opacity: 0,
+      pointerEvents: "none",
+      duration: 0.6,
+      ease: "power2.out",
+      onComplete: () => setIsBooting(false)
+    });
+  };
+
   useEffect(() => {
     // Initial State reset
     gsap.set("body", { backgroundColor: "#f9f8f5", color: "#050505" });
@@ -100,7 +111,7 @@ export default function Home() {
             Spatial Shards
           </h2>
         </div>
-        <ProjectMatrix />
+        <ProjectMatrix onLoaded={handleMatrixLoaded} />
       </section>
       
       <section id="narrative" className="min-h-screen">

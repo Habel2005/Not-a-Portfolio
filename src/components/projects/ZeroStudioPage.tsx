@@ -5,7 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRouter } from "next/navigation";
 import { 
-  X, Github, Monitor, Layers, Code2, Globe, Sparkles, Cpu, Sun, Moon, ArrowLeft 
+  X, Github, Monitor, Layers, Code2, Globe, Sparkles, Cpu, Sun, Moon, ArrowLeft, 
+  ArrowRight
 } from "lucide-react";
 
 if (typeof window !== "undefined") {
@@ -246,19 +247,19 @@ export default function ZeroStudioPage() {
           </div>
         </section>
 
-        {/* 04. Editorial Footer */}
+        04. Editorial Footer
         <footer className="py-32 px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-start md:items-center gap-12 bg-[#f4f4f0] dark:bg-[#050505] transition-colors duration-700">
           <div className="text-[10px] font-code opacity-40 uppercase tracking-[0.2em] font-bold">
-            ENGINEERED BY HABEL • CREATIVE DEVELOPMENT
+            ENGINEERED BY HABEL • ZERO STUDIO
           </div>
           
           <button 
-            onClick={() => router.back()} 
-            className="text-4xl md:text-[5vw] lg:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group relative pointer-events-auto"
+            onClick={() => router.push("/projects/zentry", { scroll: false })}
+            className="text-3xl md:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:opacity-50 transition-opacity flex items-center gap-6 group relative"
           >
-            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.5em] absolute -top-10 left-0">BACK_TO_HOME</span>
-            <span>INDEX</span>
-            <ArrowLeft className="w-10 h-10 md:w-16 md:h-16 group-hover:-translate-x-4 transition-transform duration-500 ease-out" />
+            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.4em] absolute -top-8 left-0">NEXT_PROJECT</span>
+            <span>ZENTRY</span>
+            <ArrowRight className="w-8 h-8 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
           </button>
         </footer>
       </main>

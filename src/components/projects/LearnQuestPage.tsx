@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { X, Smartphone, Brain, Github, ChevronRight, ChevronLeft, ArrowRight, Download, Sun, Moon } from "lucide-react";
+import { X, Smartphone, Brain, Github, ChevronRight, ChevronLeft, ArrowRight, Download, Sun, Moon, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function LearnQuestPage() {
@@ -281,16 +281,16 @@ export default function LearnQuestPage() {
         {/* Editorial Footer / Navigation */}
         <footer className="py-24 px-8 border-t border-black/10 dark:border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-[#f9f8f5] dark:bg-[#020813] transition-colors duration-700">
           <div className="text-[10px] font-code opacity-40 uppercase tracking-[0.2em]">
-            ENGINEERED BY HABEL • LEARNQUEST ARCHIVE
+            ENGINEERED BY HABEL • LEARNQUEST
           </div>
           
           <button 
-            onClick={() => router.push("/projects/kolo", { scroll: false })}
-            className="text-3xl md:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:opacity-50 transition-opacity flex items-center gap-6 group relative"
+            onClick={() => router.back()} 
+            className="text-4xl md:text-[5vw] lg:text-[4vw] font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors flex items-center gap-8 group relative pointer-events-auto"
           >
-            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.4em] absolute -top-8 left-0">NEXT_PROJECT</span>
-            <span>KOLO APP</span>
-            <ArrowRight className="w-8 h-8 md:w-12 md:h-12 group-hover:translate-x-2 transition-transform" />
+            <span className="text-[10px] font-code opacity-20 uppercase tracking-[0.5em] absolute -top-10 left-0">BACK_TO_HOME</span>
+            <span>INDEX</span>
+            <ArrowLeft className="w-10 h-10 md:w-16 md:h-16 group-hover:-translate-x-4 transition-transform duration-500 ease-out" />
           </button>
         </footer>
       </main>

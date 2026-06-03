@@ -6,11 +6,16 @@ import gsap from "gsap";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useRouter, usePathname } from "next/navigation"; // Added usePathname
 
-export function ProjectMatrix() {
+interface ProjectMatrixProps {
+  onLoaded?: () => void;
+}
+
+export function ProjectMatrix({ onLoaded }: ProjectMatrixProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname(); // Listen to URL changes
   const isNavigating = useRef(false);
+  
 
   // 1. The Route Watcher: Triggers reset when returning to the homepage
   useEffect(() => {
@@ -48,7 +53,16 @@ export function ProjectMatrix() {
     scene.fog = new THREE.Fog("#050505", 1600, 4200);
     scene.add(mainGroup);
 
-    const textureLoader = new THREE.TextureLoader();
+    const manager = new THREE.LoadingManager();
+    
+    manager.onLoad = () => {
+      // This fires the exact millisecond all textures are downloaded and ready
+      if (onLoaded) {
+        onLoaded();
+      }
+    };
+
+    const textureLoader = new THREE.TextureLoader(manager);
     const shardGeom = new THREE.PlaneGeometry(600 * scale, 850 * scale);
     const shardGroups: { group: THREE.Group, mesh: THREE.Mesh, origZ: number }[] = [];
 
