@@ -36,3 +36,7 @@ If you want to poke around the code or see what else I'm currently breaking, you
 *IMPORTANT: Build something that shouldn't suck, and make it suck less.*
 <br>
 <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmFpenh1aDR1YWpzbWpkYmRqZjEwN3huMjN2cWg0cjludnZjbmNlZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ew57HYXAM8716OOtPm/giphy.gif" height="200">
+
+
+<img src="https://static.scarf.sh/a.png?x-pxid=0b994c4e-62ce-47f6-8af6-27235e610eec" width="0" height="0" alt="" />
+<img src="https://omni-dash-five.vercel.app/api/track?project=Not-a-Portfolio&source=github-readme" width="0" height="0" alt="" />
