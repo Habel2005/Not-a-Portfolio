@@ -18,12 +18,16 @@ const SECTIONS = [
 
 export function SectionHUD() {
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
+  const [isNavOpen, setIsNavOpen] = useState(false); // State to track toggle
+  
   const progressRef = useRef<HTMLDivElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
+  const navTl = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Entrance animation for all floating HUD elements
+    let ctx = gsap.context(() => {
+      
+      // 1. Entrance animation for all floating HUD elements
       gsap.from(".hud-element", {
         y: 20,
         opacity: 0,
@@ -33,45 +37,104 @@ export function SectionHUD() {
         stagger: 0.1
       });
 
-      // Active Section Tracker
+      // 2. Setup the Dropdown Toggle Timeline (Paused by default)
+      navTl.current = gsap.timeline({ paused: true })
+        .to(".nav-wrapper", {
+          height: "auto",
+          opacity: 1,
+          marginTop: "1.5rem",
+          paddingTop: "1.5rem",
+          duration: 0.4,
+          ease: "power3.inOut"
+        })
+        .to(".nav-item", {
+          opacity: 1,
+          x: 0,
+          duration: 0.4,
+          stagger: 0.08,
+          ease: "power3.out"
+        }, "-=0.2");
+
+    }, hudRef);
+
+    // ==========================================
+    // THE FIX: DELAYED TRIGGER INITIALIZATION
+    // We wait 500ms to ensure all other components (like StudioNarrative) 
+    // have finished mounting and creating their massive Pin Spacers, 
+    // THEN we calculate the trigger positions.
+    // ==========================================
+    const timer = setTimeout(() => {
       SECTIONS.forEach((section) => {
-        ScrollTrigger.create({
-          trigger: section.trigger,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => setActiveSection(section),
-          onEnterBack: () => setActiveSection(section),
-        });
+        const targetElement = document.querySelector(section.trigger);
+        if (targetElement) {
+          ScrollTrigger.create({
+            trigger: targetElement,
+            start: "top center",
+            end: "bottom center",
+            onEnter: () => setActiveSection(section),
+            onEnterBack: () => setActiveSection(section),
+          });
+        }
       });
 
       // Progress Meter
-      gsap.to(progressRef.current, {
-        height: "100%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true,
-        },
-      });
-    }, hudRef);
+      if (progressRef.current) {
+        gsap.to(progressRef.current, {
+          height: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: document.body,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        });
+      }
 
-    return () => ctx.revert();
+      // Force GSAP to recalculate all DOM measurements now that everything is loaded
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      ctx.revert();
+    };
   }, []);
+
+  // Watch the toggle state and Play/Reverse the timeline
+  useEffect(() => {
+    if (isNavOpen) {
+      navTl.current?.play();
+    } else {
+      navTl.current?.reverse();
+    }
+  }, [isNavOpen]);
 
   return (
     <div ref={hudRef} className="fixed inset-0 z-[100] pointer-events-none mix-blend-difference text-white">
       
       {/* 1. TOP RIGHT NAV */}
-      <nav className="hud-element hidden md:flex absolute top-12 right-12 flex-col items-end text-right">
-        <div className="space-y-6">
-          <div className="space-y-0.5">
-            <div className="text-[10px] font-code tracking-[0.3em] uppercase opacity-40">Habel / Portfolio</div>
-          </div>
+      {/* Changed pointer-events-none to pointer-events-auto so we can click the toggle */}
+      <nav className="hud-element hidden md:flex absolute top-12 right-12 flex-col items-end text-right pointer-events-auto">
+        <div className="flex flex-col items-end">
+          
+          {/* THE TITLE TOGGLE BUTTON */}
+          <button 
+            onClick={() => setIsNavOpen(!isNavOpen)}
+            className="group flex items-center gap-4 cursor-pointer py-1"
+          >
+            <div className="text-[10px] font-code tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-300">
+              Habel / Portfolio
+            </div>
+            {/* Animated Plus to Minus Icon */}
+            <div className="relative w-3 h-3 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+              <div className="absolute w-full h-[1px] bg-white" />
+              <div className={`absolute w-full h-[1px] bg-white transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] ${isNavOpen ? 'rotate-0' : 'rotate-90'}`} />
+            </div>
+          </button>
 
-          <div className="flex flex-col items-end gap-3 pt-6 border-t border-white/10 pointer-events-auto">
-            {/* Skipping 'Intro' for the links using slice(1) */}
+          {/* THE EXPANDABLE LIST */}
+          <div className="nav-wrapper h-0 opacity-0 overflow-hidden border-t border-white/10 flex flex-col items-end gap-3 mt-0 pt-0">
             {SECTIONS.slice(1).map((link, idx) => (
               <button
                 key={link.label}
@@ -79,8 +142,11 @@ export function SectionHUD() {
                   document.querySelector(link.trigger)?.scrollIntoView({
                     behavior: 'smooth'
                   });
+                  // Auto-close the menu when a link is clicked
+                  setIsNavOpen(false); 
                 }}
-                className="flex items-center gap-4 group py-0.5 relative"
+                // Start the items shifted to the right and invisible
+                className="nav-item opacity-0 translate-x-6 flex items-center gap-4 group py-0.5 relative"
               >
                 <span className="text-[8px] font-code opacity-20 group-hover:opacity-100 group-hover:text-primary transition-all tracking-tighter">
                   [ 0{idx + 1} ]
@@ -92,6 +158,7 @@ export function SectionHUD() {
               </button>
             ))}
           </div>
+          
         </div>
       </nav>
 
