@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { TopoCanvas } from "@/components/portfolio/topo-background"; // Adjust path if needed
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -74,6 +75,9 @@ export function Hero() {
   return (
     <section ref={containerRef} className="relative h-screen overflow-hidden">
       
+      {/* --- NEW INTERACTIVE TOPOGRAPHIC BACKGROUND --- */}
+      <TopoCanvas />
+
       {/* Target for the 3D Z-Space Scale & Blur */}
       <div id="hero-inner-content" className="w-full h-full flex flex-col justify-center p-8 md:p-12 relative z-10">
 
@@ -88,7 +92,6 @@ export function Hero() {
             {/* NAME LINE - UNEDITABLE EASTER EGG */}
             <div 
               ref={topLineRef} 
-              // FIX: Toggle overflow-visible when editing so the toast doesn't get chopped
               className={`hero-line w-full text-center lg:text-left relative ${isEditMode ? "cursor-pointer overflow-visible z-50" : "overflow-hidden"}`}
               onClick={handleNameClick}
             >
@@ -103,7 +106,6 @@ export function Hero() {
             </div>
 
             {/* DESIGN LINE - EDITABLE */}
-            {/* FIX: Toggle overflow-visible and bump z-index so the bubble sits fully on top */}
             <div className={`hero-line self-center lg:self-end text-primary lg:pr-[15vw] group relative ${isEditMode ? 'overflow-visible z-50' : 'overflow-hidden z-20'}`}>
               <span 
                 className={`inline-flex items-center gap-4 lg:gap-6 ${isEditMode ? "cursor-pointer hover:opacity-70 transition-opacity" : ""}`}
@@ -134,7 +136,6 @@ export function Hero() {
             </div>
 
             {/* CODE LINE - EDITABLE */}
-            {/* FIX: Toggle overflow-visible and bump z-index */}
             <div ref={bottomLineRef} className={`hero-line -mt-8 md:-mt-12 lg:-mt-20 w-full relative h-[15vw] min-h-[120px] group ${isEditMode ? 'overflow-visible z-50' : 'overflow-hidden'}`}>
               <span 
                 className={`block relative w-full h-full ${isEditMode ? "cursor-pointer" : ""}`}
@@ -246,7 +247,7 @@ export function Hero() {
         </div>
 
         {/* Decorative Background Element */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-bold opacity-[0.02] select-none pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-bold opacity-[0.02] select-none pointer-events-none z-10">
           #X:
         </div>
 
