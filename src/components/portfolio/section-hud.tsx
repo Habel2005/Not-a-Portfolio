@@ -124,7 +124,7 @@ export function SectionHUD() {
             className="group flex items-center gap-4 cursor-pointer py-1"
           >
             <div className="text-[10px] font-code tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-300">
-              Habel / Portfolio
+              [insert menu here]
             </div>
             {/* Animated Plus to Minus Icon */}
             <div className="relative w-3 h-3 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">

@@ -261,11 +261,11 @@ export default function ZentryProjectPage() {
               <div className="flex flex-col sm:flex-row gap-8 sm:gap-12">
                 <a href="https://github.com/Habel2005/Zentry/tree/new" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] group pointer-events-auto">
                   <Server size={18} className="group-hover:text-primary transition-colors" />
-                  <span className="border-b border-black/20 dark:border-white/20 pb-1 group-hover:border-primary transition-colors">Backend_Python_Core</span>
+                  <span className="border-b border-black/20 dark:border-white/20 pb-1 group-hover:border-primary transition-colors">Python Backend</span>
                 </a>
                 <a href="https://github.com/Habel2005/zentry_app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 text-[10px] font-code uppercase tracking-[0.3em] group pointer-events-auto">
                   <Smartphone size={18} className="group-hover:text-primary transition-colors" />
-                  <span className="border-b border-black/20 dark:border-white/20 pb-1 group-hover:border-primary transition-colors">Admin_Telemetry_App</span>
+                  <span className="border-b border-black/20 dark:border-white/20 pb-1 group-hover:border-primary transition-colors">Admin App</span>
                 </a>
               </div>
             </div>

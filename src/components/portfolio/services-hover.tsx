@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 const repositoryIndex = [
   {
     id: "01",
-    title: "Creative Web",
+    title: "Web Apps",
     img: "/services/web.jpeg", // Points to public/services/web-preview.webp
     route: "/archive/web"
   },
   {
     id: "02",
-    title: "Mobile Ecosystem",
+    title: "Mobile Apps",
     img: "/services/mob.jpeg", // Points to public/services/mobile-preview.webp
     route: "/archive/mobile"
   },

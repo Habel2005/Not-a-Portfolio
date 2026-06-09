@@ -133,7 +133,7 @@ export default function KoloAppPage() {
                   <span className="border-b border-black/20 dark:border-white/20 pb-1 group-hover:border-primary transition-colors">Source_Repository</span>
                 </a>
 
-                <a 
+                {/* <a 
                   href="https://mega.nz/YOUR_KOLO_LINK_HERE" 
                   target="_blank" 
                   rel="noopener noreferrer"
@@ -141,7 +141,7 @@ export default function KoloAppPage() {
                 >
                   <Download size={18} className="group-hover:text-primary transition-colors" />
                   <span className="border-b border-black/20 dark:border-white/20 pb-1 group-hover:border-primary transition-colors">Download_APK</span>
-                </a>
+                </a> */}
               </div>
             </div>
 
