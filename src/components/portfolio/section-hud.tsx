@@ -128,13 +128,13 @@ export function SectionHUD() {
             </div>
             {/* Animated Plus to Minus Icon */}
             <div className="relative w-3 h-3 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
-              <div className="absolute w-full h-[1px] bg-white" />
+
               <div className={`absolute w-full h-[1px] bg-white transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] ${isNavOpen ? 'rotate-0' : 'rotate-90'}`} />
             </div>
           </button>
 
           {/* THE EXPANDABLE LIST */}
-          <div className="nav-wrapper h-0 opacity-0 overflow-hidden border-t border-white/10 flex flex-col items-end gap-3 mt-0 pt-0">
+          <div className="nav-wrapper h-0 opacity-0 overflow-visible border-t border-white/10 flex flex-col items-end gap-3 mt-0 pt-0">
             {SECTIONS.slice(1).map((link, idx) => (
               <button
                 key={link.label}

@@ -101,26 +101,26 @@ export function StudioNarrative() {
       // ==========================================
       let angle = 0;
       let angularVelocity = 0;
-      
+
       const gravity = 0.12;
       const damping = 0.97;
-      
+
       gsap.ticker.add(() => {
         const force = -Math.sin(angle * Math.PI / 180) * gravity;
-      
+
         angularVelocity += force;
         angularVelocity *= damping;
-      
+
         angle += angularVelocity;
-      
+
         gsap.set(".card-swing", {
           rotation: angle
         });
       });
-      
+
       ScrollTrigger.create({
         trigger: sectionRef.current,
-      
+
         onUpdate(self) {
           angularVelocity += gsap.utils.clamp(
             -4,
@@ -133,6 +133,95 @@ export function StudioNarrative() {
     }, sectionRef);
     return () => ctx.revert();
   }, []);
+
+  useEffect(() => {
+    if (!terminalRef.current) return;
+  
+    const ctx = gsap.context(() => {
+      gsap.set(".tech-item", {
+        opacity: 0,
+        x: -10
+      });
+  
+      gsap.set(".cmd-cursor", {
+        opacity: 0
+      });
+  
+      gsap.set(".cmd-processing", {
+        opacity: 0
+      });
+  
+      const tl = gsap.timeline();
+  
+      // command appears
+      tl.fromTo(
+        ".cmd-path",
+        {
+          clipPath: "inset(0 100% 0 0)"
+        },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 0.35,
+          ease: "steps(40)"
+        }
+      )
+  
+        // cursor blink
+        .set(".cmd-cursor", { opacity: 1 })
+  
+        .to(".cmd-cursor", {
+          opacity: 0,
+          duration: 0.08,
+          repeat: 2,
+          yoyo: true
+        })
+  
+        // fake processing
+        .set(".cmd-processing", {
+          opacity: 1,
+          textContent: " ..."
+        })
+  
+        .to({}, { duration: 0.15 })
+  
+        .set(".cmd-processing", {
+          textContent: " [OK]"
+        })
+  
+        .to({}, { duration: 0.08 })
+  
+        // print output
+        .fromTo(
+          ".tech-item",
+          {
+            opacity: 0,
+            x: -10
+          },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.015,
+            stagger: 0.035,
+            ease: "none"
+          }
+        )
+  
+        // subtle terminal refresh flash
+        .fromTo(
+          ".terminal-window",
+          {
+            filter: "brightness(1.2)"
+          },
+          {
+            filter: "brightness(1)",
+            duration: 0.12
+          },
+          "-=0.2"
+        );
+    }, terminalRef);
+  
+    return () => ctx.revert();
+  }, [activeCategory]);
 
   return (
     <section ref={sectionRef} id="narrative" className="relative w-full overflow-hidden bg-transparent">
@@ -276,8 +365,12 @@ export function StudioNarrative() {
                   </div>
 
                   <div className="p-8 md:p-12 min-h-[350px] md:min-h-[450px] relative">
-                    <div className="text-primary mb-12 font-code text-xs md:text-sm tracking-widest opacity-80">
+
+                    {/* ADDED 'cmd-path' class here */}
+                    <div className="cmd-path text-primary mb-12 font-code text-xs md:text-sm tracking-widest opacity-80">
                       $ root/access ./{activeCategory.toLowerCase()}/sys_modules
+                      <span className="cmd-cursor ml-1">▌</span>
+                      <span className="cmd-processing"></span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
