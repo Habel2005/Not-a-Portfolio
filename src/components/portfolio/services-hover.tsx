@@ -9,33 +9,34 @@ const repositoryIndex = [
   {
     id: "01",
     title: "Web Apps",
-    img: "/services/web.jpeg", // Points to public/services/web-preview.webp
+    img: "/services/web.jpeg", 
     route: "/archive/web"
   },
   {
     id: "02",
     title: "Mobile Apps",
-    img: "/services/mob.jpeg", // Points to public/services/mobile-preview.webp
+    img: "/services/mob.jpeg", 
     route: "/archive/mobile"
   },
   {
     id: "03",
     title: "Systems & Utility",
-    img: "/services/sys.jpeg", // Points to public/services/systems-preview.webp
+    img: "/services/sys.jpeg", 
     route: "/archive/systems"
   },
 ];
+
 export function ServicesHover() {
-  // FIX: Pre-load the first image so the src is NEVER empty, preventing the broken icon
   const [activeImg, setActiveImg] = useState<string>(repositoryIndex[0].img);
-  // FIX: Separate visibility state from the image source state
   const [isHovered, setIsHovered] = useState(false);
 
   const previewRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const onMouseMove = (e: React.MouseEvent) => {
-    if (!previewRef.current) return;
+    // Only run GSAP if it's a desktop device (avoids mobile touch bugs)
+    if (!previewRef.current || window.innerWidth < 768) return;
+    
     gsap.to(previewRef.current, {
       x: e.clientX,
       y: e.clientY,
@@ -46,56 +47,60 @@ export function ServicesHover() {
 
   return (
     <section
-      className="pt-32 pb-8 bg-foreground text-background relative overflow-hidden"
+      // Added min-h-[100svh] and flex to perfectly center the content and fill the whole screen on mobile
+      className="min-h-[100svh] flex flex-col justify-center py-20 md:pt-32 md:pb-8 bg-foreground text-background relative overflow-hidden"
       onMouseMove={onMouseMove}
     >
-      <div className="px-8 max-w-7xl mx-auto relative z-10">
-        <div className="text-metadata text-primary mb-32">03 / Capabilities</div>
+      <div className="px-6 md:px-8 max-w-7xl mx-auto w-full relative z-10">
+        {/* Adjusted bottom margin for mobile */}
+        <div className="text-metadata text-primary mb-12 md:mb-32 opacity-80 uppercase tracking-widest">
+          03 / Capabilities
+        </div>
 
         <div className="w-full">
           {repositoryIndex.map((item) => (
             <div
               key={item.id}
               onClick={() => router.push(item.route, { scroll: false })}
-              className="group relative border-b border-background/5 py-12 md:py-20 flex items-center cursor-pointer hover:pl-12 transition-all duration-700 ease-in-out"
+              // Adjusted vertical padding for mobile items
+              className="group relative border-b border-background/10 py-8 md:py-20 flex items-center cursor-pointer md:hover:pl-12 transition-all duration-700 ease-in-out"
               onMouseEnter={() => {
-                setActiveImg(item.img); // Change the image source
-                setIsHovered(true);     // Trigger the fade-in
+                setActiveImg(item.img);
+                setIsHovered(true);
               }}
-              onMouseLeave={() => setIsHovered(false)} // Trigger fade-out (Image source remains intact!)
+              onMouseLeave={() => setIsHovered(false)}
             >
-              <div className="flex items-baseline gap-12">
-                <span className="text-metadata opacity-20">{item.id}</span>
+              {/* Tightened gap for mobile */}
+              <div className="flex items-baseline gap-6 md:gap-12 w-full">
+                <span className="text-metadata opacity-20 hidden sm:block">{item.id}</span>
 
-                <div className="flex items-center gap-6 md:gap-8">
-                  <h3 className="text-5xl md:text-9xl font-headline font-bold uppercase tracking-tighter group-hover:text-primary transition-all duration-500">
+                <div className="flex items-center justify-between md:justify-start gap-6 md:gap-8 w-full md:w-auto">
+                  {/* Scaled text for mobile so it doesn't awkwardly break lines */}
+                  <h3 className="text-4xl sm:text-5xl md:text-9xl font-headline font-bold uppercase tracking-tighter group-hover:text-primary transition-all duration-500">
                     {item.title}
                   </h3>
 
-                  <div className="hidden md:block overflow-hidden h-12 md:h-20">
-                    <ArrowUpRight className="w-12 h-12 md:w-20 md:h-20 text-background transition-transform duration-700 translate-y-full group-hover:translate-y-0" />
+                  {/* Arrow remains visible on desktop, hidden on very small screens to save space */}
+                  <div className="hidden sm:block overflow-hidden h-8 w-8 md:h-20 md:w-20 relative">
+                    <ArrowUpRight className="w-full h-full text-background transition-transform duration-700 md:translate-y-full md:group-hover:translate-y-0" />
                   </div>
                 </div>
-
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Floating Dynamic Preview */}
-      {/* Floating Dynamic Preview */}
+      {/* Floating Dynamic Preview - Hidden entirely on mobile using `hidden md:block` */}
       <div
         ref={previewRef}
-        // Swapped width and height ratios for a cinematic landscape rectangle
-        className={`fixed top-0 left-0 w-[35vw] h-[22vw] max-w-[500px] max-h-[320px] pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+        className={`hidden md:block fixed top-0 left-0 w-[35vw] h-[22vw] max-w-[500px] max-h-[320px] pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
       >
         <img
           src={activeImg}
           alt="Project Preview"
-          className="w-full h-full object-cover grayscale brightness-70 shadow-2xl border border-background/10"
+          className="w-full h-full object-cover grayscale brightness-75 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-background/10"
         />
-        {/* Dropped bg-primary/10 to bg-primary/5 to subtly reduce the color tint */}
         <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
       </div>
 

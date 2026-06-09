@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function Footer() {
-  // Simple local time clock (A staple of high-end portfolios)
+  // Simple local time clock
   const [time, setTime] = useState("");
 
   const emailPrefixes = ["hello", "is", "anyone", "here", "hmm", "null"];
@@ -35,23 +35,30 @@ export default function Footer() {
     <footer id="footer" className="relative w-full h-[80vh] md:h-screen bg-[#050505] overflow-hidden flex flex-col justify-end">
       
       {/* 1. The Interactive 3D Background */}
-      <div className="absolute inset-0 z-0 opacity-80 pointer-events-auto">
-        <Spline 
-          scene="https://prod.spline.design/5Eug6y2wrJm0kPBo/scene.splinecode" 
-          style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
-          onLoad={(spline) => {
-            (window as any).spline = spline;
-          }}
-        />
+      <div className="absolute inset-0 z-0 opacity-80 pointer-events-auto overflow-hidden">
+        
+        {/* MOBILE FIX WRAPPER (NO SCALING):
+          On mobile, we make the canvas 175% the width of the screen and pin it flush to the right edge.
+          This pulls the right side of your Spline scene (the cube) perfectly into view at its normal, crisp size.
+          On desktop (md:), it snaps back to 100% width and centers.
+        */}
+        <div className="absolute top-0 bottom-0 right-0 w-[175%] max-w-none md:w-full md:left-0 md:right-auto transition-all duration-700">
+          <Spline 
+            scene="https://prod.spline.design/5Eug6y2wrJm0kPBo/scene.splinecode" 
+            className="absolute inset-0 w-full h-full"
+            onLoad={(spline) => {
+              (window as any).spline = spline;
+            }}
+          />
+        </div>
+
         <div className="absolute bottom-0 right-0 w-[150px] h-[50px] bg-[#050505] z-10 pointer-events-none" />
-        {/* Soft vignette to fade the edges */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#050505_100%)] pointer-events-none" />
       </div>
 
       {/* 2. The Foreground UI Layer */}
       <div className="relative z-10 w-full px-8 md:px-16 lg:px-24 pb-16 max-w-[1800px] mx-auto pointer-events-none">
         
-
         {/* Structured Bottom Bar (Grid Layout) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end border-t border-white/10 pt-8 pointer-events-auto">
           
@@ -61,7 +68,7 @@ export default function Footer() {
             <span>Local Time // {time || "..."}</span>
           </div>
 
-{/* Column 2: Direct Email (Inline Slot Machine) */}
+          {/* Column 2: Direct Email (Inline Slot Machine) */}
           <div className="col-span-1 md:col-span-4 flex items-center md:justify-center">
             <a 
               href={`mailto:${emailPrefixes[emailIndex]}@notaportfolio.me`} 
